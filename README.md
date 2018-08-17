@@ -73,15 +73,19 @@ This property links to a way this Node relates to the parent in order to find th
    - http://schema.org/nonEqual (although we don’t see a practical use case)
    - http://schema.org/equal
    - [tree:stringCompletes](https://w3id.org/tree#stringCompletes) - the child value should be concatenated with the parent value
- - Geographic relation
+ - Geographic relation (then values need to be WKT strings)
    - http://schema.org/geospatiallyContains
    - Or others as defined by [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM) and as used by [schema:Place](http://schema.org/Place).
+ - Intervals (then values should be intervals)
+   - InBetween _TODO_
 
 _Let us know in an issue if you want another property to be added to this list_
 
 #### tree:value
 
 The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string
+
+
 
 __Domain__: tree:Node
 
