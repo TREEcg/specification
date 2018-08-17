@@ -21,7 +21,7 @@ Let’s provide you with a couple of examples:
 
 ## The Vocabulary
 
-Base URI: https://w3id.org/tree/
+Base URI: https://w3id.org/tree#
 
 Prefixes:
 
