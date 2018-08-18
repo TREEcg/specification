@@ -16,6 +16,8 @@
 @prefix xhtm: <http://www.w3.org/1999/xhtml> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+
 
 tree: a foaf:Document ;
       foaf:primaryTopic tree:Ontology;
@@ -64,7 +66,12 @@ tree:value a rdf:Property ;
            rdfs:comment "The value this node holds in the tree. This value can be strings, integers, intervals, WKT strings, etc. This value should not be used in end-user interfaces."@en;
            rdfs:domain tree:Node .
 
-## TODO
-tree:stringCompletes a rdf:Property .
+tree:stringCompletes a rdf:Property ;
+                     rdfs:label "String Completes"@en ;
+                     rdfs:comment "The subject’s string value needs to be string concatenated with the object entity’s value"@en.
 
-tree:href a rdf:Property .
+tree:href a rdf:Property ;
+          rdfs:label "Reference"@en;
+          rdfs:comment "When a client wants to process this node, first this href needs to be dereferenced."@en;
+          rdfs:domain tree:Node;
+          rdfs:range hydra:Resource.
