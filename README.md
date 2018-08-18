@@ -41,11 +41,10 @@ A tree:Node is a node that may contain links to other dereferenceable resources,
 
 ### Properties
 
-#### tree:hasRootNode
+#### tree:rootNode
 
 rdfs:subClassOf foaf:primaryTopic
 
-__Domain__: hydra:Resource, foaf:Document
 __Range__: tree:Node
 
 #### tree:child
@@ -53,7 +52,7 @@ __Range__: tree:Node
 The parent node has a child with a certain relation (defined by tree:relationToParentValue). If the order of the children is important, use an rdf:List instead of using the property multiple times.
 
 __Domain__: tree:Node
-__Range__: tree:Node, rdf:List
+__Range__: tree:Node
 
 #### tree:parent
 
@@ -85,11 +84,14 @@ _Let us know in an issue if you want another property to be added to this list_
 
 The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string
 
-
-
 __Domain__: tree:Node
 
-__TODO__ How to know when you have to fetch a resource?
+#### tree:href
+
+If your discovery algorithm wants to process this node, it needs to follow this link first.
+
+__Domain__: tree:Node
+__Range__: hydra:Resource
 
 ## Specification
 

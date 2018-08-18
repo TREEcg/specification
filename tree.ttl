@@ -26,7 +26,7 @@ tree: a foaf:Document ;
 
 tree:Ontology a owl:Ontology ;
               rdfs:label "Tree Ontology"@en;
-              rdfs:comment "Ontology for describing tree-like relations between hypermedia documents.".
+              rdfs:comment "Ontology for describing tree-like relations between hypermedia documents."@en.
 
 ######## Classes
 
@@ -36,18 +36,35 @@ tree:Node a rdfs:Class ;
 
 ######## Properties
 
-tree:hasRootNode a rdf:Property ;
+tree:rootNode a rdf:Property ;
+                 rdfs:subClassOf foaf:primaryTopic;
                  rdfs:label "Has root node"@en;
-                 rdfs:comment ""@en;
-                 rdfs:domain ;
-                 rdfs:range hydra:Resource, foaf:Document.
+                 rdfs:comment "There is a rootnode described from this point on"@en;
+                 rdfs:range tree:Node .
 
- # **** TODO 
-tree:child a rdf:Property .
+tree:child a rdf:Property ;
+           rdfs:label "Child"@en;
+           rdfs:comment "The subject is the parent node of the object"@en;
+           rdfs:domain tree:Node;
+           rdfs:range tree:Node.
 
-tree:parent a rdf:Property .
+tree:parent a rdf:Property ;
+            rdfs:label "Parent"@en;
+            rdfs:comment "The object is the parent node of the subject. Use tree:child predicate for describing trees."@en;
+            rdfs:domain tree:Node;
+            rdfs:range tree:Node.
 
-tree:relationToParentValue a rdf:Property .
+tree:relationToParentValue a rdf:Property ;
+                           rdfs:label "Relation to Parent Value"@en ;
+                           rdfs:comment "The relation this node’s value has to the node of its parent."@en;
+                           rdfs:domain tree:Node.
 
-tree:value a rdf:Property .
-                 
+tree:value a rdf:Property ;
+           rdfs:label "Value"@en ;
+           rdfs:comment "The value this node holds in the tree. This value can be strings, integers, intervals, WKT strings, etc. This value should not be used in end-user interfaces."@en;
+           rdfs:domain tree:Node .
+
+## TODO
+tree:stringCompletes a rdf:Property .
+
+tree:href a rdf:Property .
