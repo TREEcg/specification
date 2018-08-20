@@ -36,9 +36,45 @@ tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
           rdfs:comment "A tree:Node is a node that may contain links to other dereferenceable resources, may contain the actual data (as part of a named graph, or using the predicate hydra:member)."@en.
 
-tree:ChildRelation a redfs:Class ;
+tree:ChildRelation a rdfs:Class ;
                    rdfs:label "Child Relation"@en ;
                    rdfs:comment "A class describing the relation between a parent and a child"@en.
+
+
+tree:StringCompletesRelation a rdfs:Class ;
+                             rdfs:subClassOf tree:ChildRelation ;
+                             rdfs:label "String Completes Relation"@en;
+                             rdfs:comment "The parent value needs to be concatenated with this node’s value"@en .
+
+tree:GreaterThanRelation a rdfs:Class ;
+                         rdfs:subClassOf tree:ChildRelation ;
+                         rdfs:label "Greater Than Relation"@en ;
+                         rdfs:comment "The child is greater than the value. For string comparison, this relation can refer to a comparison configuration."@en .
+                         
+tree:GreaterOrEqualThanRelation  a rdfs:Class ;
+                                 rdfs:subClassOf tree:ChildRelation ;
+                                 rdfs:label "Greater or Equal Than Relation"@en .
+tree:LesserThanRelation a rdfs:Class ;
+                        rdfs:subClassOf tree:ChildRelation ;
+                        rdfs:label "Lesser Than Relation"@en .
+                        
+tree:LesserOrEqualThanRelation a rdfs:Class ;
+                               rdfs:subClassOf tree:ChildRelation ;
+                               rdfs:label "Lesser or Equal than Relation"@en .
+                               
+tree:EqualThanRelation a rdfs:Class ;
+                       rdfs:subClassOf tree:ChildRelation ;
+                       rdfs:label "Equal Than Relation"@en .
+
+tree:GeospatiallyContainsRelation  a rdfs:Class ;
+                                   rdfs:subClassOf tree:ChildRelation ;
+                                   rdfs:label "Geospatially Contains Relation"@en;
+                                   rdfs:comment "For semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))"@en.
+                                   
+tree:InBetweenRelation a rdfs:Class ;
+                       rdfs:subClassOf tree:ChildRelation ;
+                       rdfs:label "In Between Relation"@en ;
+                       rdfs:comment "For comparing intervals: the child interval is inbetween the parent interval"@en .
 
 
 ######## Properties
@@ -55,28 +91,7 @@ tree:child a rdf:Property ;
            rdfs:domain tree:ChildRelation;
            rdfs:range tree:Node.
 
-tree:parent a rdf:Property ;
-            rdfs:label "Parent"@en;
-            rdfs:comment "The object is the parent node of the subject. Use tree:child predicate for describing trees."@en;
-            rdfs:domain tree:Node;
-            rdfs:range tree:Node.
-
-tree:relationToParentValue a rdf:Property ;
-                           rdfs:label "Relation to Parent Value"@en ;
-                           rdfs:comment "The relation this node’s value has to the node of its parent."@en;
-                           rdfs:domain tree:Node.
-
 tree:value a rdf:Property ;
            rdfs:label "Value"@en ;
            rdfs:comment "The value this node holds in the tree. This value can be strings, integers, intervals, WKT strings, etc. This value should not be used in end-user interfaces."@en;
            rdfs:domain tree:Node .
-
-tree:stringCompletes a rdf:Property ;
-                     rdfs:label "String Completes"@en ;
-                     rdfs:comment "The subject’s string value needs to be string concatenated with the object entity’s value"@en.
-
-tree:href a rdf:Property ;
-          rdfs:label "Reference"@en;
-          rdfs:comment "When a client wants to process this node, first this href needs to be dereferenced."@en;
-          rdfs:domain tree:Node;
-          rdfs:range hydra:Resource.

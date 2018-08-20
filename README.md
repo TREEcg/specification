@@ -48,11 +48,11 @@ An entity that describes a specific Parent-Child relation between two tree:Nodes
 The ChildRelation has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are rdf:subClassOf tree:ChildRelation):
  - String, Date or Number comparison:
    - tree:StringCompletesRelation - The parent value needs to be concatenated with this node’s value
-   - tree:GreaterThenRelation - the child is greater than the value. For string comparison, this relation can refer to a comparison configuration
-   - tree:GreaterOrEqualRelation - similar to ↑
+   - tree:GreaterThanRelation - the child is greater than the value. For string comparison, this relation can refer to a comparison configuration
+   - tree:GreaterOrEqualThanRelation - similar to ↑
    - tree:LesserThanRelation
    - tree:LesserOrEqualThanRelation
-   - tree:EqualRelation
+   - tree:EqualThanRelation
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
    - tree:GeospatiallyContainsRelation (for semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))
  - Interval comparison
@@ -73,13 +73,6 @@ The parent node has a child with a certain relation (defined by tree:relationToP
 
 __Domain__: tree:ChildRelation
 __Range__: tree:Node
-
-#### tree:parentChildRelation
-
-Reverse property of tree:childRelation. Property is not used often, but here for the sake of completeness. We recommend to use tree:childRelation as much as possible.
-
-__Domain__: tree:Node
-__Range__: tree:ChildRelation
 
 #### tree:value
 
