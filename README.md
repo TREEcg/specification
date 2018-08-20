@@ -2,7 +2,7 @@
 
 ## What’s this?
 
-_This_ is an RDFS vocabulary of HTTP URIs that can be used in any document that is able to contain RDF triples. The URIs describe the relation between pages
+_This_ is an RDFS vocabulary of HTTP URIs that can be used in any document that is able to contain RDF triples. The URIs describe the relation between pages.
 
 ## Why publishing trees over HTTP?
 
@@ -37,48 +37,49 @@ Prefixes:
 
 #### tree:Node
 
+__subClassOf__: hydra:Collection, hydra:PartialCollectionView
+
 A tree:Node is a node that may contain links to other dereferenceable resources, may contain the actual data (as part of a named graph, or using the predicate hydra:member).
+
+#### tree:ChildRelation
+
+An entity that describes a specific Parent-Child relation between two tree:Nodes.
+
+The ChildRelation has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are rdf:subClassOf tree:ChildRelation):
+ - String, Date or Number comparison:
+   - tree:StringCompletesRelation - The parent value needs to be concatenated with this node’s value
+   - tree:GreaterThenRelation - the child is greater than the value. For string comparison, this relation can refer to a comparison configuration
+   - tree:GreaterOrEqualRelation - similar to ↑
+   - tree:LesserThanRelation
+   - tree:LesserOrEqualThanRelation
+   - tree:EqualRelation
+ - Geo-spatial comparison (requires the node values to be WKT-strings): 
+   - tree:GeospatiallyContainsRelation (for semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))
+ - Interval comparison
+   - tree:InBetweenRelation
+   
+_Let us know in an issue if you want another type to be added to this official list_
 
 ### Properties
 
-#### tree:rootNode
+#### tree:childRelation
 
-rdfs:subClassOf foaf:primaryTopic
-
-__Range__: tree:Node
+__Domain__: tree:Node
+__Range__: tree:ChildRelation
 
 #### tree:child
 
 The parent node has a child with a certain relation (defined by tree:relationToParentValue). If the order of the children is important, use an rdf:List instead of using the property multiple times.
 
-__Domain__: tree:Node
+__Domain__: tree:ChildRelation
 __Range__: tree:Node
 
-#### tree:parent
+#### tree:parentChildRelation
 
-Reverse property of child. Property is not used oftend, but here for the sake of completeness. We recommend to use tree:child as much as possible.
+Reverse property of tree:childRelation. Property is not used often, but here for the sake of completeness. We recommend to use tree:childRelation as much as possible.
 
 __Domain__: tree:Node
-__Range__: tree:Node
-
-#### tree:relationToParentValue
-
-This property links to a way this Node relates to the parent in order to find the node(s) you are looking for. Recommended properties:
- - String, Date or integer comparison:
-   - http://schema.org/greater
-   - http://schema.org/greaterOrEqual
-   - http://schema.org/lesser
-   - http://schema.org/lesserOrEqual
-   - http://schema.org/nonEqual (although we don’t see a practical use case)
-   - http://schema.org/equal
-   - [tree:stringCompletes](https://w3id.org/tree#stringCompletes) - the child value should be concatenated with the parent value
- - Geographic relation (then values need to be WKT strings)
-   - http://schema.org/geospatiallyContains
-   - Or others as defined by [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM) and as used by [schema:Place](http://schema.org/Place).
- - Intervals (then values should be intervals)
-   - InBetween _TODO_
-
-_Let us know in an issue if you want another property to be added to this list_
+__Range__: tree:ChildRelation
 
 #### tree:value
 
@@ -86,15 +87,41 @@ The contextual value of this node: may contain e.g., a WKT-string with the bound
 
 __Domain__: tree:Node
 
-#### tree:href
-
-If your discovery algorithm wants to process this node, it needs to follow this link first.
-
-__Domain__: tree:Node
-__Range__: hydra:Resource
-
 ## Specification
 
-This is a specification on how clients are expected to find links in the tree.
+This is a specification on how clients are expected to find links in the tree. We will use a similar approach as with [Hydra Collections](https://www.hydra-cg.com/spec/latest/core/#collections)
 
-_TODO_
+When dereferencing a specific Fragment (http://api.example.com/stations/ge.jsonld) with nodes, this should happen:
+
+```turtle
+@prefix tree: <https://w3id.org/tree#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix schema: <http://schema.org/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+#### This is the current document’s URL, typed a tree:Node
+<http://api.example.com/stations/ge.jsonld> a tree:Node ;
+    hydra:totalItems 100;
+    tree:value "ge";
+    tree:hasChildRelation _:b0, <...>;
+    hydra:member <...>,<...>,<...> . # contains suggestions for "ge". If the number of distinct items equals the hydra:totalItems, this list is complete and no further children should be relaxed
+
+#### This is a relation to a child being described. It has 1 or more compatible types that describes the relation with the parent’s value
+_:b0 a tree:ChildRelation, tree:StringCompletesRelation;
+    tree:child <http://api.example.com/stations/nt.jsonld> .
+
+<http://api.example.com/stations/nt.jsonld> a tree:Node ;
+    hydra:totalItems 100;
+    tree:value "nt";
+    hydra:member <...>,<...>,<...> . 
+    
+#### Also the main hydra collection is described
+<http://api.example.com/stations> a hydra:Collection;
+    hydra:manages gtfs:Stop;
+    hydra:totalItems 660;
+    hydra:member <...>,<...>,<...>; #may contain suggestions when no links have been followed so far.
+    # This is a link to the root node, or already to multiple nodes. You can choose.
+    hydra:view <http://api.example.com/stations/ge.jsonld>.
+```
+
+__TODO: normative specification to be provided__
