@@ -22,9 +22,11 @@
 tree: a foaf:Document ;
       foaf:primaryTopic tree:Ontology;
       cc:license <http://creativecommons.org/licenses/by/4.0/>;
-      dct:creator <https://pietercolpaert.be/#me>.
+      dct:creator <https://pietercolpaert.be/#me>, <http://www.rubensworks.net/#me>.
 
 <https://pietercolpaert.be/#me> foaf:name "Pieter Colpaert"; foaf:mbox "pieter.colpaert@ugent.be".
+
+<http://www.rubensworks.net/#me> foaf:name "Ruben Taelman" .
 
 tree:Ontology a owl:Ontology ;
               rdfs:label "Tree Ontology"@en;

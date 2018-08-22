@@ -84,14 +84,13 @@ __Domain__: tree:Node
 
 This is a specification on how clients are expected to find links in the tree. We will use a similar approach as with [Hydra Collections](https://www.hydra-cg.com/spec/latest/core/#collections)
 
-When dereferencing a specific Fragment (http://api.example.com/stations/ge.jsonld) with nodes, this should happen:
+### Example Use
+
+When dereferencing a specific Fragment (e.g., a fictional `http://api.example.com/stations/ge.jsonld`) with nodes, this should happen:
 
 ```turtle
 @prefix tree: <https://w3id.org/tree#>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 @prefix hydra: <http://www.w3.org/ns/hydra/core#>.
-@prefix schema: <http://schema.org/>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 #### This is the current document’s URL, typed a tree:Node
 <http://api.example.com/stations/ge.jsonld> a tree:Node ;
     hydra:totalItems 100;
@@ -117,4 +116,74 @@ _:b0 a tree:ChildRelation, tree:StringCompletesRelation;
     hydra:view <http://api.example.com/stations/ge.jsonld>.
 ```
 
-__TODO: normative specification to be provided__
+### 1. Discovering a tree
+
+The tree must be made discoverable as a `hydra:view` on a `hydra:Collection`.
+
+For how to use or describe a `hydra:Collection`, we refer to the Hydra specification: https://www.hydra-cg.com/spec/latest/core/#x5-1-collections
+
+The object of the `hydra:view` deviates from the Hydra specification. It is not a `hydra:PartialCollectionView`, but a `tree:Node`.
+
+Multiple views may be provided, and a Tree client must traverse all objects of hydra:view linked to this particular collection. 
+
+### 2. Traversing tree:Node elements
+
+When a `tree:Node` element is found, its `tree:value` must be set. The object of `tree:value` should be accompanied by a data type.
+
+The `tree:Node` element may also have one or more `tree:childRelation`. A child relation is an entity of the type `tree:ChildRelation`, and may have one or more more specific types. A `tree:ChildRelation` must have one or more `tree:child` objects of the type `tree:Node`. In this description in all documents, this child must contain a `tree:value`. If a particular child is deemed interesting after evaluating the relation (see chapter 3), then this child’s URL needs to be dereferenced.
+
+Every node may provide a `hydra:totalItems`, or a `hydra:manages`. A client may use `hydra:totalItems` and `hydra:manages` to estimate the completeness of the elements.
+
+### 3. Handling tree:ChildRelation and its subclasses
+
+When the _only_ type given for a certain ChildRelation is `tree:ChildRelation`, then the client must dereference all of its children.
+
+Other types:
+ - `tree:StringCompletesRelation` - In order to find a string, you must concatenate the value of this node with the value of the parent node, and its former parents that were linked through this relation.
+ - `tree:GreaterThanRelation` and the likes - You must evaluate the value against the relation as defined by this relation. Number evaluation is straightforward. String comparisons will be further defined in chapter 4.
+ - Interval relations _TODO_ - see vocabulary for now
+ - Geographic relations _TODO_ - see vocabulary for now
+
+### 4. String comparisons
+
+When comparing strings, different strategies can be applied. Bytestring or depending on a specific locale.
+
+_TODO: define different strategies_
+
+### 5. Suggestions
+
+At any `tree:Node`, suggestions may be given to members that are lower in the hierarchy. At any moment, `hydra:member` may be used to provide a complete or partial list of members of this Node and underlying Nodes. However, for some particular use cases, more transparency on how these elements are chosen must be given. For example, a client could make a list of suggestions of movies based on imdb score, and a second list of suggestions based on duration of the movie.
+
+_TODO: make a proposal with tree:Suggestion and tree:suggestion class and predicate. Tree:Suggestion contains a score and and a predicate of what the score was based on_
+
+#### First early unstable example proposal: using plain old reification
+In Turtle:
+```turtle
+_:b0  a tree:Suggestion ;
+    tree:score 6.8;
+    tree:suggestionProperty imdb:score;
+    tree:suggestionPropertyOrdering "DESC";
+    rdf:subject <node1.jsonld>;
+    rdf:predicate hydra:member;
+    rdf:object <http://www.wikidata.org/entity/Q836821> .
+```
+
+Or in JSON-LD:
+```json
+{
+    "@id": "node1.jsonld",
+    "hydra:member": [
+        //random subset based on a non transparant subset
+    ],
+    "@graph": [
+        {
+            "tree:score": 6.8,
+            "tree:suggestionProperty": "imdb:score",
+            "tree:suggestionPropertyOrdering": "DESC",
+            "rdf:subject":"node1.jsonld",
+            "rdf:predicate": "hydra:member",
+            "rdf:object": "http://www.wikidata.org/entity/Q836821"
+        }
+    ]
+}
+```
