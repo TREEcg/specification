@@ -140,7 +140,7 @@ When the _only_ type given for a certain ChildRelation is `tree:ChildRelation`, 
 
 Other types:
  - `tree:StringCompletesRelation` - In order to find a string, you must concatenate the value of this node with the value of the parent node, and its former parents that were linked through this relation.
- - `tree:GreaterThanRelation` and the likes - You must evaluate the value against the relation as defined by this relation. Number evaluation is straightforward. String comparisons will be further defined in chapter 4.
+ - `tree:GreaterThanRelation` and the likes - You must evaluate the value against the relation as defined by this relation. Number evaluation is straightforward. String comparisons will be further defined in Chapter 4.
  - Interval relations _TODO_ - see vocabulary for now
  - Geographic relations _TODO_ - see vocabulary for now
 
@@ -149,41 +149,3 @@ Other types:
 When comparing strings, different strategies can be applied. Bytestring or depending on a specific locale.
 
 _TODO: define different strategies_
-
-### 5. Suggestions
-
-At any `tree:Node`, suggestions may be given to members that are lower in the hierarchy. At any moment, `hydra:member` may be used to provide a complete or partial list of members of this Node and underlying Nodes. However, for some particular use cases, more transparency on how these elements are chosen must be given. For example, a client could make a list of suggestions of movies based on imdb score, and a second list of suggestions based on duration of the movie.
-
-_TODO: make a proposal with tree:Suggestion and tree:suggestion class and predicate. Tree:Suggestion contains a score and and a predicate of what the score was based on_
-
-#### First early unstable example proposal: using plain old reification
-In Turtle:
-```turtle
-_:b0  a tree:Suggestion ;
-    tree:score 6.8;
-    tree:suggestionProperty imdb:score;
-    tree:suggestionPropertyOrdering "DESC";
-    rdf:subject <node1.jsonld>;
-    rdf:predicate hydra:member;
-    rdf:object <http://www.wikidata.org/entity/Q836821> .
-```
-
-Or in JSON-LD:
-```json
-{
-    "@id": "node1.jsonld",
-    "hydra:member": [
-        //random subset based on a non transparant subset
-    ],
-    "@graph": [
-        {
-            "tree:score": 6.8,
-            "tree:suggestionProperty": "imdb:score",
-            "tree:suggestionPropertyOrdering": "DESC",
-            "rdf:subject":"node1.jsonld",
-            "rdf:predicate": "hydra:member",
-            "rdf:object": "http://www.wikidata.org/entity/Q836821"
-        }
-    ]
-}
-```
