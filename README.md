@@ -124,7 +124,7 @@ For how to use or describe a `hydra:Collection`, we refer to the Hydra specifica
 
 The object of the `hydra:view` deviates from the Hydra specification. It is not a `hydra:PartialCollectionView`, but a `tree:Node`.
 
-Multiple views may be provided, and a Tree client must traverse all objects of hydra:view linked to this particular collection. 
+Multiple views may be provided, and a Tree client must traverse all objects of hydra:view linked to this particular collection. Every entity linked from hydra:view must be an entry point to retrieve all members of the collection.
 
 ### 2. Traversing tree:Node elements
 
