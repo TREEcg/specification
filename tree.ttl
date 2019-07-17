@@ -1,4 +1,5 @@
 @prefix tree: <https://w3id.org/tree#> .
+@prefix tiles: <https://w3id.org/tree#> .
 @prefix cc: <http://creativecommons.org/ns#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -97,3 +98,28 @@ tree:value a rdf:Property ;
            rdfs:label "Value"@en ;
            rdfs:comment "The value this node holds in the tree. This value can be strings, integers, intervals, WKT strings, etc. This value should not be used in end-user interfaces."@en;
            rdfs:domain tree:Node .
+
+
+###### Properties for the Tiles ontology
+###### Mind that tiles prefix is just a synonym for the tree prefix
+
+tiles:zoom a rdf:Property ;
+           rdfs:label "Zoom level"@en;
+           rdfs:comment "The zoom level of the tile cfr. OSM convention"@en;
+           rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:float.
+
+tiles:longitudeTile a rdf:Property ;
+           rdfs:label "The X tile number"@en;
+           rdfs:comment "The X tile number from longitude cfr. OSM convention"@en;
+           rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:float.
+
+tiles:latitudeTile a rdf:Property ;
+           rdfs:label "The Y tile number"@en;
+           rdfs:comment "The Y tile number from latitude cfr. OSM convention"@en;
+           rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:float.
