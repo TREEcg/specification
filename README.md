@@ -1,88 +1,35 @@
 # Describe Tree relations between hypermedia documents
 
-## What’s this?
+An RDFS vocabulary to describe Tree-like relations between documents
 
-_This_ is an RDFS vocabulary of HTTP URIs that can be used in any document that is able to contain RDF triples. The URIs describe the relation between pages.
+## Why would anyone publish a tree structure over HTTP?
 
-## Why publishing trees over HTTP?
+From the moment a document grows too large, we have been paginating it. This way, the browser only has to download more documents when the user is interested in them. However, for answering specific questions, pages (a one dimensional linked list structure) might not be the most efficient choice. Decades of computer science has showed us a plethora of tree structures that can be used to navigate big data sources.
 
-Web developers so far have been lazy. Mostly, they publish documents, and from the moment a document gets too big, they paginate the resource. Paging in Web APIs are common place, but a linear search in a Web API can be time consuming. Trees allow for making large quantities of data more accessible.
+Instead of paging the document, people have also been thinking about just exposing an API with plenty of features. Instead of traversing the tree on the server-side, the client thus now has to do more work, downloading more data and doing more of the processing. However, the data documents that need to be provided are always similar and thus caching works a lot better, providing your users with a similar user-perceived performance. We think we are hitting an interesting trade-off here for Open Data applications that cannot predict what questions will be asked on their interface.
 
-## Are you sure this is going to work?
-
-Yeah! Trees are awesome. Exposing trees over HTTP really puts the control of which data to process when at the client-side, giving smart agents more flexibility with your data. For Open Data, this is just genius.
-
-Instead of traversing the tree on the server-side, the client thus now has to do much work, downloading more data and doing more of the processing. However, the data documents that need to be provided are always similar and thus caching works a lot better, providing your users with a similar user-perceived performance.
-
-Let’s provide you with a couple of examples:
- * Ternary search trie for autocompletion: https://codepen.io/pietercolpaert/pen/BxYQVQ?editors=1010
- * R-tree for finding bike stations in Flanders: _todo_
- * Autocompleting street names in Flanders: _todo_
+Neat examples can be found here:
+ * Autocompletion and geo-spatial search: https://dexagod.github.io
+ * Routable tiles for routing over a geospatially tiled road network: http://pieter.pm/demo-paper-routable-tiles/ 
 
 ## The Vocabulary
 
-Base URI: https://w3id.org/tree#
+Base URI to be used: `https://w3id.org/tree#`
 
-Prefixes:
+Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use the geospatial tiling specific terms) 
 
-```turtle
-@prefix tree: <https://w3id.org/tree#>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
-@prefix schema: <http://schema.org/>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-```
+The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
 
-### Classes
+## Application profiles
 
-#### tree:Node
+A couple of formal application profiles exist for specific use cases. Application profiles can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md).
 
-__subClassOf__: hydra:Collection, hydra:PartialCollectionView
+Every application profile starts from a [Hydra Collection](https://www.hydra-cg.com/spec/latest/core/#collections). We extend this specification with the concept of a `tree:Node`. This can be seen as both a hydra:partialCollectionView and as a hydra:Collection in its own respect. When a hydra:totalItems (which is related to a Collection) is mentioned, it points to the total number of items in this node plus all of its children. When a hydra:first is added on it, it is the `hydra:PartialCollectionView` of the parentNode and indicates the parent is a paged collection with multiple pages. __TODO__
 
-A tree:Node is a node that may contain links to other dereferenceable resources, may contain the actual data (as part of a named graph, or using the predicate hydra:member).
+ * Building block 1: discovering a tree:Node through hydra:view or dcterms:isPartOf
+ * Building block 2: discovering a page is part of a hydra:Collection
+ * Building block 3: descending a tree:Node’s tree:hasChildRelation for more specific information
 
-#### tree:ChildRelation
-
-An entity that describes a specific Parent-Child relation between two tree:Nodes.
-
-The ChildRelation has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are rdf:subClassOf tree:ChildRelation):
- - String, Date or Number comparison:
-   - tree:StringCompletesRelation - The parent value needs to be concatenated with this node’s value
-   - tree:GreaterThanRelation - the child is greater than the value. For string comparison, this relation can refer to a comparison configuration
-   - tree:GreaterOrEqualThanRelation - similar to ↑
-   - tree:LesserThanRelation
-   - tree:LesserOrEqualThanRelation
-   - tree:EqualThanRelation
- - Geo-spatial comparison (requires the node values to be WKT-strings): 
-   - tree:GeospatiallyContainsRelation (for semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))
- - Interval comparison
-   - tree:InBetweenRelation
-   
-_Let us know in an issue if you want another type to be added to this official list_
-
-### Properties
-
-#### tree:childRelation
-
-__Domain__: tree:Node
-__Range__: tree:ChildRelation
-
-#### tree:child
-
-The parent node has a child with a certain relation (defined by tree:relationToParentValue). If the order of the children is important, use an rdf:List instead of using the property multiple times.
-
-__Domain__: tree:ChildRelation
-__Range__: tree:Node
-
-#### tree:value
-
-The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string
-
-__Domain__: tree:Node
-
-## Specification
-
-This is a specification on how clients are expected to find links in the tree. We will use a similar approach as with [Hydra Collections](https://www.hydra-cg.com/spec/latest/core/#collections)
 
 ### Example Use
 

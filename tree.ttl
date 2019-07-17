@@ -37,7 +37,7 @@ tree:Ontology a owl:Ontology ;
 
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
-          rdfs:comment "A tree:Node is a node that may contain links to other dereferenceable resources, may contain the actual data (as part of a named graph, or using the predicate hydra:member)."@en.
+          rdfs:comment "A tree:Node is a node that contains a link to other dereferenceable resources"@en . #, may contain the actual data (as part of a named graph, or using the predicate hydra:member)."@en.
 
 tree:ChildRelation a rdfs:Class ;
                    rdfs:label "Child Relation"@en ;
