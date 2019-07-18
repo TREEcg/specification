@@ -24,12 +24,13 @@ The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
 
 A couple of formal application profiles exist for specific use cases. Application profiles can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md).
 
-Every application profile starts from a [Hydra Collection](https://www.hydra-cg.com/spec/latest/core/#collections). We extend this specification with the concept of a `tree:Node`. This can be seen as both a hydra:partialCollectionView and as a hydra:Collection in its own respect. When a hydra:totalItems (which is related to a Collection) is mentioned, it points to the total number of items in this node plus all of its children. When a hydra:first is added on it, it is the `hydra:PartialCollectionView` of the parentNode and indicates the parent is a paged collection with multiple pages. __TODO__
-
- * Building block 1: discovering a tree:Node through hydra:view or dcterms:isPartOf
- * Building block 2: discovering a page is part of a hydra:Collection
+ * Building block 1: discovering a tree:Node through hydra:view
+ * Building block 2: discovering a page is part of a larger hydra:Collection through dcterms:isPartOf (and then building block 1 can be used again)
  * Building block 3: descending a tree:Node’s tree:hasChildRelation for more specific information
+ * Building block 4: using a search form to jump to a specific Node (can also stand on its own)
+  - 4.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
 
+See the [specs](specs/) folder for more information.
 
 ### Example Use
 
@@ -69,7 +70,7 @@ The tree must be made discoverable as a `hydra:view` on a `hydra:Collection`.
 
 For how to use or describe a `hydra:Collection`, we refer to the Hydra specification: https://www.hydra-cg.com/spec/latest/core/#x5-1-collections
 
-The object of the `hydra:view` deviates from the Hydra specification. It is not a `hydra:PartialCollectionView`, but a `tree:Node`.
+The object of the `hydra:view` deviates from the Hydra specification on collections. It is not a `hydra:PartialCollectionView`, but a `tree:Node`.
 
 Multiple views may be provided, and a Tree client must traverse all objects of hydra:view linked to this particular collection. Every entity linked from hydra:view must be an entry point to retrieve all members of the collection.
 
