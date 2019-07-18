@@ -66,21 +66,7 @@ _:b0 a tree:ChildRelation, tree:StringCompletesRelation;
 
 ### 1. Discovering a tree
 
-The tree must be made discoverable as a `hydra:view` on a `hydra:Collection`.
-
-For how to use or describe a `hydra:Collection`, we refer to the Hydra specification: https://www.hydra-cg.com/spec/latest/core/#x5-1-collections
-
-The object of the `hydra:view` deviates from the Hydra specification on collections. It is not a `hydra:PartialCollectionView`, but a `tree:Node`.
-
-Multiple views may be provided, and a Tree client must traverse all objects of hydra:view linked to this particular collection. Every entity linked from hydra:view must be an entry point to retrieve all members of the collection.
-
 ### 2. Traversing tree:Node elements
-
-When a `tree:Node` element is found, its `tree:value` must be set. The object of `tree:value` should be accompanied by a data type.
-
-The `tree:Node` element may also have one or more `tree:childRelation`. A child relation is an entity of the type `tree:ChildRelation`, and may have one or more more specific types. A `tree:ChildRelation` must have one or more `tree:child` objects of the type `tree:Node`. In this description in all documents, this child must contain a `tree:value`. If a particular child is deemed interesting after evaluating the relation (see chapter 3), then this child’s URL needs to be dereferenced.
-
-Every node may provide a `hydra:totalItems`, or a `hydra:manages`. A client may use `hydra:totalItems` and `hydra:manages` to estimate the completeness of the elements.
 
 ### 3. Handling tree:ChildRelation and its subclasses
 
