@@ -9,8 +9,10 @@ From the moment a document grows too large, we have been paginating it. This way
 Instead of paging the document, people have also been thinking about just exposing an API with plenty of features. Instead of traversing the tree on the server-side, the client thus now has to do more work, downloading more data and doing more of the processing. However, the data documents that need to be provided are always similar and thus caching works a lot better, providing your users with a similar user-perceived performance. We think we are hitting an interesting trade-off here for Open Data applications that cannot predict what questions will be asked on their interface.
 
 Neat examples can be found here:
- * Autocompletion and geo-spatial search: https://dexagod.github.io
- * Routable tiles for routing over a geospatially tiled road network: http://pieter.pm/demo-paper-routable-tiles/ 
+ * Autocompletion and geo-spatial search prototype: https://dexagod.github.io
+ * Routable tiles for routing over a geospatially tiled road network:
+   - The initial paper: http://pieter.pm/demo-paper-routable-tiles/
+   - Calculating an isochrone demo with user-feedback while querying: http://hdelva.be/isochrone/demo.html
 
 ## The Vocabulary
 
@@ -24,11 +26,12 @@ The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
 
 A couple of formal application profiles exist for specific use cases. Application profiles can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md).
 
- * Building block 1: discovering a tree:Node through hydra:view
- * Building block 2: discovering a page is part of a larger hydra:Collection through dcterms:isPartOf (and then building block 1 can be used again)
- * Building block 3: descending a tree:Node’s tree:hasChildRelation for more specific information
- * Building block 4: using a search form to jump to a specific Node (can also stand on its own)
-  - 4.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
+ * Building block 1: [Discovery](specs/1-discovery.md)
+  - 1.1: discovering a tree:Node through hydra:view
+  - 1.2: discovering a page is part of a larger hydra:Collection through dcterms:isPartOf (and then building block 1 can be used again)
+ * Building block 2: [Traversing](specs/2-traversing.md) a tree:Node’s tree:hasChildRelation for more specific information
+ * Building block 3: [Search forms](specs/3-search.md)
+  - 3.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
 
 See the [specs](specs/) folder for more information.
 
@@ -63,23 +66,3 @@ _:b0 a tree:ChildRelation, tree:StringCompletesRelation;
     # This is a link to the root node, or already to multiple nodes. You can choose.
     hydra:view <http://api.example.com/stations/ge.jsonld>.
 ```
-
-### 1. Discovering a tree
-
-### 2. Traversing tree:Node elements
-
-### 3. Handling tree:ChildRelation and its subclasses
-
-When the _only_ type given for a certain ChildRelation is `tree:ChildRelation`, then the client must dereference all of its children.
-
-Other types:
- - `tree:StringCompletesRelation` - In order to find a string, you must concatenate the value of this node with the value of the parent node, and its former parents that were linked through this relation.
- - `tree:GreaterThanRelation` and the likes - You must evaluate the value against the relation as defined by this relation. Number evaluation is straightforward. String comparisons will be further defined in Chapter 4.
- - Interval relations _TODO_ - see vocabulary for now
- - Geographic relations _TODO_ - see vocabulary for now
-
-### 4. String comparisons
-
-When comparing strings, different strategies can be applied. Bytestring or depending on a specific locale.
-
-_TODO: define different strategies_

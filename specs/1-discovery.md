@@ -14,3 +14,10 @@ Note 1: An effect for the client when you discovered a `hydra:Collection` that c
 
 Note 2: Every `tree:Node` can be seen as a new `hydra:Collection` in its own respect. When a `hydra:totalItems` (which is related to a Collection) is mentioned, it points to the total number of items in this node plus all of its children. While the tree:Node described the entity of the current node, it does embody the collection of its own members and the members of its children. The number of items contained within the node itself 
 
+## Compliance testing
+
+You can test compliance if the following graphql-ld query gives a valid response:
+
+```graphql
+
+```
