@@ -4,9 +4,8 @@ An RDFS vocabulary to describe Tree-like relations between documents. Weird nobo
 
 ## Why publish a hypermedia Tree?
 
-When a document grows too large for 1 HTTP response, we need to fragment it. The way we fragment it will immediatly decide how 
-
-Hypermedia trees are a tool to hit the sweet spot between data dumps and querying APIs such as GraphQL. It is particularly a sweet spot for Open Data publishers that need a cost-efficient way of publishing their data, while allowing third parties to create serverless applications to reuse the data.
+When a document grows too large for 1 HTTP response, we need to fragment it. The way we fragment it will immediatly decide what queries will be fast and which queries will be slow.
+Hypermedia trees are a tool to hit the sweet spot between data dumps and querying APIs (such as GraphQL or SPARQL). It is particularly a sweet spot for Open Data publishers that need a cost-efficient way of publishing their data, while allowing third parties to create serverless applications to reuse the data.
 
 |   | dump  | tree fragments  | query  |
 |:-:|:-:|:-:|:-:|

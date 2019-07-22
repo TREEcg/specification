@@ -14,7 +14,7 @@ Prefixes:
 
 #### tree:Node
 
-__subClassOf__: hydra:Collection, hydra:PartialCollectionView
+__subClassOf__: hydra:PartialCollectionView
 
 A tree:Node is a node that may contain links to other dereferenceable resources, may contain the actual data (as part of a named graph, or using the predicate hydra:member).
 

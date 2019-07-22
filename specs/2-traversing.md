@@ -1,11 +1,10 @@
 # Traversing Node elements
 
-When a `tree:Node` element is found, its `tree:value` must be set. The object of `tree:value` should be accompanied by a data type.
+When a `tree:Node` element is found, its `tree:value` __must__ be set. The object of `tree:value` __should__ be accompanied by a data type.
 
-The `tree:Node` element may also have one or more `tree:childRelation`. A child relation is an entity of the type `tree:ChildRelation`, and may have one or more more specific types. A `tree:ChildRelation` must have one or more `tree:child` objects of the type `tree:Node`. In this description in all documents, this child must contain a `tree:value`. If a particular child is deemed interesting after evaluating the relation (see chapter 3), then this child’s URL needs to be dereferenced.
+The `tree:Node` element __may__ also have one or more `tree:childRelation`. A child relation is an entity of the type `tree:ChildRelation`, and __may__ have one or more more specific types. A `tree:ChildRelation` __must__ have one or more `tree:child` objects of the type `tree:Node`. In this description in all documents, this child __must__ contain a `tree:value`. If a particular child is flagged interesting after evaluating the relation, then this child’s URL needs to be followed.
 
-Every node __may__ provide a `hydra:totalItems`, or a `hydra:manages`. A client __may__ use `hydra:totalItems` and `hydra:manages` to estimate the completeness of the elements.
-
+Every node __may__ provide a `tree:remainingItems`. A client __may__ use `tree:remainingItems` to estimate the completeness of the downloaded elements.
 
 ## ChildRelations
 
@@ -22,3 +21,11 @@ Other types:
 When comparing strings, different strategies can be applied. Bytestring or depending on a specific locale.
 
 _TODO: define different strategies_
+
+# Traversing geospatial tiles
+
+When a tile is found through tree:latitudeTile, tree:longitudeTile and tree:zoom, other elements can be found in two ways:
+ 1. Through a description of 
+ 2. A search form is exposed and all other URLs to tiles in a viewport or bounding box can be calculated
+
+This text is for the first option. See the [Search spec](3-search.md) for the second option.
