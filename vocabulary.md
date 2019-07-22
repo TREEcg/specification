@@ -44,6 +44,14 @@ _Let us know in an issue if you want another type to be added to this official l
 __Domain__: tree:Node
 __Range__: tree:ChildRelation
 
+
+#### tree:remainingItems
+
+Remaining number of items of this node plus its children.
+
+__Domain__: tree:Node
+__Range__: xsd:integer
+
 #### tree:child
 
 The parent node has a child with a certain relation (defined by tree:relationToParentValue). If the order of the children is important, use an rdf:List instead of using the property multiple times.

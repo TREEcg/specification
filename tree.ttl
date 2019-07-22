@@ -88,6 +88,12 @@ tree:childRelation a rdf:Property ;
                    rdfs:domain tree:Node;
                    rdfs:range tree:ChildRelation.
 
+tree:remainingItems a rdf:Property ;
+                    rdfs:label "Remaining Items"@en;
+                    rdfs:comment "Total number of items of this node and its children."@en;
+                    rdfs:domain tree:Node;
+                    rdfs:range xsd:integer.
+                   
 tree:child a rdf:Property ;
            rdfs:label "Child"@en;
            rdfs:comment "The specific child or children that follow a childRelation"@en;
