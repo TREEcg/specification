@@ -23,6 +23,8 @@ Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use 
 
 The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
 
+For an overview see [treeontology.png](treeontology.png)
+
 ## Application profiles
 
 A couple of formal application profiles exist for specific use cases. Application profiles can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md).
@@ -36,38 +38,11 @@ A couple of formal application profiles exist for specific use cases. Applicatio
 
 Mind that a server exposing data through the Tree Ontology __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
 
+In order to write a full Tree Ontology compliant client, you need to implement all building blocks, as well as the [Hydra partial collection view spec](). [Comunica](https://github.com/comunica/comunica) and its hypermedia actors (todo) is our main reference implementation.
+
 See the [specs](specs/) folder for more information.
 
-### Example
-
-When dereferencing a specific Fragment (e.g., a fictional `http://api.example.com/stations/ge.jsonld`) with nodes, this should happen:
-
-```turtle
-@prefix tree: <https://w3id.org/tree#>.
-@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
-#### This is the current document’s URL, typed a tree:Node
-<http://api.example.com/stations/ge.jsonld> a tree:Node ;
-    dcterms:isPartOf <http://api.example.com/stations> ;
-    tree:remainingItems 100;
-    tree:value "ge";
-    tree:hasChildRelation _:b0, <...> .
-
-#### This is a relation to a child being described. It has 1 or more compatible types that describes the relation with the parent’s value
-_:b0 a tree:ChildRelation, tree:StringCompletesRelation;
-    tree:child <http://api.example.com/stations/nt.jsonld> .
-
-<http://api.example.com/stations/nt.jsonld> a tree:Node ;
-    tree:remainingItems 5;
-    tree:value "nt" . 
-    
-#### Also the main hydra collection is described
-<http://api.example.com/stations> a hydra:Collection;
-    hydra:manages gtfs:Stop;
-    hydra:totalItems 660;
-    hydra:member <...>,<...>,<...>; #may contain suggestions when no links have been followed so far. 
-    # This is a link to the root node, or already to multiple nodes. You can choose.
-    hydra:view <http://api.example.com/stations/ge.jsonld>.
-```
+Different examples of datasets, implementing different mixes of building blocks, can be found in the [examples](examples/) folder.
 
 ### Implementations
 
