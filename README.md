@@ -34,7 +34,8 @@ A couple of formal application profiles exist for specific use cases. Applicatio
      * 1.2: discovering a page is part of a larger `hydra:Collection` through `dcterms:isPartOf` (and then building block 1 can be used again)
  * Building block 2: [Traversing](specs/2-traversing.md) a `tree:Node`’s `tree:hasChildRelation` for more specific information
  * Building block 3: [Search forms](specs/3-search.md)
-     * 3.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
+      * 3.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
+      * 3.2: using a search form to redirect to a Node containing the element
 
 Mind that a server exposing data through the Tree Ontology __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
 
@@ -52,3 +53,8 @@ Neat examples can be found here:
  * Routable tiles for routing over a geospatially tiled road network:
      - The initial paper: http://pieter.pm/demo-paper-routable-tiles/
      - Calculating an isochrone demo with user-feedback while querying: http://hdelva.be/isochrone/demo.html
+
+Also in the example folder in here, we’ve taken the effort to illustrate a couple of use cases:
+ * [An ordered collection of pages](examples/paged-collection-with-order/)
+ 
+
