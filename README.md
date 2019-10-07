@@ -23,7 +23,9 @@ Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use 
 
 The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
 
-For an overview see [treeontology.png](treeontology.png)
+Simple overview:
+
+![Tree Ontology](treeontology.png)
 
 ## Application profiles
 
@@ -36,6 +38,7 @@ A couple of formal application profiles exist for specific use cases. Applicatio
  * Building block 3: [Search forms](specs/3-search.md)
       * 3.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
       * 3.2: using a search form to redirect to a Node containing the element
+ * Building block 4: [Provenance and Summaries](specs/4-provenance-and-summaries.md)
 
 Mind that a server exposing data through the Tree Ontology __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
 
