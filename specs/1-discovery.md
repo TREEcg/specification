@@ -22,9 +22,9 @@ You _may_ provide backward compatibility with Hydra of your `tree:Node`, by also
 
 An example is the simple [ordered pagination example in the examples folder](../examples/paged-collection-with-order).
 
-### Note 3: DCAT-AP compatibility
+### Note 3: DCAT compatibility
 
-TODO based on DCAT-APv2.0: https://www.w3.org/TR/vocab-dcat-2/
+[DCAT](https://www.w3.org/TR/vocab-dcat-2/) is the standard for Open Data Portals by W3C. In order to find Tree Ontology compliant datasets, there _should_ be a `dcat:accessURL` to the entrypoint where the `hydra:Collection`s are described. Furthermore, there _should_ be a `dct:conformsTo` this URI: `https://w3id.org/tree/`.
 
 ## Compliance testing
 
