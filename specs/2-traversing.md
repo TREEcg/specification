@@ -31,3 +31,15 @@ When a tile is found through tree:latitudeTile, tree:longitudeTile and tree:zoom
  2. A search form is exposed and all other URLs to tiles in a viewport or bounding box can be calculated
 
 This text is for the first option. See the [Search spec](3-search.md) for the second option.
+
+TODO
+
+# Compliance testing
+
+You can test compliance if the following query executed on your page gives a valid response. You need the current page URL and bind this to `?url`.
+
+```sparql
+SELECT ?child ?relation ?value ?remainingItems {
+#    ?url a tree:Node .
+}
+```
