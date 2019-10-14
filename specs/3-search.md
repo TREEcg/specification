@@ -65,17 +65,11 @@ This SPARQL query can be used to discover a geospatial search form. Mind that th
 PREFIX void: <http://rdfs.org/ns/void#>
 PREFIX hydra: <http://www.w3.org/ns/hydra/core#>
 SELECT * WHERE {
-    {
-        ?currentUrl dcterms:isPartOf ?collection .
-    } UNION {
-        ?collection void:subset ?currentUrl . 
-    } UNION {
-        ?collection hydra:view ?currentUrl .
-    }
+    ?collection void:subset|hydra:view|^dcterms:isPartOf ?currentUrl .
 }
 ```
 
-You can test this query on the [Comunica Playground](http://query.linkeddatafragments.org/#datasources=https%3A%2F%2Ftiles.openplanner.team%2Fplanet%2F14%2F8411%2F5485%2F&query=PREFIX%20void%3A%20%3Chttp%3A%2F%2Frdfs.org%2Fns%2Fvoid%23%3E%0APREFIX%20hydra%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Fhydra%2Fcore%23%3E%0A%0ASELECT%20*%20WHERE%20%7B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%3FcurrentUrl%20dcterms%3AisPartOf%20%3Fcollection%20.%0A%20%20%20%20%7D%20UNION%20%7B%0A%20%20%20%20%20%20%20%20%3Fcollection%20void%3Asubset%20%3FcurrentUrl%20.%20%0A%20%20%20%20%7D%20UNION%20%7B%0A%20%20%20%20%20%20%20%20%3Fcollection%20hydra%3Aview%20%3FcurrentUrl%20.%0A%20%20%20%20%7D%0A%7D).
+You can test this query on the [Comunica Playground](http://query.linkeddatafragments.org/#datasources=https%3A%2F%2Ftiles.openplanner.team%2Fplanet%2F14%2F8411%2F5485%2F&query=PREFIX%20dcterms%3A%20%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0APREFIX%20void%3A%20%3Chttp%3A%2F%2Frdfs.org%2Fns%2Fvoid%23%3E%0APREFIX%20hydra%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Fhydra%2Fcore%23%3E%0A%0ASELECT%20*%20WHERE%20%7B%0A%20%20%20%20%3Fcollection%20void%3Asubset%7Chydra%3Aview%7C%5Edcterms%3AisPartOf%20%3FcurrentUrl%20.%0A%7D).
 
 ### 2. Searching through an ordered list of objects
 
