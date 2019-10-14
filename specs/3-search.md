@@ -2,11 +2,21 @@
 
 Searching through a Tree will allow you to immediately jump to the right `tree:Node`.
 
+The `tree:Node` in this case does not need to be explicitly defined. However, there __must__ be a property linking the current page URL to the URI of the `hydra:Collection`. Three properties may be used:
+ 1. `<collection> hydra:view <currentPageUrl> .`: may be used _only_ in the case when the _entire_ `hydra:Collection` can be found starting from this page only.
+ 2. `<collection> void:subset <currentPageUrl> .`
+ 3. `<currentPageUrl> dcterms:isPartOf <collection> .`
+
+The collection itself then __must__ have a `hydra:search` property, describing a search form. For different use cases, the Tree Ontology specifies different search forms (add your own through a pull request):
+
 ## 1. Geospatial tiles search form
 
 Example:
 ```json
 {
+   "@context": {
+     ...
+   },
   "@id": "https://tiles.openplanner.team/planet/14/8411/5485/",
   "tiles:zoom": 14,
   "tiles:longitudeTile": 8411,
@@ -45,18 +55,35 @@ Example:
 }
 ```
 
-This search form describes
+This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the fragmentation. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.)
 
-## 2. Searching through an ordered list of objects
+#### Compliance
 
-### 2.1 Time series
+This SPARQL query can be used to discover a geospatial search form. Mind that the ?currentUrl variable needs to be filled out.
 
-### 2.2 Linked Connections
+```sparql
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX hydra: <http://www.w3.org/ns/hydra/core#>
+SELECT * WHERE {
+    {
+        ?currentUrl dcterms:isPartOf ?collection .
+    } UNION {
+        ?collection void:subset ?currentUrl . 
+    } UNION {
+        ?collection hydra:view ?currentUrl .
+    }
+}
+```
 
-## 3. Skip Graphs
+You can test this query on the [Comunica Playground](http://query.linkeddatafragments.org/#datasources=https%3A%2F%2Ftiles.openplanner.team%2Fplanet%2F14%2F8411%2F5485%2F&query=PREFIX%20void%3A%20%3Chttp%3A%2F%2Frdfs.org%2Fns%2Fvoid%23%3E%0APREFIX%20hydra%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Fhydra%2Fcore%23%3E%0A%0ASELECT%20*%20WHERE%20%7B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%3FcurrentUrl%20dcterms%3AisPartOf%20%3Fcollection%20.%0A%20%20%20%20%7D%20UNION%20%7B%0A%20%20%20%20%20%20%20%20%3Fcollection%20void%3Asubset%20%3FcurrentUrl%20.%20%0A%20%20%20%20%7D%20UNION%20%7B%0A%20%20%20%20%20%20%20%20%3Fcollection%20hydra%3Aview%20%3FcurrentUrl%20.%0A%20%20%20%20%7D%0A%7D).
+
+### 2. Searching through an ordered list of objects
+
+#### 2.1 Time series
+
+#### 2.2 Linked Connections
+
+### 3. Skip Graphs
 
 Using this specification, you can as well model skip graphs. //TODO: Harm
 
-## 4. Combining building blocks
-
-At all times, we need to be able to combine building blocks.
