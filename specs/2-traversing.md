@@ -4,9 +4,20 @@ When a `tree:Node` element is found, its `tree:value` __must__ be set. The objec
 
 The `tree:Node` element __may__ also have one or more `tree:childRelation`. A child relation is an entity of the type `tree:ChildRelation`, and __may__ have one or more more specific types. A `tree:ChildRelation` __must__ have one or more `tree:child` objects of the type `tree:Node`. In this description in all documents, this child __must__ contain a `tree:value`. If a particular child is flagged interesting after evaluating the relation, then this child’s URL needs to be followed.
 
-Every `tree:Node` _should_ contain a `shacl:path` to indicate on what exact triple(s) the `tree:value` applies. For the different ways to express or handle a `shacl:path`, we refer to [2.3.1 in the schacl specification](https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths). Mind that all possible combinations of e.g., `sh:alternativePath` or `sh:inversePath` may be used. When `sh:alternativePath` is used, the order in the list will define the importance of the order when evaluating the `tree:ChildRelation`. If no `shacl:path` is provided in this document, the `tree:value` must be interpreted as filtering all objects that can be compared against the `tree:value`.
+Every `tree:Node` __should__ contain a `shacl:path` to indicate on what exact triple(s) the `tree:value` applies. For the different ways to express or handle a `shacl:path`, we refer to [2.3.1 in the shacl specification](https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths). Mind that all possible combinations of e.g., `sh:alternativePath` or `sh:inversePath` may be used. When `sh:alternativePath` is used, the order in the list will define the importance of the order when evaluating the `tree:ChildRelation`. If no `shacl:path` is provided in this document, the `tree:value` must be interpreted as filtering all objects that can be compared against the `tree:value`.
 
-Every node __may__ provide a `tree:remainingItems`. A client __may__ use `tree:remainingItems` to estimate the completeness of the downloaded elements.
+If a `shacl:path` is defined, and
+ 1. If no `hydra:member` relations are defined, the `shacl:path` needs to be evaluated on all triples in the page
+ 2. If a `hydra:member` relationship is defined, the `shacl:path` should only start from the member URI
+<!-- 3. For quad representations, you can find the triple on which the `shacl:path` should be evaluated by adding the graph name as an object of `tree:memberGraph` to the `hydra:Collection`. #PC: I’m unsure why to add this. I think it only adds complexity without adding real benefits to the data model, serialization, bandwidth, query performance, etc.-->
+
+The result of the evaluation of the `shacl:path`, is the value on which the `tree:value` is based.
+
+If no `shacl:path` is defined, the `tree:value` applies to the `hydra:member` elements, or all of the triples their objects given in the page when no `hydra:member` is available. If due to `rdfs:range` incompatibility, the object cannot be compared, the triple automatically becomes not part of the comparison.
+
+__Informative note__: Not having a `hydra:member` or `shacl:path` may be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would be needed.
+
+Every node __may__ provide a `tree:remainingItems`. A client __may__ use `tree:remainingItems` to estimate the completeness of the downloaded elements to the end-user.
 
 ## ChildRelations
 
@@ -23,6 +34,19 @@ Other types:
 When comparing strings, different strategies can be applied. Bytestring or depending on a specific locale.
 
 _TODO: define different strategies_
+
+### Intervals
+
+#### Date/Time
+
+We expect a blank node here with `schema:startDate` and `schema:endDate` as predicates.
+
+#### Numerics
+
+TODO: how about this?
+
+ * `tree:start`
+ * `tree:end`
 
 # Traversing geospatial tiles
 

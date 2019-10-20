@@ -19,7 +19,6 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix hydra: <http://www.w3.org/ns/hydra/core#>.
 
-
 tree: a foaf:Document ;
       foaf:primaryTopic tree:Ontology;
       cc:license <http://creativecommons.org/licenses/by/4.0/>;
@@ -104,7 +103,6 @@ tree:value a rdf:Property ;
            rdfs:label "Value"@en ;
            rdfs:comment "The value this node holds in the tree. This value can be strings, integers, intervals, WKT strings, etc. This value should not be used in end-user interfaces."@en;
            rdfs:domain tree:Node .
-
 
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
