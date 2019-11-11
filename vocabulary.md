@@ -14,16 +14,17 @@ Prefixes:
 
 #### tree:Node
 
-A tree:Node is a node that may contain links to other dereferenceable resources, may contain the actual data (as part of a named graph, or using the predicate hydra:member).
+A `tree:Node` is a node that may contain links to other dereferenceable resources that lead to a full overview of a `hydra:Collection`.
 
-#### tree:ChildRelation
+#### tree:Relation
 
-An entity that describes a specific Parent-Child relation between two tree:Nodes.
+An entity that describes a relation between two `tree:Nodes`.
 
-The ChildRelation has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are rdf:subClassOf tree:ChildRelation):
+The `tree:Relation` has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are `rdf:subClassOf` `tree:Relation`):
  - String, Date or Number comparison:
-   - tree:StringCompletesRelation - The parent value needs to be concatenated with this node’s value
-   - tree:GreaterThanRelation - the child is greater than the value. For string comparison, this relation can refer to a comparison configuration
+   - tree:PrefixRelation - All elements in the related node have this prefix
+   - tree:SubstringRelation - All elements in the related node have this substring
+   - tree:GreaterThanRelation - the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration
    - tree:GreaterOrEqualThanRelation - similar to ↑
    - tree:LesserThanRelation
    - tree:LesserOrEqualThanRelation
@@ -37,10 +38,10 @@ _Let us know in an issue if you want another type to be added to this official l
 
 ### Properties
 
-#### tree:childRelation
+#### tree:relation
 
 __Domain__: tree:Node
-__Range__: tree:ChildRelation
+__Range__: tree:Relation
 
 
 #### tree:remainingItems
@@ -48,20 +49,20 @@ __Range__: tree:ChildRelation
 Remaining number of items of this node plus its children.
 
 __Domain__: tree:Node
-__Range__: xsd:integer
+__Range__: xsd:integerxs
 
-#### tree:child
+#### tree:node
 
-The parent node has a child with a certain relation (defined by tree:relationToParentValue). If the order of the children is important, use an rdf:List instead of using the property multiple times.
+The URL to be derefenced when this relation cannot be pruned.
 
-__Domain__: tree:ChildRelation
+__Domain__: tree:Relation
 __Range__: tree:Node
 
 #### tree:value
 
-The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string
+The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string, an integer, or even link to another resource where clear comparison rules apply.
 
-__Domain__: tree:Node
+__Domain__: tree:Relation
 
 #### tree:zoom
 

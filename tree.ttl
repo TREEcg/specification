@@ -36,73 +36,80 @@ tree:Ontology a owl:Ontology ;
 
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
-          rdfs:comment "A tree:Node is a node that contains a link to other dereferenceable resources"@en . #, may contain the actual data (as part of a named graph, or using the predicate hydra:member)."@en.
+          rdfs:comment "A tree:Node is a node that may contain a link to other dereferenceable resources"@en .
 
-tree:ChildRelation a rdfs:Class ;
-                   rdfs:label "Child Relation"@en ;
-                   rdfs:comment "A class describing the relation between a parent and a child"@en.
+tree:Relation a rdfs:Class ;
+              rdfs:label "Relation"@en ;
+              rdfs:comment "A class describing the relation between two nodes"@en.
 
 
-tree:StringCompletesRelation a rdfs:Class ;
-                             rdfs:subClassOf tree:ChildRelation ;
-                             rdfs:label "String Completes Relation"@en;
-                             rdfs:comment "The parent value needs to be concatenated with this node’s value"@en .
+tree:PrefixRelation a rdfs:Class ;
+                    rdfs:subClassOf tree:Relation ;
+                    rdfs:label "Prefix Relation"@en;
+                    rdfs:comment "All members of this related node start with this prefix"@en .
 
+tree:SubstringRelation a rdfs:Class ;
+                       rdfs:subClassOf tree:Relation ;
+                       rdfs:label "Substring Relation"@en;
+                       rdfs:comment "All members of this related node contain this substring"@en .
+                    
 tree:GreaterThanRelation a rdfs:Class ;
-                         rdfs:subClassOf tree:ChildRelation ;
+                         rdfs:subClassOf tree:Relation ;
                          rdfs:label "Greater Than Relation"@en ;
-                         rdfs:comment "The child is greater than the value. For string comparison, this relation can refer to a comparison configuration."@en .
+                         rdfs:comment "All members of this related node are greater than the value"@en .
                          
 tree:GreaterOrEqualThanRelation  a rdfs:Class ;
-                                 rdfs:subClassOf tree:ChildRelation ;
+                                 rdfs:subClassOf tree:Relation ;
+                                 rdfs:comment "All members of this related node are greater than or equal to the value"@en ;
                                  rdfs:label "Greater or Equal Than Relation"@en .
+                                 
 tree:LesserThanRelation a rdfs:Class ;
-                        rdfs:subClassOf tree:ChildRelation ;
+                        rdfs:subClassOf tree:Relation ;
                         rdfs:label "Lesser Than Relation"@en .
                         
 tree:LesserOrEqualThanRelation a rdfs:Class ;
-                               rdfs:subClassOf tree:ChildRelation ;
+                               rdfs:subClassOf tree:Relation ;
                                rdfs:label "Lesser or Equal than Relation"@en .
                                
 tree:EqualThanRelation a rdfs:Class ;
-                       rdfs:subClassOf tree:ChildRelation ;
+                       rdfs:subClassOf tree:Relation ;
                        rdfs:label "Equal Than Relation"@en .
 
 tree:GeospatiallyContainsRelation  a rdfs:Class ;
-                                   rdfs:subClassOf tree:ChildRelation ;
+                                   rdfs:subClassOf tree:Relation ;
                                    rdfs:label "Geospatially Contains Relation"@en;
                                    rdfs:comment "For semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))"@en.
                                    
 tree:InBetweenRelation a rdfs:Class ;
-                       rdfs:subClassOf tree:ChildRelation ;
+                       rdfs:subClassOf tree:Relation ;
                        rdfs:label "In Between Relation"@en ;
                        rdfs:comment "For comparing intervals: the child interval is inbetween the parent interval"@en .
 
 
 ######## Properties
 
-tree:childRelation a rdf:Property ;
-                   rdfs:label "Relation to child"@en;
-                   rdfs:comment "Links a node with a child through a child relation class."@en;
-                   rdfs:domain tree:Node;
-                   rdfs:range tree:ChildRelation.
+tree:relation a rdf:Property ;
+              rdfs:label "Relation"@en;
+              rdfs:comment "Links a node with another through a Relation class"@en;
+              rdfs:domain tree:Node;
+              rdfs:range tree:Relation.
 
 tree:remainingItems a rdf:Property ;
                     rdfs:label "Remaining Items"@en;
-                    rdfs:comment "Total number of items of this node and its children."@en;
+                    rdfs:comment "Total number of items of this node and its children"@en;
                     rdfs:domain tree:Node;
                     rdfs:range xsd:integer.
                    
-tree:child a rdf:Property ;
-           rdfs:label "Child"@en;
-           rdfs:comment "The specific child or children that follow a childRelation"@en;
-           rdfs:domain tree:ChildRelation;
-           rdfs:range tree:Node.
+tree:node a rdf:Property ;
+          rdfs:label "Has node"@en;
+          rdfs:comment "The URL to follow when this Node cannot be pruned"@en;
+          rdfs:domain tree:Relation;
+          rdfs:range tree:Node.
 
 tree:value a rdf:Property ;
            rdfs:label "Value"@en ;
-           rdfs:comment "The value this node holds in the tree. This value can be strings, integers, intervals, WKT strings, etc. This value should not be used in end-user interfaces."@en;
-           rdfs:domain tree:Node .
+           rdfs:comment "The value the node linked in the node relation is compared to"@en;
+           rdfs:domain tree:Relation .
 
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
