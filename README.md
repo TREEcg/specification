@@ -1,151 +1,73 @@
-# Describe Tree relations between hypermedia documents
+# The Tree Ontology 🌲🌳🌴 prune your search space
 
-## What’s this?
+The 🌲 Tree Ontology allows client developers to download all members of a collection _they need_. Each document or node describes links to other nodes by describing a comparison with a value.
 
-_This_ is an RDFS vocabulary of HTTP URIs that can be used in any document that is able to contain RDF triples. The URIs describe the relation between pages.
-
-## Why publishing trees over HTTP?
-
-Web developers so far have been lazy. Mostly, they publish documents, and from the moment a document gets too big, they paginate the resource. Paging in Web APIs are common place, but a linear search in a Web API can be time consuming. Trees allow for making large quantities of data more accessible.
-
-## Are you sure this is going to work?
-
-Yeah! Trees are awesome. Exposing trees over HTTP really puts the control of which data to process when at the client-side, giving smart agents more flexibility with your data. For Open Data, this is just genius.
-
-Instead of traversing the tree on the server-side, the client thus now has to do much work, downloading more data and doing more of the processing. However, the data documents that need to be provided are always similar and thus caching works a lot better, providing your users with a similar user-perceived performance.
-
-Let’s provide you with a couple of examples:
- * Ternary search trie for autocompletion: https://codepen.io/pietercolpaert/pen/BxYQVQ?editors=1010
- * R-tree for finding bike stations in Flanders: _todo_
- * Autocompleting street names in Flanders: _todo_
+Web API builders can use this specification to fragment a collection of items over multiple documents as an alternative to a [hydra:PartialCollectionView](https://www.hydra-cg.com/spec/latest/core/#collections).
 
 ## The Vocabulary
 
-Base URI: https://w3id.org/tree#
+Base URI to be used: `https://w3id.org/tree#`
 
-Prefixes:
+Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use the geospatial tiling specific terms) 
 
-```turtle
-@prefix tree: <https://w3id.org/tree#>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
-@prefix schema: <http://schema.org/>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-```
+The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
 
-### Classes
+Simple overview:
 
-#### tree:Node
+![Tree Ontology](treeontology.png)
 
-__subClassOf__: hydra:Collection, hydra:PartialCollectionView
+## Application profiles
 
-A tree:Node is a node that may contain links to other dereferenceable resources, may contain the actual data (as part of a named graph, or using the predicate hydra:member).
+A couple of formal application profiles exist for specific use cases. Application profiles can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md).
 
-#### tree:ChildRelation
+ * Building block 1: [Discovery](specs/1-discovery.md)
+     * 1.1: discovering a `tree:Node` through `tree:view`
+     * 1.2: discovering a page is part of a larger `hydra:Collection` through `dcterms:isPartOf` and `void:subset` (and then building block 1 can be used again)
+ * Building block 2: [Traversing](specs/2-traversing.md) a `tree:Node`’s `tree:relation` for more specific information
+ * Building block 3: [Search forms](specs/3-search.md)
+      * 3.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
+      * 3.2: using a search form to redirect to a Node containing the element
+ * Building block 4: [Provenance and Summaries](specs/4-provenance-and-summaries.md)
 
-An entity that describes a specific Parent-Child relation between two tree:Nodes.
+Mind that a server exposing data through the Tree Ontology __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
 
-The ChildRelation has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are rdf:subClassOf tree:ChildRelation):
- - String, Date or Number comparison:
-   - tree:StringCompletesRelation - The parent value needs to be concatenated with this node’s value
-   - tree:GreaterThanRelation - the child is greater than the value. For string comparison, this relation can refer to a comparison configuration
-   - tree:GreaterOrEqualThanRelation - similar to ↑
-   - tree:LesserThanRelation
-   - tree:LesserOrEqualThanRelation
-   - tree:EqualThanRelation
- - Geo-spatial comparison (requires the node values to be WKT-strings): 
-   - tree:GeospatiallyContainsRelation (for semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))
- - Interval comparison
-   - tree:InBetweenRelation
-   
-_Let us know in an issue if you want another type to be added to this official list_
+In order to write a full Tree Ontology compliant client, you need to implement all building blocks, as well as the [Hydra partial collection view spec](). [Comunica](https://github.com/comunica/comunica) and its hypermedia actors (todo) is our main reference implementation.
 
-### Properties
+See the [specs](specs/) folder for more information.
 
-#### tree:childRelation
+Different examples of datasets, implementing different mixes of building blocks, can be found in the [examples](examples/) folder.
 
-__Domain__: tree:Node
-__Range__: tree:ChildRelation
+### Implementations
 
-#### tree:child
+Neat examples can be found here:
 
-The parent node has a child with a certain relation (defined by tree:relationToParentValue). If the order of the children is important, use an rdf:List instead of using the property multiple times.
+ * Autocompletion and geo-spatial search prototype: https://dexagod.github.io
+ * Routable tiles for routing over a geospatially tiled road network:
+     - The initial paper: http://pieter.pm/demo-paper-routable-tiles/
+     - Calculating an isochrone demo with user-feedback while querying: http://hdelva.be/isochrone/demo.html
 
-__Domain__: tree:ChildRelation
-__Range__: tree:Node
+Also in the example folder in here, we’ve taken the effort to illustrate a couple of use cases:
+ * [An ordered collection of pages](examples/paged-collection-with-order/)
+ 
+## Questions and Answers
 
-#### tree:value
+### Why publish a hypermedia Tree?
 
-The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string
+When a document grows too large for 1 HTTP response, we need to fragment it. The way we fragment it will immediatly decide what queries will be fast and which queries will be slow.
+Hypermedia trees are a tool to hit the sweet spot between data dumps and querying APIs (such as GraphQL or SPARQL). It is particularly a sweet spot for Open Data publishers that need a cost-efficient way of publishing their data, while allowing third parties to create serverless applications to reuse the data.
 
-__Domain__: tree:Node
+|   | dump  | tree fragments  | query  |
+|:-:|:-:|:-:|:-:|
+| processing | client | shared | server |
+| server cost  | low  | okay  | high  |
+|  client cost | high  | okay  | low  |
+| caching | low | high | low |
+| query execution control | high | high | low |
 
-## Specification
+### Why hypermedia?
 
-This is a specification on how clients are expected to find links in the tree. We will use a similar approach as with [Hydra Collections](https://www.hydra-cg.com/spec/latest/core/#collections)
+When you write a client for one server, you can get away with hard-coding the way the API is built based on the API specification. When building a client for the entire Web, we need to make very general specifications that still allow our client to understand what it can do next. The latter are called the hypermedia controls.
 
-### Example Use
+### What are triples? JSON-LD? RDF? URIs? Linked Data?
 
-When dereferencing a specific Fragment (e.g., a fictional `http://api.example.com/stations/ge.jsonld`) with nodes, this should happen:
-
-```turtle
-@prefix tree: <https://w3id.org/tree#>.
-@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
-#### This is the current document’s URL, typed a tree:Node
-<http://api.example.com/stations/ge.jsonld> a tree:Node ;
-    hydra:totalItems 100;
-    tree:value "ge";
-    tree:hasChildRelation _:b0, <...>;
-    hydra:member <...>,<...>,<...> . # contains suggestions for "ge". If the number of distinct items equals the hydra:totalItems, this list is complete and no further children should be relaxed
-
-#### This is a relation to a child being described. It has 1 or more compatible types that describes the relation with the parent’s value
-_:b0 a tree:ChildRelation, tree:StringCompletesRelation;
-    tree:child <http://api.example.com/stations/nt.jsonld> .
-
-<http://api.example.com/stations/nt.jsonld> a tree:Node ;
-    hydra:totalItems 100;
-    tree:value "nt";
-    hydra:member <...>,<...>,<...> . 
-    
-#### Also the main hydra collection is described
-<http://api.example.com/stations> a hydra:Collection;
-    hydra:manages gtfs:Stop;
-    hydra:totalItems 660;
-    hydra:member <...>,<...>,<...>; #may contain suggestions when no links have been followed so far.
-    # This is a link to the root node, or already to multiple nodes. You can choose.
-    hydra:view <http://api.example.com/stations/ge.jsonld>.
-```
-
-### 1. Discovering a tree
-
-The tree must be made discoverable as a `hydra:view` on a `hydra:Collection`.
-
-For how to use or describe a `hydra:Collection`, we refer to the Hydra specification: https://www.hydra-cg.com/spec/latest/core/#x5-1-collections
-
-The object of the `hydra:view` deviates from the Hydra specification. It is not a `hydra:PartialCollectionView`, but a `tree:Node`.
-
-Multiple views may be provided, and a Tree client must traverse all objects of hydra:view linked to this particular collection. Every entity linked from hydra:view must be an entry point to retrieve all members of the collection.
-
-### 2. Traversing tree:Node elements
-
-When a `tree:Node` element is found, its `tree:value` must be set. The object of `tree:value` should be accompanied by a data type.
-
-The `tree:Node` element may also have one or more `tree:childRelation`. A child relation is an entity of the type `tree:ChildRelation`, and may have one or more more specific types. A `tree:ChildRelation` must have one or more `tree:child` objects of the type `tree:Node`. In this description in all documents, this child must contain a `tree:value`. If a particular child is deemed interesting after evaluating the relation (see chapter 3), then this child’s URL needs to be dereferenced.
-
-Every node may provide a `hydra:totalItems`, or a `hydra:manages`. A client may use `hydra:totalItems` and `hydra:manages` to estimate the completeness of the elements.
-
-### 3. Handling tree:ChildRelation and its subclasses
-
-When the _only_ type given for a certain ChildRelation is `tree:ChildRelation`, then the client must dereference all of its children.
-
-Other types:
- - `tree:StringCompletesRelation` - In order to find a string, you must concatenate the value of this node with the value of the parent node, and its former parents that were linked through this relation.
- - `tree:GreaterThanRelation` and the likes - You must evaluate the value against the relation as defined by this relation. Number evaluation is straightforward. String comparisons will be further defined in Chapter 4.
- - Interval relations _TODO_ - see vocabulary for now
- - Geographic relations _TODO_ - see vocabulary for now
-
-### 4. String comparisons
-
-When comparing strings, different strategies can be applied. Bytestring or depending on a specific locale.
-
-_TODO: define different strategies_
+Same idea as hypermedia, only for understanding the elements in the pages itself. See [these intro slides](https://speakerdeck.com/pietercolpaert/an-introduction-to-open-data), or [read this chapter](https://phd.pietercolpaert.be/chapters/data-and-interoperability).
