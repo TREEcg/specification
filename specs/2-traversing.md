@@ -27,21 +27,24 @@ When the _only_ type given for a certain Relation is `tree:Relation`, then the c
 
 For other types: see [vocabulary](../vocabulary.md) for now.
 
-### Comparing strings according to a locale
+## Comparing strings
 
-When comparing strings, different strategies can be applied. Bytestring or depending on a specific locale.
+When comparing strings, different strategies can be applied. When no extra elements are provided, we assume byte comparison.
+When a locale needs to be taken into account, we introduce a couple of predicates:
+ 1. `tree:stringComparisonLocale`: a BCP 47 language as defined in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation
+ 2. `tree:stringComparisonLocaleMatcher`
+ 3. `tree:stringComparisonUsage`
+ 4. `tree:stringComparisonSensitivity`
+ 5. `tree:stringComparisonIgnorePunctuation`
+ 6. `tree:stringComparisonNumeric`
+ 7. `tree:stringComparisonCaseFirst`
 
-_TODO: define different strategies_
+When a `shacl:path` is defined, mind that you also may have to check the language of the element using the property `tree:stringComparisonLanguage`.
+One or more languages _may_ be set.
+When no language is set, all strings are compared.
+When empty language strings only need to be compared, you have to explicitly set `tree:stringComparisonLanguage` as `""`.
 
-<!-- This now became quite clear without extra spec text
-# Traversing geospatial tiles
-
-When a tile is found through tree:latitudeTile, tree:longitudeTile and tree:zoom, other elements can be found in two ways:
- 1. Through a description of other elements in the collection
- 2. A search form is exposed and all other URLs to tiles in a viewport or bounding box can be calculated
-
-This text is for the first option. See the [Search spec](3-search.md) for the second option.
--->
+__Informative note__: Mind that the settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
 
 # Compliance testing
 
