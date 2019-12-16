@@ -29,7 +29,7 @@ For other types: see [vocabulary](../vocabulary.md) for now.
 
 ## Comparing strings
 
-When comparing strings, different strategies can be applied. When no extra elements are provided, we assume byte comparison.
+When comparing strings, different strategies can be applied. When no extra elements are provided, the default comparison is according to unicode ordering.
 When a locale needs to be taken into account, we introduce a couple of predicates:
  1. `tree:stringComparisonLocale`: a BCP 47 language as defined in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation
  2. `tree:stringComparisonLocaleMatcher`
