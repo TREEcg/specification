@@ -29,8 +29,10 @@ For other types: see [vocabulary](../vocabulary.md) for now.
 
 ## Comparing strings
 
-When comparing strings, different strategies can be applied. When no extra elements are provided, the default comparison is according to unicode ordering.
-When a locale needs to be taken into account, we introduce a couple of predicates:
+When using the `tree:PrefixRelation` or the `tree:SubstringRelation`, the strings __must__ be compared according to case insensitive unicode ordering.
+Some flags __may__ however indicate a small derivation from this approach:
+
+A comparison based on locale and other options can be done by using these predicates:
  1. `tree:stringComparisonLocale`: a BCP 47 language as defined in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation
  2. `tree:stringComparisonLocaleMatcher`
  3. `tree:stringComparisonUsage`
@@ -44,7 +46,7 @@ One or more languages _may_ be set.
 When no language is set, all strings are compared.
 When empty language strings only need to be compared, you have to explicitly set `tree:stringComparisonLanguage` as `""`.
 
-__Informative note__: Mind that the settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
+__Informative note__: The settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
 
 # Compliance testing
 
