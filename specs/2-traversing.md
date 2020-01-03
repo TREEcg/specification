@@ -15,11 +15,12 @@ The result of the evaluation of the `shacl:path`, is the value on which the `tre
 
 When no `shacl:path` is defined, the `tree:value` applies to the `hydra:member` elements, or all of the triples their objects given in the page when no `hydra:member` is available. If due to `rdfs:range` incompatibility, the object cannot be compared, the triple automatically becomes not part of the comparison.
 
-__Informative note__: Not having a `hydra:member` or `shacl:path` may be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would be needed.
-
 Every node __may__ provide a `tree:remainingItems`. A client __may__ use `tree:remainingItems` to estimate the completeness of the downloaded elements to the end-user.
 
-__Informative note__: A client needs to keep a list of already visited pages, as despite this being the Tree Ontology, circular references and back-links are allowed.
+
+__Informative note 1__: Not having a `hydra:member` or `shacl:path` may be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would be needed.
+
+__Informative note 2__: A client needs to keep a list of already visited pages, as despite this being the Tree Ontology, circular references and back-links are allowed.
 
 ## Relation
 
@@ -29,7 +30,7 @@ For other types: see [vocabulary](../vocabulary.md) for now.
 
 ## Comparing strings
 
-When using the `tree:PrefixRelation` or the `tree:SubstringRelation`, the strings __must__ be compared according to case insensitive unicode ordering.
+When using the `tree:PrefixRelation` or the `tree:SubstringRelation`, the strings __must__ be compared according to _case insensitive unicode ordering_.
 Some flags __may__ however indicate a small derivation from this approach:
 
 A comparison based on locale and other options can be done by using these predicates:
@@ -42,15 +43,27 @@ A comparison based on locale and other options can be done by using these predic
  7. `tree:stringComparisonCaseFirst`
 
 When a `shacl:path` is defined, mind that you also may have to check the language of the element using the property `tree:stringComparisonLanguage`.
-One or more languages _may_ be set.
+One or more languages __may__ be set.
 When no language is set, all strings are compared.
 When empty language strings only need to be compared, you have to explicitly set `tree:stringComparisonLanguage` as `""`.
 
-__Informative note__: The settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
+__Informative note 1__: By default this thus means, when typing `à`, the links to `a` can be pruned.
+
+__Informative note 2__: The settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
+
+## Comparing geospatial features
+
+The `tree:GeospatiallyContainsRelation` is the relation than can be used to express all further members will be contained within a geospatial region defined by the WKT String in the `tree:value`.
+
+The `shacl:path` __must__ refer to a literal containing a WKT string, such as `geosparql:asWKT`.
+
+## Comparing time literals
+
+When using relations such as `tree:LesserThanRelation` or `tree:GreaterThanRelation`, the time literals need to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
 
 # Compliance testing
 
-You can test compliance if the following query executed on your page gives a valid response. You need the current page URL and bind this to `?url`.
+You can test compliance if the following query executed on your page gives a valid response. You need the current page URL and bind this to `<page_url>`.
 
 ## Finding relations
 
