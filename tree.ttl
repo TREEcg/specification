@@ -117,6 +117,12 @@ tree:path a rdf:Property ;
           rdfs:domain tree:Relation ;
           rdfs:range rdfs:Resource .
 
+tree:view a rdf:Property ;
+          rdfs:label "View"@en ;
+          rdfs:comment "Links the collection to a `tree:Node` from which all other members can be found."@en ;
+          rdfs:domain hydra:Collection ;
+          rdfs:range tree:Node .
+
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
 

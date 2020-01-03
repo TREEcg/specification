@@ -72,6 +72,14 @@ See https://github.com/pietercolpaert/TreeOntology/blob/master/specs/2-traversin
 
 __Domain__: tree:Relation
 
+#### tree:view
+
+Links the collection to a `tree:Node` from which all other members can be found. If only a part of the collection’s members can be found from that point on, only use `dcterms:isPartOf` or `void:subset`.
+
+__Domain__: hydra:Collection
+
+__Range__: tree:Node
+
 #### tree:zoom
 
 The zoom level of the tile cfr. OSM convention
