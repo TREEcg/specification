@@ -22,17 +22,17 @@ An entity that describes a relation between two `tree:Nodes`.
 
 The `tree:Relation` has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are `rdf:subClassOf` `tree:Relation`):
  - String, Date or Number comparison:
-   - tree:PrefixRelation - All elements in the related node have this prefix
-   - tree:SubstringRelation - All elements in the related node have this substring
-   - tree:GreaterThanRelation - the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration
-   - tree:GreaterOrEqualThanRelation - similar to ↑
-   - tree:LesserThanRelation
-   - tree:LesserOrEqualThanRelation
-   - tree:EqualThanRelation
+   - `tree:PrefixRelation` - All elements in the related node have this prefix
+   - `tree:SubstringRelation` - All elements in the related node have this substring
+   - `tree:GreaterThanRelation` - the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration
+   - `tree:GreaterOrEqualThanRelation` - similar to ↑
+   - `tree:LesserThanRelation`
+   - `tree:LesserOrEqualThanRelation`
+   - `tree:EqualThanRelation`
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
-   - tree:GeospatiallyContainsRelation (for semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))
+   - `tree:GeospatiallyContainsRelation` (for semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))
  - Interval comparison
-   - tree:InBetweenRelation
+   - `tree:InBetweenRelation`
    
 _Let us know in an issue if you want another type to be added to this official list_
 
@@ -49,7 +49,7 @@ __Range__: tree:Relation
 Remaining number of items of this node plus its children.
 
 __Domain__: tree:Node
-__Range__: xsd:integerxs
+__Range__: xsd:integer
 
 #### tree:node
 
@@ -61,6 +61,14 @@ __Range__: tree:Node
 #### tree:value
 
 The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string, an integer, or even link to another resource where clear comparison rules apply.
+
+__Domain__: tree:Relation
+
+#### tree:path
+
+A property path, as defined by shacl, that indicates what resource the `tree:value` affects.
+
+See https://github.com/pietercolpaert/TreeOntology/blob/master/specs/2-traversing.md
 
 __Domain__: tree:Relation
 
