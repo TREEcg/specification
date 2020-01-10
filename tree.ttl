@@ -67,9 +67,9 @@ tree:LessThanRelation a rdfs:Class ;
                       rdfs:subClassOf tree:Relation ;
                       rdfs:label "Less Than Relation"@en .
                         
-tree:LesserOrEqualThanRelation a rdfs:Class ;
+tree:LessOrEqualThanRelation a rdfs:Class ;
                                rdfs:subClassOf tree:Relation ;
-                               rdfs:label "Lesser or Equal than Relation"@en .
+                               rdfs:label "Less or Equal than Relation"@en .
                                
 tree:EqualThanRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
