@@ -1,6 +1,6 @@
-# The Tree Ontology 🌲🌳🌴 prune your search space
+# Prune your client’s search space with the Tree Ontology 🌲🌳🌴
 
-The 🌲 Tree Ontology allows client developers to download all members of a collection _they need_. Each document or node describes links to other nodes by describing a comparison with a value.
+The 🌲 Tree Ontology allows client developers to download all further pages (we call them nodes) of a collection _they need_. Each node describes links to other nodes by describing a relation of their members to a value.
 
 Web API builders can use this specification to fragment a collection of items over multiple documents as an alternative to a [hydra:PartialCollectionView](https://www.hydra-cg.com/spec/latest/core/#collections).
 
@@ -16,26 +16,20 @@ Simple overview:
 
 ![Tree Ontology](treeontology.png)
 
-## Application profiles
+## Specifications
 
-A couple of formal application profiles exist for specific use cases. Application profiles can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md).
+A couple of formal specifications can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md):
+ 1. [Discovery](specs/1-discovery.md): how to discover a `tree:Node`
+ 2. [Traversing](specs/2-traversing.md) a `tree:Node`’s `tree:relation` for more specific information
+ 3. [Search forms](specs/3-search.md) for making certain nodes directly accessible
 
- * Building block 1: [Discovery](specs/1-discovery.md)
-     * 1.1: discovering a `tree:Node` through `tree:view`
-     * 1.2: discovering a page is part of a larger `hydra:Collection` through `dcterms:isPartOf` and `void:subset` (and then building block 1 can be used again)
- * Building block 2: [Traversing](specs/2-traversing.md) a `tree:Node`’s `tree:relation` for more specific information
- * Building block 3: [Search forms](specs/3-search.md)
-      * 3.1: using a search form for geospatial tiles cfr. OpenStreetMap tiles
-      * 3.2: using a search form to redirect to a Node containing the element
- * Building block 4: [Provenance and Summaries](specs/4-provenance-and-summaries.md)
+We are also planning to specify how to describe [Provenance and Summaries](specs/4-provenance-and-summaries.md). Feel free to pull request ideas.
 
 Mind that a server exposing data through the Tree Ontology __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
 
-In order to write a full Tree Ontology compliant client, you need to implement all building blocks, as well as the [Hydra partial collection view spec](). [Comunica](https://github.com/comunica/comunica) and its hypermedia actors (todo) is our main reference implementation.
+In order to write a full Tree Ontology compliant client, you need to implement all building blocks, as well as the [Hydra partial collection view spec](). [Comunica](https://github.com/comunica/comunica) and its hypermedia actors will be our main reference implementation (work in progress).
 
 See the [specs](specs/) folder for more information.
-
-Different examples of datasets, implementing different mixes of building blocks, can be found in the [examples](examples/) folder.
 
 ### Implementations
 
