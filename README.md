@@ -1,4 +1,4 @@
-# ᴛʀᴇᴇ: a hypermedia specification for ᴛʀiplᴇs and ᴇlements
+# ᴛʀᴇᴇ: hypermedia for ᴛʀiplᴇs and ᴇlements
 
 The ᴛʀᴇᴇ vocabulary describes links to other nodes by qualifying a relation of their members to a value.
 
@@ -10,7 +10,7 @@ Base URI to be used: `https://w3id.org/tree#`
 
 Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use the geospatial tiling specific terms) 
 
-The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
+The full vocabulary is explained in the [RDF vocabulary](vocabulary.md).
 
 Simple overview:
 
