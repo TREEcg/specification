@@ -1,8 +1,8 @@
-# Prune your client’s search space with the Tree Ontology 🌲🌳🌴
+# ᴛʀᴇᴇ: ᴛrimming ʀᴇlations and ᴇlements from your client’s search space
 
-The 🌲 Tree Ontology allows client developers to download all further pages (we call them nodes) of a collection _they need_. Each node describes links to other nodes by describing a relation of their members to a value.
+The ᴛʀᴇᴇ vocabulary describes links to other nodes by qualifying a relation of their members to a value.
 
-Web API builders can use this specification to fragment a collection of items over multiple documents as an alternative to a [hydra:PartialCollectionView](https://www.hydra-cg.com/spec/latest/core/#collections).
+It is an alternative to a [hydra:PartialCollectionView](https://www.hydra-cg.com/spec/latest/core/#collections) or to using `next`-links. Instead, we propose to have a bit of explanation of what can be found on the next page, and let the client decide whether it is useful to follow the link or not.
 
 ## The Vocabulary
 
@@ -14,7 +14,7 @@ The full vocabulary is explained in the [vocabulary.md](vocabulary.md).
 
 Simple overview:
 
-![Tree Ontology](treeontology.png)
+![ᴛʀᴇᴇ Ontology](treeontology.png)
 
 ## Specifications
 
@@ -25,9 +25,9 @@ A couple of formal specifications can be implemented by clients to understand sp
 
 We are also planning to specify how to describe [Provenance and Summaries](specs/4-provenance-and-summaries.md). Feel free to pull request ideas.
 
-Mind that a server exposing data through the Tree Ontology __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
+Mind that a server exposing data with ᴛʀᴇᴇ __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
 
-In order to write a full Tree Ontology compliant client, you need to implement all building blocks, as well as the [Hydra partial collection view spec](). [Comunica](https://github.com/comunica/comunica) and its hypermedia actors will be our main reference implementation (work in progress).
+In order to write a full ᴛʀᴇᴇ compliant client, you need to implement all building blocks, as well as the [Hydra partial collection view spec](). [Comunica](https://github.com/comunica/comunica) and its hypermedia actors will be our main reference implementation (work in progress).
 
 See the [specs](specs/) folder for more information.
 
@@ -45,12 +45,12 @@ Also in the example folder in here, we’ve taken the effort to illustrate a cou
  
 ## Questions and Answers
 
-### Why publish a hypermedia Tree?
+### Why publish a hypermedia structure?
 
 When a document grows too large for 1 HTTP response, we need to fragment it. The way we fragment it will immediatly decide what queries will be fast and which queries will be slow.
-Hypermedia trees are a tool to hit the sweet spot between data dumps and querying APIs (such as GraphQL or SPARQL). It is particularly a sweet spot for Open Data publishers that need a cost-efficient way of publishing their data, while allowing third parties to create serverless applications to reuse the data.
+Hypermedia can be used to hit the sweet spot between data dumps and querying APIs (such as GraphQL or SPARQL). It is particularly a sweet spot for Open Data publishers that need a cost-efficient way of publishing their data, while allowing third parties to create serverless applications to reuse the data.
 
-|   | dump  | tree fragments  | query  |
+|   | dump  | ᴛʀᴇᴇ fragments  | query  |
 |:-:|:-:|:-:|:-:|
 | processing | client | shared | server |
 | server cost  | low  | okay  | high  |
