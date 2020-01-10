@@ -1,4 +1,4 @@
-# ᴛʀᴇᴇ: ᴛrimming ʀᴇlations and ᴇlements from your client’s search space
+# ᴛʀᴇᴇ: a hypermedia specification for ᴛʀiplᴇs and ᴇlements
 
 The ᴛʀᴇᴇ vocabulary describes links to other nodes by qualifying a relation of their members to a value.
 
