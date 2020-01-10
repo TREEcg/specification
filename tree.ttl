@@ -63,9 +63,9 @@ tree:GreaterOrEqualThanRelation  a rdfs:Class ;
                                  rdfs:comment "All members of this related node are greater than or equal to the value"@en ;
                                  rdfs:label "Greater or Equal Than Relation"@en .
 
-tree:LesserThanRelation a rdfs:Class ;
-                        rdfs:subClassOf tree:Relation ;
-                        rdfs:label "Lesser Than Relation"@en .
+tree:LessThanRelation a rdfs:Class ;
+                      rdfs:subClassOf tree:Relation ;
+                      rdfs:label "Less Than Relation"@en .
                         
 tree:LesserOrEqualThanRelation a rdfs:Class ;
                                rdfs:subClassOf tree:Relation ;
