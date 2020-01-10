@@ -1,27 +1,32 @@
 # Traversing Node elements
 
-A `tree:Node` element __may__ have one or more `tree:relation` properties. A relation is an entity of the type `tree:Relation`, and __may__ have a more specific types. A `tree:Relation` __must__ have one `tree:node` object of the type `tree:Node`. By default, all nodes need to be followed, unless the client flags this relation for pruning.
+A `tree:Node` element __may__ have one or more `tree:relation` properties. A relation is an entity of the type `tree:Relation`, and __may__ have a more specific type. A `tree:Relation` __must__ have one `tree:node` object of the type `tree:Node`. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).
 
 The `tree:Relation`’s `tree:value` __must__ be set. The object of `tree:value` __should__ be accompanied by a data type when it is a literal value.
 
-Every `tree:Relation` __should__ have a `tree:path`, indicating on what exact triple(s) the `tree:value` applies. For the different ways to express or handle a `tree:path`, we refer to [2.3.1 in the shacl specification](https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths). Mind that all possible combinations of e.g., `shacl:alternativePath` or `shacl:inversePath` may be used. When `shacl:alternativePath` is used, the order in the list will define the importance of the order when evaluating the `tree:Relation`. If no `tree:path` is provided in this document, the `tree:value` must be compared to all objects that _can be compared to_ the `tree:value` as defined by the type of the relation.
+Every `tree:Relation` __should__ have a `tree:path`, indicating on what triple(s) the `tree:value` applies. For the different ways to express or handle a `tree:path`, we refer to [2.3.1 in the shacl specification](https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths). All possible combinations of e.g., `shacl:alternativePath`, `shacl:inversePath` or `shacl:inLanguage` in the SHACL spec can be used. When `shacl:alternativePath` is used, the order in the list will define the importance of the order when evaluating the `tree:Relation`.
 
-If a `tree:path` is defined, and
- 1. If no `hydra:member` relations are defined, the `tree:path` needs to be evaluated on all triples in the page
- 2. If a `hydra:member` relationship is defined, the `tree:path` starts from the member URI. The target object __should__ be materialized in the current Node document, but when it is not, the object __may__ be considered implicit.
+When no `tree:path` is provided in this document, the `tree:value` must be compared to all objects that _can be compared to_ the `tree:value` as defined by the type of the relation. 
+
+__Informative note 1__: The latter enables server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the `tree:path`.
+
+When a `tree:path` is defined, and
+ 1. When no `hydra:member` relations are defined, the `tree:path` needs to be evaluated on all triples in the page
+ 2. When a `hydra:member` relationship is defined, the `tree:path` starts from the member URI. The target object __should__ be materialized in the current Node document, but when it is not, the object __may__ be considered implicit (only on the condition both `tree:path` and `hydra:member` is defined).
 <!-- MAYBE 3. For quad representations, you can find the triple on which the `tree:path` should be evaluated by adding the graph name as an object of `tree:memberGraph` to the `hydra:Collection`. #PC: I’m unsure why to add this. I think it only adds complexity without adding real benefits to the data model, serialization, bandwidth, query performance, etc.-->
 
-The result of the evaluation of the `tree:path`, is the value on which the `tree:value` is based.
-
-When no `tree:path` is defined, the `tree:value` applies to the `hydra:member` elements, or all of the triples their objects given in the page when no `hydra:member` is available. If due to `rdfs:range` incompatibility, the object cannot be compared, the triple automatically becomes not part of the comparison.
+The result of the evaluation of the `tree:path`, is the value that must be compared to the `tree:value`.
+When no `tree:path` is defined, the `tree:value` applies to all comparable properties of the `hydra:member` elements.
+When also no `hydra:member` is defined, the `tree:value` __must__ be compared to all triples in the document.
+When due to `rdfs:range` incompatibility, the object cannot be compared, the object will not be considered for comparison.
 
 Every node __may__ provide a `tree:remainingItems`. A client __may__ use `tree:remainingItems` to estimate the completeness of the downloaded elements to the end-user.
 
-__Informative note 1__: Not having a `hydra:member` or `tree:path` may be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would be needed.
+__Informative note 2__: Not having a `hydra:member` nor `tree:path` may also be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.
 
-__Informative note 2__: A client needs to keep a list of already visited pages, as despite this being the Tree Ontology, circular references and back-links are allowed.
+__Informative note 3__: A client needs to keep a list of already visited pages, as despite this being the Tree Ontology, circular references and back-links are not explicitly prohibited.
 
-__Informative note 3__: In contrast to `shacl:path`, a `tree:path` __may__ refer to an implicit property and may not materialized in the current response. The property can be inferred, fetched through another `hydra:Collection`, or simply retrieved by URI dereferencing of the subject. The latter is only recommended for a low amount of resources.
+__Informative note 4__: In contrast to `shacl:path`, a `tree:path` __may__ refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to inferred the data, could try to fetch it through another `hydra:Collection`, or retrieve it using URI dereferencing.
 
 ## Relation
 
@@ -34,6 +39,8 @@ For other types: see [vocabulary](../vocabulary.md) for now.
 When using the `tree:PrefixRelation` or the `tree:SubstringRelation`, the strings __must__ be compared according to _case insensitive unicode ordering_.
 Some flags __may__ however indicate a small derivation from this approach:
 
+__ISSUE__: The following text has no good JavaScript support and is indicative.
+
 A comparison based on locale and other options can be done by using these predicates:
  1. `tree:stringComparisonLocale`: a BCP 47 language as defined in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation
  2. `tree:stringComparisonLocaleMatcher`
@@ -43,10 +50,9 @@ A comparison based on locale and other options can be done by using these predic
  6. `tree:stringComparisonNumeric`
  7. `tree:stringComparisonCaseFirst`
 
-When a `tree:path` is defined, mind that you also may have to check the language of the element using the property `tree:stringComparisonLanguage`.
-One or more languages __may__ be set.
+When a `tree:path` is defined, mind that you also may have to check the language of the element using the property `shacl:inLanguage` 
+More languages __may__ be set.
 When no language is set, all strings are compared.
-When empty language strings only need to be compared, you have to explicitly set `tree:stringComparisonLanguage` as `""`.
 
 __Informative note 1__: By default this thus means, when typing `à`, the links to `a` can be pruned.
 
@@ -60,7 +66,7 @@ The `tree:path` __must__ refer to a literal containing a WKT string, such as `ge
 
 ## Comparing time literals
 
-When using relations such as `tree:LesserThanRelation` or `tree:GreaterThanRelation`, the time literals need to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
+When using relations such as `tree:LessThanRelation` or `tree:GreaterThanRelation`, the time literals need to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
 
 # Compliance testing
 
