@@ -1,6 +1,6 @@
-# ᴛʀᴇᴇ: hypermedia for ᴛʀiplᴇs and ᴇlements
+# ᴛʀᴇᴇ
 
-The ᴛʀᴇᴇ vocabulary describes links to other nodes by qualifying a relation of their members to a value.
+The Tree vocabulary describes links to other nodes by qualifying a relation of their members to a value.
 
 It is an alternative to a [hydra:PartialCollectionView](https://www.hydra-cg.com/spec/latest/core/#collections) or to using `next`-links. Instead, we propose to have a bit of explanation of what can be found on the next page, and let the client decide whether it is useful to follow the link or not.
 
