@@ -9,20 +9,13 @@
 
 <https://graph.irail.be/sncb/connections> a hydra:Collection ;
                                           rdfs:label "All arrivals and departures of Trains in Belgium"@en ;
-                                          hydra:view <first.ttl> ;
                                           tree:view <first.ttl> . #From the first page, all elements can be found
 
-<first.ttl> a tree:Node, hydra:PartialCollectionView;
-             hydra:next <second.ttl> ;
-             hydra:orderedBy [ # Unofficial proposal at https://github.com/HydraCG/Specifications/issues/172
-                               a hydra:OrderDescription ;
-                               shacl:path lc:departureTime ;
-                               hydra:orderOption hydra:ascending 
-                             ] ; 
-             tree:relation [
+<first.ttl> a tree:Node ;
+            tree:relation [
                                 a tree:GreaterThanRelation ;
                                 tree:node <second.ttl> ;
-                                shacl:path lc:departureTime ;
+                                tree:path lc:departureTime ;
                                 tree:value "2019-07-23T06:30:00.000Z"^^xsd:dateTime
                            ].
 
