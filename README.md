@@ -1,18 +1,17 @@
 # ᴛʀᴇᴇ
 
-The Tree vocabulary describes links to other nodes by qualifying a relation of their members to a value.
+__“The first hypermedia specification for autonomous querying”__
 
-It is an alternative to a [hydra:PartialCollectionView](https://www.hydra-cg.com/spec/latest/core/#collections) or to using `next`-links. Instead, we propose to have a bit of explanation of what can be found on the next page, and let the client decide whether it is useful to follow the link or not.
+ᴛʀᴇᴇ enables describing relations between values and all items on related pages.
+Using this specific relation, a script or autonomous query client (such as [Comunica](https://comunica.linkeddatafragments.org/) and [Planner.js](https://planner.js.org)) can understand whether following the link would certainly not give any more results and therefore the relation can be pruned from its search space.
+
+Possible use cases include describing index structures such as a reverse index, search trees, geospatial tiling, or graph patterns; and describing simple pagination with optional context.
 
 ## The Vocabulary
 
-Base URI to be used: `https://w3id.org/tree#`
+Base URI to be used: `https://w3id.org/tree#`. Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use the geospatial tiling specific terms).
 
-Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use the geospatial tiling specific terms) 
-
-The full vocabulary is explained in the [RDF vocabulary](vocabulary.md).
-
-Simple overview:
+All newly introduced terms are explained in the [RDF vocabulary](vocabulary.md).
 
 ![ᴛʀᴇᴇ Ontology](treeontology.png)
 
@@ -27,7 +26,7 @@ We are also planning to specify how to describe [Provenance and Summaries](specs
 
 Mind that a server exposing data with ᴛʀᴇᴇ __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
 
-In order to write a full ᴛʀᴇᴇ compliant client, you need to implement all building blocks, as well as the [Hydra partial collection view spec](). [Comunica](https://github.com/comunica/comunica) and its hypermedia actors will be our main reference implementation (work in progress).
+In order to write a full ᴛʀᴇᴇ compliant client, you need to implement all building blocks. [Comunica](https://github.com/comunica/comunica) and its hypermedia actors will be our main reference implementation (work in progress).
 
 See the [specs](specs/) folder for more information.
 
