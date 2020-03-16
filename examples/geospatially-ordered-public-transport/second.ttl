@@ -19,10 +19,10 @@
 <http://irail.be/connections/8896909/20190723/IC829> a lc:Connection;
     lc:arrivalDelay "60"^^xsd:integer;
     lc:arrivalStop <http://irail.be/stations/NMBS/008896800>;
-    lc:arrivalTime "2019-07-23T06:36:00.000Z"^^xsd:dateTime;
+    lc:arrivalTime "2020-03-16T09:12:00.000Z"^^xsd:dateTime;
     lc:departureDelay "180"^^xsd:integer;
     lc:departureStop <http://irail.be/stations/NMBS/008896909>;
-    lc:departureTime "2019-07-23T06:32:00.000Z"^^xsd:dateTime;
+    lc:departureTime "2020-03-16T08:32:00.000Z"^^xsd:dateTime;
     gtfs:dropOffType gtfs:Regular;
     gtfs:headsign "Bruges";
     gtfs:pickupType gtfs:Regular;
@@ -31,10 +31,10 @@
 <http://irail.be/connections/8896925/20190723/IC807> a lc:Connection;
     lc:arrivalDelay "0"^^xsd:integer>;
     lc:arrivalStop <http://irail.be/stations/NMBS/008896008>;
-    lc:arrivalTime "2019-07-23T06:44:00.000Z"^^xsd:dateTime;
+    lc:arrivalTime "2020-03-16T09:02:00.000Z"^^xsd:dateTime;
     lc:departureDelay "0"^^xsd:integer;
     lc:departureStop <http://irail.be/stations/NMBS/008896925>;
-    lc:departureTime "2019-07-23T06:36:00.000Z"^^xsd:dateTime;
+    lc:departureTime "2020-03-16T08:36:00.000Z"^^xsd:dateTime;
     gtfs:dropOffType gtfs:Regular;
     gtfs:headsign "Zottegem";
     gtfs:pickupType gtfs:Regular;
