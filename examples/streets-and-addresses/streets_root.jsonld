@@ -1,0 +1,51 @@
+
+{
+  "@context": {
+    "tree": "https://w3id.org/tree#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+    "void": "http://rdfs.org/ns/void#",
+    "ex": "https://example.com/#"
+  },
+  "@id": "/streets_root.jsonld#Collection",
+  "@type": "hydra:Collection",
+  "hydra:view": {
+    "@id": "/streets_root.jsonld#Node1",
+    "@type": "tree:Node",
+    "tree:remainingItems": 2,
+    "tree:relation": [
+      {
+        "@type": "tree:GreaterThanRelation",
+        "shacl:path": "rdfs:label",
+        "tree:value": "Bstreet",
+        "tree:node": {
+          "@id": "/streets_leaf.jsonld#Node2",
+          "@type": "tree:Node"
+        }
+      },
+      {
+        "@type": "tree:LesserOrEqualThanRelation",
+        "shacl:path": "rdfs:label",
+        "tree:value": "Cstreet",
+        "tree:node": {
+          "@id": "/streets_root.jsonld#Node2",
+          "@type": "tree:Node"
+        }
+      }
+    ],
+    "tree:member": [
+      {
+        "@id": "ex:/streets/Astreet1",
+        "@type": "ex:Street",
+        "rdfs:label": {
+          "@value": "Astreet",
+          "@language": "en"
+        },
+        "ex:addressCollection": {
+          "@id": "/address_root.jsonld#Collection"
+        }
+      }
+    ]
+  }
+}

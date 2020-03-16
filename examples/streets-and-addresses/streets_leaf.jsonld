@@ -1,0 +1,32 @@
+
+{
+  "@context": {
+    "tree": "https://w3id.org/tree#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+    "void": "http://rdfs.org/ns/void#",
+    "ex": "https://example.com/#"
+  },
+  "@id": "/streets_root.jsonld#Collection",
+  "@type": "hydra:Collection",
+  "tree:view": {
+    "@id": "/streets_root.jsonld#Node1",
+    "@type": "tree:Node"
+  },
+  "void:subset": {
+    "tree:member": [
+      {
+        "@id": "ex:/streets/Cstreet1",
+        "@type": "ex:Street",
+        "rdfs:label": {
+          "@value": "Astreet",
+          "@language": "en"
+        },
+        "ex:addressCollection": {
+          "@id": "/Astreet_addresses.jsonld#Collection"
+        }
+      }
+    ]
+  }
+}
