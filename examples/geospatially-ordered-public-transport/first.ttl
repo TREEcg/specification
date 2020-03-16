@@ -15,7 +15,7 @@
 
 <first.ttl> a tree:Node ;
             tree:relation   [
-                                a tree:GreaterThanRelation ;
+                                a tree:GreaterOrEqualThanRelation ;
                                 tree:node <second.ttl> ;
                                 tree:path lc:departureTime ;
                                 tree:value "2020-03-16T08:30:00.000Z"^^xsd:dateTime
