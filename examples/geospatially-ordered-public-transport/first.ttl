@@ -47,10 +47,10 @@
 <http://irail.be/connections/8896925/20190723/IC829> a lc:Connection;
     lc:arrivalDelay "180"^^xsd:integer ;
     lc:arrivalStop <http://irail.be/stations/NMBS/008896909>;
-    lc:arrivalTime "2019-07-23T06:31:00.000Z"^^xsd:dateTime ;
+    lc:arrivalTime "2020-03-16T08:56:00.000Z"^^xsd:dateTime ;
     lc:departureDelay "180"^^xsd:integer ;
     lc:departureStop <http://irail.be/stations/NMBS/008896925>;
-    lc:departureTime "2019-07-23T06:28:00.000Z"^^xsd:dateTime ;
+    lc:departureTime "2020-03-16T08:29:00.000Z"^^xsd:dateTime ;
     gtfs:dropOffType gtfs:Regular ;
     gtfs:headsign "Bruges" ;
     gtfs:pickupType gtfs:Regular ;
