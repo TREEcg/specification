@@ -1,19 +1,22 @@
 # ᴛʀᴇᴇ
 
-__“The first hypermedia specification for autonomous querying”__
+__A hypermedia specification for autonomous querying of datasets based on their literal values__
 
-ᴛʀᴇᴇ enables describing relations between values and all items on related pages.
-Using this specific relation, a script or autonomous query client (such as [Comunica](https://comunica.linkeddatafragments.org/) and [Planner.js](https://planner.js.org)) can understand whether following the link would certainly not give any more results and therefore the relation can be pruned from its search space.
-
-Possible use cases include describing index structures such as a reverse index, search trees, geospatial tiling, or graph patterns; and describing simple pagination with optional context.
+ᴛʀᴇᴇ enables you to describe relations between a specific value and all members a page linked from this current page.
+Using this specific relation, a script or autonomous query client (such as [Comunica](https://comunica.linkeddatafragments.org/) and [Planner.js](https://planner.js.org)) can understand whether following the link will be useful or not.
 
 ## The Vocabulary
 
-Base URI to be used: `https://w3id.org/tree#`. Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use the geospatial tiling specific terms).
+Base URI to be used: `https://w3id.org/tree#`.
+
+Preferred prefix: `tree:`.
 
 All newly introduced terms are explained in the [RDF vocabulary](vocabulary.md).
 
-![ᴛʀᴇᴇ Ontology](treeontology.png)
+Most important concepts:
+ * a `tree:Node` is a page that may contain members of a `tree:Collection`
+ * a node has `tree:relation` entities with links to other nodes. This relation is typed (e.g., `tree:GeospatiallyContainsRelation` or a `tree:PrefixRelation`),
+ * the relation has a `tree:value` and a `tree:path`. The former is a literal value on which the search term can be compared. The `tree:path` explains to which property of the members of the collection this relation applies.
 
 ## Specifications
 
@@ -39,8 +42,7 @@ Neat examples can be found here:
      - The initial paper: http://pieter.pm/demo-paper-routable-tiles/
      - Calculating an isochrone demo with user-feedback while querying: http://hdelva.be/isochrone/demo.html
 
-Also in the example folder in here, we’ve taken the effort to illustrate a couple of use cases:
- * [An ordered collection of pages](examples/paged-collection-with-order/)
+Also check the [examples folder](examples) in here, as we’ve taken the effort to illustrate a couple of use cases.
  
 ## Questions and Answers
 
