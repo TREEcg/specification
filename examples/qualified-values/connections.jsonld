@@ -20,11 +20,11 @@
   "@id":"https://example.org/connections",
   "tree:view":[
     {
-      "@id":"https://example.org/connections?view=https%3A//example.org/shapes",
+      "@id":"https://example.org/connections?view=https%3A//example.org/clusters",
       "@type":"tree:Node",
       "tree:relation":{
         "@type":"tree:GeospatiallyContainsRelation",
-        "tree:node":"https://example.org/connections?cluster=https%3A//example.org/shapes/1",
+        "tree:node":"https://example.org/connections?cluster=https%3A//example.org/clusters/1",
         "tree:path":[
           "lc:departureStop",
           "geo:asWKT"
@@ -32,10 +32,10 @@
         "tree:import":"https://example.org/stops",
         "tree:qualifiedValue":{
           "tree:value": {
-            "@id": "https://example.org/shapes/1"
+            "@id": "https://example.org/clusters/1"
           },
           "tree:path":"geo:asWKT",
-          "tree:import":"https://example.org/shapes"
+          "tree:import":"https://example.org/clusters"
         }
       }
     }
