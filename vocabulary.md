@@ -38,6 +38,8 @@ The `tree:Relation` has specific sub-classes that implement a more specific type
    
 _Let us know in an issue if you want another type to be added to this official list_
 
+#### tree:Value
+
 ### Properties
 
 #### tree:relation
@@ -85,6 +87,8 @@ __Range__: tree:Node
 #### tree:member
 
 #### tree:import
+
+#### tree:qualifiedValue
 
 #### tree:zoom
 

@@ -30,7 +30,11 @@ A `tree:import`_may_ be defined in the `tree:Relation` instance. When there is a
 
 __Informative note 4__: In contrast to `shacl:path`, a `tree:path` __may__ refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to inferred the data, could try to fetch it through another `tree:Collection`, or retrieve it using URI dereferencing. An example of a `tree:import` is given here: https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27.
 
-## Relation
+Instead of a `tree:value`, also a `tree:qualifiedValue` _may_ be used. This is a qualification of a `tree:value` and contains a way to download and reuse an existing fragmentation.
+
+__Informative note 5__: an example of how to use a qualified value can be viewed here: https://github.com/TREEcg/specification/tree/master/examples/qualified-values.
+
+## Specific relations
 
 When the _only_ type given for a certain Relation is `tree:Relation`, then the client must dereference all of the nodes. While this may seem useless, it can be used for the same use case as a `hydra:PartialCollectionView`.
 

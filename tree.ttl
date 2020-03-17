@@ -41,6 +41,9 @@ tree:Collection a rdfs:Class ;
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
           rdfs:comment "A tree:Node is a node that may contain relations to other nodes."@en .
+tree:Value a rdfs:Class;
+           rdfs:label "Value"@en;
+           rdfs:comment "A qualified tree:value"@en .
 
 tree:Relation a rdfs:Class ;
               rdfs:label "Relation"@en ;
@@ -89,7 +92,6 @@ tree:InBetweenRelation a rdfs:Class ;
                        rdfs:label "In Between Relation"@en ;
                        rdfs:comment "For comparing intervals: all further members are in-between the given interval"@en .
 
-
 ######## Properties
 
 tree:relation a rdf:Property ;
@@ -112,8 +114,8 @@ tree:node a rdf:Property ;
 
 tree:value a rdf:Property ;
            rdfs:label "Value"@en ;
-           rdfs:comment "The value the node linked in the node relation is compared to"@en;
-           rdfs:domain tree:Relation .
+           rdfs:comment "The value the node linked in the node relation is compared to"@en .
+#           rdfs:domain tree:Relation . # possibly a union can be documented between tree:Relation and a tree:Value
 
 tree:path a rdf:Property ;
           rdfs:label "Path"@en ;
@@ -135,6 +137,12 @@ tree:member  a rdf:Property ;
 tree:import a rdf:Property ;
             rdfs:label "Import"@en ;
             rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly"@en .
+
+tree:qualifiedValue a rdf:Property ;
+                    rdfs:label "Qualified value"@en ;
+                    rdfs:comment ""@en ;
+                    rdfs:domain tree:Relation ;
+                    rdfs:range tree:Value .
 
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
