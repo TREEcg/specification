@@ -24,7 +24,7 @@ _:b0  a  hydra:IriTemplate ;
       hydra:mapping [
         a hydra:IriTemplateMapping ;
         hydra:variable "x" ;
-        tree:path geo:longitude  ;
+        tree:path (sosa:hasFeatureOfInterest geo:longitude)  ;
         hydra:property tiles:longitudeTile ;
         hydra:required "true"^^xsd:boolean ;
         sh:minInclusive "8393" ;
@@ -32,7 +32,7 @@ _:b0  a  hydra:IriTemplate ;
       ], [ 
         a hydra:IriTemplateMapping ;
         hydra:variable "y" ;
-        tree:path geo:latitude  ;
+        tree:path (sosa:hasFeatureOfInterest geo:latitude)  ;
         hydra:property tiles:latitudeTile ;
         hydra:required "true"^^xsd:boolean ;
         sh:hasValue "5467"
