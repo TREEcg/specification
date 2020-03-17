@@ -11,22 +11,22 @@ When no `tree:path` is provided in this document, the `tree:value` must be compa
 __Informative note 1__: The latter enables server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the `tree:path`.
 
 When a `tree:path` is defined, and
- 1. When no `hydra:member` relations are defined, the `tree:path` needs to be evaluated on all triples in the page
- 2. When a `hydra:member` relationship is defined, the `tree:path` starts from the member URI. The target object __should__ be materialized in the current Node document, but when it is not, the object __may__ be considered implicit (only on the condition both `tree:path` and `hydra:member` is defined).
-<!-- MAYBE 3. For quad representations, you can find the triple on which the `tree:path` should be evaluated by adding the graph name as an object of `tree:memberGraph` to the `hydra:Collection`. #PC: I’m unsure why to add this. I think it only adds complexity without adding real benefits to the data model, serialization, bandwidth, query performance, etc.-->
+ 1. When no `tree:member` relations are defined, the `tree:path` needs to be evaluated on all triples in the page
+ 2. When a `tree:member` relationship is defined, the `tree:path` starts from the member URI. The target object __should__ be materialized in the current Node document, but when it is not, the object __may__ be considered implicit (only on the condition both `tree:path` and `tree:member` is defined).
+<!-- MAYBE 3. For quad representations, you can find the triple on which the `tree:path` should be evaluated by adding the graph name as an object of `tree:memberGraph` to the `tree:Collection`. #PC: I’m unsure why to add this. I think it only adds complexity without adding real benefits to the data model, serialization, bandwidth, query performance, etc.-->
 
 The result of the evaluation of the `tree:path`, is the value that must be compared to the `tree:value`.
-When no `tree:path` is defined, the `tree:value` applies to all comparable properties of the `hydra:member` elements.
-When also no `hydra:member` is defined, the `tree:value` __must__ be compared to all triples in the document.
+When no `tree:path` is defined, the `tree:value` applies to all comparable properties of the `tree:member` elements.
+When also no `tree:member` is defined, the `tree:value` __must__ be compared to all triples in the document.
 When due to `rdfs:range` incompatibility, the object cannot be compared, the object will not be considered for comparison.
 
 Every node __may__ provide a `tree:remainingItems`. A client __may__ use `tree:remainingItems` to estimate the completeness of the downloaded elements to the end-user.
 
-__Informative note 2__: Not having a `hydra:member` nor `tree:path` may also be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.
+__Informative note 2__: Not having a `tree:member` nor `tree:path` may also be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.
 
 __Informative note 3__: A client needs to keep a list of already visited pages, as despite this being the Tree Ontology, circular references and back-links are not explicitly prohibited.
 
-__Informative note 4__: In contrast to `shacl:path`, a `tree:path` __may__ refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to inferred the data, could try to fetch it through another `hydra:Collection`, or retrieve it using URI dereferencing.
+__Informative note 4__: In contrast to `shacl:path`, a `tree:path` __may__ refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to inferred the data, could try to fetch it through another `tree:Collection`, or retrieve it using URI dereferencing.
 
 ## Relation
 
@@ -77,7 +77,7 @@ You can test compliance if the following query executed on your page gives a val
 ```sparql
 SELECT ?relationType ?value ?node
 WHERE {
-  ?collection void:subset|hydra:view|^dcterms:isPartOf <page_url> ;
+  ?collection void:subset|tree:view|^dcterms:isPartOf <page_url> ;
               tree:relation ?relation .
   ?relation a ?relationType ;
             tree:value ?value ;
@@ -91,8 +91,8 @@ WHERE {
 CONSTRUCT {
   ?s ?p ?o .
 } WHERE {
-  ?collection void:subset|hydra:view|^dcterms:isPartOf <page_url> ;
-              hydra:member ?s .
+  ?collection void:subset|tree:view|^dcterms:isPartOf <page_url> ;
+              tree:member ?s .
   ?s ?p ?o .
 }
 ```

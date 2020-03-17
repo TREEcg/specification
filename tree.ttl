@@ -34,9 +34,13 @@ tree:Ontology a owl:Ontology ;
 
 ######## Classes
 
+tree:Collection a rdfs:Class ;
+                rdfs:label "Collection"@en;
+                rdfs:comment "A tree:Collection is a collection containing members. The members may be spread across multiple tree:Nodes."@en .
+
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
-          rdfs:comment "A tree:Node is a node that may contain a link to other dereferenceable resources"@en .
+          rdfs:comment "A tree:Node is a node that may contain relations to other nodes."@en .
 
 tree:Relation a rdfs:Class ;
               rdfs:label "Relation"@en ;
@@ -120,8 +124,13 @@ tree:path a rdf:Property ;
 tree:view a rdf:Property ;
           rdfs:label "View"@en ;
           rdfs:comment "Links the collection to a `tree:Node` from which all other members can be found."@en ;
-          rdfs:domain hydra:Collection ;
+          rdfs:domain tree:Collection ;
           rdfs:range tree:Node .
+
+tree:member  a rdf:Property ;
+             rdfs:label "Member"@en ;
+             rdfs:comment "The collection has a member."@en ;
+             rdfs:domain tree:Collection .
 
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix

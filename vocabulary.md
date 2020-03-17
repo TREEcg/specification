@@ -12,6 +12,8 @@ Prefixes:
 
 ### Classes
 
+#### tree:Collection
+
 #### tree:Node
 
 A `tree:Node` is a node that may contain links to other dereferenceable resources that lead to a full overview of a `hydra:Collection`.
@@ -79,6 +81,8 @@ Links the collection to a `tree:Node` from which all other members can be found.
 __Domain__: hydra:Collection
 
 __Range__: tree:Node
+
+#### tree:member
 
 #### tree:zoom
 
