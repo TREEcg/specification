@@ -15,7 +15,7 @@
             tree:relation [     a tree:GreaterThanRelation ;
                                 tree:node </14/8393/5467?page=2020-12-25T150000.ttl> ;
                                 tree:path sosa:resultTime ;
-                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime .
+                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime
                            ];
             tiles:longitudeTile "8393" ;
             tiles:latitudeTile "5467";

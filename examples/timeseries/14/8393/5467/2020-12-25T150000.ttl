@@ -21,35 +21,35 @@ hydra:mapping [
   a hydra:IriTemplateMapping ;
   hydra:variable "x" ;
   hydra:property tiles:longitudeTile ;
-  hydra:required "true"^^xsd:boolean .
+  hydra:required "true"^^xsd:boolean
   ],
   [ a hydra:IriTemplateMapping ;
   hydra:variable "y" ;
   hydra:property tiles:latitudeTile ;
-  hydra:required "true"^^xsd:boolean .
+  hydra:required "true"^^xsd:boolean
   ],
   [ a hydra:IriTemplateMapping ;
   hydra:variable "z" ;
   hydra:property tiles:zoom ;
-  hydra:required "true"^^xsd:boolean .
+  hydra:required "true"^^xsd:boolean
   ],
   [  a hydra:IriTemplateMapping ;
   hydra:variable "page" ;
   hydra:property sosa:resultTime ;
-  hydra:required "true"^^xsd:boolean .
+  hydra:required "true"^^xsd:boolean
   ] .
 
 </14/8393/5467?page=2020-12-25T150000.ttl#entrypoint> a tree:Node ;
             tree:relation [     a tree:LowerThanRelation ;
                                 tree:node </14/8393/5467?page=2020-12-25T140000.ttl> ;
                                 tree:path sosa:resultTime ;
-                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime .
+                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime
                                 ],
                                 [
                                 a tree:GreaterThanRelation ;
                                 tree:node </14/8393/5467?page=2020-12-25T140000.ttl> ;
                                 tree:path sosa:resultTime ;
-                                tree:value "2020-12-25T14:00:00.000Z"^^xsd:dateTime .
+                                tree:value "2020-12-25T14:00:00.000Z"^^xsd:dateTime
                                ];
             tiles:longitudeTile "8393" ;
             tiles:latitudeTile "5467";
