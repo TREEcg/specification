@@ -1,3 +1,15 @@
+@prefix tree: <https://w3id.org/tree#>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix lc: <http://semweb.mmlab.be/ns/linkedconnections#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>.
+@prefix tiles: <https://w3id.org/tree#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix cot: <https://w3id.org/city_of_things#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
 </14/8393/5467?page=2020-12-25T150000.ttl> a tree:Node ;
                                           dcterms:isPartOf <https://mycity.example.org/airQualityObservations> ;
                                           tree:relation [     a tree:LowerThanRelation ;
