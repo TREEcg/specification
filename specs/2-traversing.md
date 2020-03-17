@@ -24,7 +24,9 @@ Every node __may__ provide a `tree:remainingItems`. A client __may__ use `tree:r
 
 __Informative note 2__: Not having a `tree:member` nor `tree:path` may also be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.
 
-__Informative note 3__: A client needs to keep a list of already visited pages, as despite this being the Tree Ontology, circular references and back-links are not explicitly prohibited.
+__Informative note 3__: A client needs to keep a list of already visited pages, as despite this being the TREE spec, circular references and back-links are not explicitly prohibited.
+
+A `tree:import`_may_ be defined in the `tree:Relation` instance. When there is a `tree:path` defined, and when the relation is flagged interesting to follow, the import link needs to be downloaded in order to find the necessary literals to be compared.
 
 __Informative note 4__: In contrast to `shacl:path`, a `tree:path` __may__ refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to inferred the data, could try to fetch it through another `tree:Collection`, or retrieve it using URI dereferencing.
 

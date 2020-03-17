@@ -84,6 +84,8 @@ __Range__: tree:Node
 
 #### tree:member
 
+#### tree:import
+
 #### tree:zoom
 
 The zoom level of the tile cfr. OSM convention

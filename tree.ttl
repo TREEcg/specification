@@ -132,6 +132,10 @@ tree:member  a rdf:Property ;
              rdfs:comment "The collection has a member."@en ;
              rdfs:domain tree:Collection .
 
+tree:import a rdf:Property ;
+            rdfs:label "Import"@en ;
+            rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly"@en .
+
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
 
