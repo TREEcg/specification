@@ -8,10 +8,13 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix sosa: <http://www.w3.org/ns/sosa/>.
 @prefix tiles: <https://w3id.org/tree#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix cot: <https://w3id.org/city_of_things#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 
-<https://example.org/observations> a hydra:Collection ;
-                                  rdfs:label "All observations we have."@en ;
-                                  tree:view </14/8393/5467?page=2020-12-25T150000.ttl#entrypoint> ; #From the latest sensor page, all elements of one tile can be found through "previous"
+<https://mycity.example.org/airQualityObservations> a hydra:Collection ;
+                                  rdfs:label "All airquality observations of our city."@en ;
+                                  tree:view </14/8393/5467> ; # This will redirect to the page with the latest sensor data from that tile, all observations within one tile can be found by following the "LowerThanRelation" recursively
                                   hydra:search _:b0 .
 
 _:b0  a  hydra:IriTemplate ;
@@ -20,23 +23,23 @@ _:b0  a  hydra:IriTemplate ;
       hydra:mapping [
         a hydra:IriTemplateMapping ;
         hydra:variable "x" ;
-        tree:path geo:long  ;
+        tree:path geo:longitude  ;
         hydra:property tiles:longitudeTile ;
         hydra:required "true"^^xsd:boolean ;
         sh:minInclusive "8393" ;
-        sh:maxInclusive "8393" .
+        sh:maxInclusive "8393"
       ], [ 
         a hydra:IriTemplateMapping ;
         hydra:variable "y" ;
-        tree:path geo:lat  ;
+        tree:path geo:latitude  ;
         hydra:property tiles:latitudeTile ;
         hydra:required "true"^^xsd:boolean ;
-        sh:hasValue "5467" .
+        sh:hasValue "5467"
       ], [ a hydra:IriTemplateMapping ;
         hydra:variable "z" ;
         hydra:property tiles:zoom ;
         hydra:required "true"^^xsd:boolean ;
-        sh:hasValue "14" .
+        sh:hasValue "14"
       ], [  a hydra:IriTemplateMapping ;
         hydra:variable "page" ;
         tree:path sosa:resultTime ;
@@ -44,7 +47,7 @@ _:b0  a  hydra:IriTemplate ;
         hydra:required "true"^^xsd:boolean
       ] .
 
-</14/8393/5467?page=2020-12-25T150000.ttl#entrypoint> a tree:Node ;
+</14/8393/5467?page=2020-12-25T150000.ttl> a tree:Node ;
                                                       tree:relation [     a tree:LowerThanRelation ;
                                                                           tree:node </14/8393/5467?page=2020-12-25T140000.ttl> ;
                                                                           tree:path sosa:resultTime ;
@@ -58,12 +61,24 @@ _:b0  a  hydra:IriTemplate ;
                                                                          ];
                                                       tiles:longitudeTile "8393" ;
                                                       tiles:latitudeTile "5467";
-                                                      tiles:zoom "14" .
+                                                      tiles:zoom "14";
+                                                      tree:timeQuery "2020-12-25T15:05:10.000Z"^^xsd:dateTime . # this is an example of a user time query
 
-<https://example.org/observations> hydra:member _:b1, _:b2 .
+<https://mycity.example.org/airQualityObservations> hydra:member _:b1, _:b2 .
+
+<#Airquality/lat=51.23759466223419&long=4.415932092815638> a sosa:FeatureOfInterest;
+                                                          rdfs:label "Air quality at this point location";
+                                                          geo:latitude "51.23759466223419";
+                                                          geo:longitude "4.415932092815638".
 
 ## The data itself
 _:b1 a sosa:Observation;
-  sosa:resultTime "2020-12-25T15:05:00.000Z"^^xsd:dateTime .
+  sosa:resultTime "2020-12-25T15:05:00.000Z"^^xsd:dateTime ;
+  sosa:hasFeatureOfInterest <#Airquality/lat=51.23759466223419&long=4.415932092815638>, cot:AirQuality ; 
+  sosa:observedProperty cot:NO2 .
+
 _:b2 a sosa:Observation ;
-  sosa:resultTime "2020-12-25T15:10:00.000Z"^^xsd:dateTime .
+  sosa:resultTime "2020-12-25T15:10:00.000Z"^^xsd:dateTime ;
+  sosa:hasFeatureOfInterest <#Airquality/lat=51.23759466223419&long=4.415932092815638>, cot:AirQuality ;
+  sosa:observedProperty cot:PM10 .
+
