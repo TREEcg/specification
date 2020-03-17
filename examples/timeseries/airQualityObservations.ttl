@@ -11,10 +11,10 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 <https://mycity.example.org/airQualityObservations> a hydra:Collection ;
-                                  rdfs:label "All airquality observations of our city."@en ;
-                                  # Point to high-level nodes (per tile)
-                                  void:subset </14/8393/5467> ; # This will redirect to the page with the latest sensor data from that tile, all observations within one tile can be found by following the "LowerThanRelation" recursively
-                                  hydra:search _:b0 .
+                                                  rdfs:label "All airquality observations of our city."@en ;
+                                                  # Point to high-level nodes (per tile)
+                                                  void:subset </14/8393/5467> ; # This will redirect to the page with the latest sensor data from that tile, all observations within one tile can be found by following the "LowerThanRelation" recursively
+                                                  hydra:search _:b0 .
 
 _:b0  a  hydra:IriTemplate ;
       hydra:variableRepresentation hydra:BasicRepresentation ;
