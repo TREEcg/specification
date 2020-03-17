@@ -15,45 +15,50 @@
                                   hydra:search _:b0 .
 
 _:b0  a  hydra:IriTemplate ;
-  hydra:variableRepresentation hydra:BasicRepresentation ;
-hydra:template "https://lodi.ilabt.imec.be/air/{z}/{x}/{y}{?page}";
-hydra:mapping [
-  a hydra:IriTemplateMapping ;
-  hydra:variable "x" ;
-  hydra:property tiles:longitudeTile ;
-  hydra:required "true"^^xsd:boolean
-  ],
-  [ a hydra:IriTemplateMapping ;
-  hydra:variable "y" ;
-  hydra:property tiles:latitudeTile ;
-  hydra:required "true"^^xsd:boolean
-  ],
-  [ a hydra:IriTemplateMapping ;
-  hydra:variable "z" ;
-  hydra:property tiles:zoom ;
-  hydra:required "true"^^xsd:boolean
-  ],
-  [  a hydra:IriTemplateMapping ;
-  hydra:variable "page" ;
-  hydra:property sosa:resultTime ;
-  hydra:required "true"^^xsd:boolean
-  ] .
+      hydra:variableRepresentation hydra:BasicRepresentation ;
+      hydra:template "https://lodi.ilabt.imec.be/air/{z}/{x}/{y}{?page}";
+      hydra:mapping [
+        a hydra:IriTemplateMapping ;
+        hydra:variable "x" ;
+        tree:path geo:long  ;
+        hydra:property tiles:longitudeTile ;
+        hydra:required "true"^^xsd:boolean ;
+        sh:minInclusive "8393" ;
+        sh:maxInclusive "8393" .
+      ], [ 
+        a hydra:IriTemplateMapping ;
+        hydra:variable "y" ;
+        tree:path geo:lat  ;
+        hydra:property tiles:latitudeTile ;
+        hydra:required "true"^^xsd:boolean ;
+        sh:hasValue "5467" .
+      ], [ a hydra:IriTemplateMapping ;
+        hydra:variable "z" ;
+        hydra:property tiles:zoom ;
+        hydra:required "true"^^xsd:boolean ;
+        sh:hasValue "14" .
+      ], [  a hydra:IriTemplateMapping ;
+        hydra:variable "page" ;
+        tree:path sosa:resultTime ;
+        hydra:property tree:timeQuery ;
+        hydra:required "true"^^xsd:boolean
+      ] .
 
 </14/8393/5467?page=2020-12-25T150000.ttl#entrypoint> a tree:Node ;
-            tree:relation [     a tree:LowerThanRelation ;
-                                tree:node </14/8393/5467?page=2020-12-25T140000.ttl> ;
-                                tree:path sosa:resultTime ;
-                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime
-                                ],
-                                [
-                                a tree:GreaterThanRelation ;
-                                tree:node </14/8393/5467?page=2020-12-25T140000.ttl> ;
-                                tree:path sosa:resultTime ;
-                                tree:value "2020-12-25T14:00:00.000Z"^^xsd:dateTime
-                               ];
-            tiles:longitudeTile "8393" ;
-            tiles:latitudeTile "5467";
-            tiles:zoom "14" .
+                                                      tree:relation [     a tree:LowerThanRelation ;
+                                                                          tree:node </14/8393/5467?page=2020-12-25T140000.ttl> ;
+                                                                          tree:path sosa:resultTime ;
+                                                                          tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime
+                                                                          ],
+                                                                          [
+                                                                          a tree:GreaterThanRelation ;
+                                                                          tree:node </14/8393/5467?page=2020-12-25T140000.ttl> ;
+                                                                          tree:path sosa:resultTime ;
+                                                                          tree:value "2020-12-25T14:00:00.000Z"^^xsd:dateTime
+                                                                         ];
+                                                      tiles:longitudeTile "8393" ;
+                                                      tiles:latitudeTile "5467";
+                                                      tiles:zoom "14" .
 
 <https://example.org/observations> hydra:member _:b1, _:b2 .
 
