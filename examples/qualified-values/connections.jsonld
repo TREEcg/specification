@@ -1,0 +1,43 @@
+{
+  "@context":{
+    "tree":"https://w3id.org/tree#",
+    "tree:import": {
+      "@type": "@id"
+    },
+    "tree:node": {
+      "@type": "@id"
+    },
+    "tree:path": {
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "lc":"http://semweb.mmlab.be/ns/linkedconnections#",
+    "geo":"http://www.opengis.net/ont/geosparql#",
+    "geo:asWKT":{
+      "@type":"geo:wktLiteral"
+    }
+  },
+  "@id":"https://example.org/connections",
+  "tree:view":[
+    {
+      "@id":"https://example.org/connections?view=https%3A//example.org/clusters",
+      "@type":"tree:Node",
+      "tree:relation":{
+        "@type":"tree:GeospatiallyContainsRelation",
+        "tree:node":"https://example.org/connections?cluster=https%3A//example.org/clusters/1",
+        "tree:path":[
+          "lc:departureStop",
+          "geo:asWKT"
+        ],
+        "tree:import":"https://example.org/stops",
+        "tree:qualifiedValue":{
+          "tree:value": {
+            "@id": "https://example.org/clusters/1"
+          },
+          "tree:path":"geo:asWKT",
+          "tree:import":"https://example.org/clusters"
+        }
+      }
+    }
+  ]
+}
