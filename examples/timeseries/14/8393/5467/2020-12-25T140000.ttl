@@ -13,8 +13,8 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 </14/8393/5467?page=2020-12-25T140000.ttl> a tree:Node ;
-										dcterms:isPartOf <https://example.org/observations> ;
-							            tree:relation [     a tree:GreaterThanRelation ;
+										dcterms:isPartOf <https://mycity.example.org/airQualityObservations> ;
+							            tree:relation [     a tree:GreaterOrEqualThanRelation ;
 							                                tree:node </14/8393/5467?page=2020-12-25T150000.ttl> ;
 							                                tree:path sosa:resultTime ;
 							                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime
@@ -22,7 +22,7 @@
 							            tiles:longitudeTile "8393" ;
 							            tiles:latitudeTile "5467";
 							            tiles:zoom "14";
-							            tree:timeQuery "2020-12-25T14:05:10.000Z"^^xsd:dateTime . # this is an example of a user time query
+							            tree:timeQuery "2020-12-25T14:00:00.000Z"^^xsd:dateTime . # the user followed the LowerThanRelation link from node </14/8393/5467?page=2020-12-25T150000.ttl> to this node
 
 <https://mycity.example.org/airQualityObservations> hydra:member _:b1, _:b2, _:b3 .
 
@@ -43,7 +43,7 @@ _:b2 a sosa:Observation ;
   sosa:observedProperty cot:PM10 .
 
 _:b3 a sosa:Observation ;
-  sosa:resultTime "2020-12-25T15:00:00.000Z"^^xsd:dateTime ;
+  sosa:resultTime "2020-12-25T14:55:00.000Z"^^xsd:dateTime ;
   sosa:hasFeatureOfInterest <#Airquality/lat=51.23759466223419&long=4.415932092815638>, cot:AirQuality ; 
   sosa:observedProperty cot:NO2 .
 
