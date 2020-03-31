@@ -6,6 +6,7 @@
 @prefix shacl: <http://www.w3.org/ns/shacl#>.
 @prefix lc: <http://semweb.mmlab.be/ns/linkedconnections#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix void: <http://rdfs.org/ns/void#>.
 
 <https://graph.irail.be/sncb/connections> a hydra:Collection ;
                                           rdfs:label "All arrivals and departures of Trains in Belgium"@en ;
