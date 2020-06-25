@@ -50,4 +50,33 @@ CONSTRUCT {
 } ORDER BY DESC ?created LIMIT 1
 ```
 
+## Fragmentation strategies
+
+The main interesting fragmentation strategy for an event stream is to split it in time.
+This can be done with simple TREE relations such as: `tree:GreaterThanOrEqualRelation` and `tree:LessThanOrEqualRelation`.
+
+The first page of the event stream starts with the oldest events:
+
+```turtle
+<C> a tree:Collection ;
+    tree:shape <shape1.shacl> ; # this shacl shape for as long as this collection exists will need to be backwards compatible.
+    tree:member <Obervation1>, ... ;
+    tree:view <?page=1> .
+
+<?page=1> a tree:Node ;
+    tree:relation [
+        a tree:GreaterThanOrEqualRelation ;
+        tree:path sosa:resultTime ;
+        tree:node <?page=2> ;
+        tree:value "2020-12-24T12:00:00Z"^^xsd:dateTime
+    ] .
+```
+
+Also other links can be added to later pages.
+
+A `tree:importStream` can be used on the last page to import events through pubsub as they happen in time.
+
+## Hydra search forms
+
+Using a `hydra:search` form with `hydra:property` `tree:timeQuery` you may add a search form to directly address a certain page containing events in a time interval.
 
