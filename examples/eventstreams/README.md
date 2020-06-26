@@ -10,7 +10,7 @@ Example:
     tree:shape <shape1.shacl> ; # this shacl shape for as long as this collection exists will need to be backwards compatible.
     tree:member <Obervation1> .
 
-<Observation1> a tree:Event, sosa:Observation ;
+<Observation1> a sosa:Observation ;
     sosa:resultTime "2020..." ;
     sosa:hasSimpleResult "1" .
 ```
@@ -22,10 +22,9 @@ When implementing an event stream on top of a data model that does not have the 
     tree:shape <shape1.shacl> ; 
     tree:member <E1> .
 
-<E1> a tree:Event ;
-    prov:generatedAtTime "2020..." ;
-    dcterms:isVersionOf <AddressRecord1> ;
-    dcterms:title "Streetname X, ZIP Municipality, Country" .
+<E1> prov:generatedAtTime "2020..." ;
+     dcterms:isVersionOf <AddressRecord1> ;
+     dcterms:title "Streetname X, ZIP Municipality, Country" .
 ```
 
 A SPARQL query then has to query for version of this object as a way to give time-context to the query:
