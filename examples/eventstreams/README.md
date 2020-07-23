@@ -22,7 +22,8 @@ When implementing an event stream on top of a data model that does not have the 
     tree:shape <shape1.shacl> ; 
     tree:member <E1> .
 
-<E1> prov:generatedAtTime "2020..." ;
+<E1> prov:generatedAtTime "2021-01-01T00:00:00Z" ;
+     adms:versionNotes "First version of this address. It was added in 2021." ;
      dcterms:isVersionOf <AddressRecord1> ;
      dcterms:title "Streetname X, ZIP Municipality, Country" .
 ```
