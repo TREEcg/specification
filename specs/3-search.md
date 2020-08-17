@@ -1,10 +1,10 @@
-# Searching through the collection
+# Searching through the collection # {#searching}
 
 Searching through a Tree will allow you to immediately jump to the right `tree:Node`.
 
 The `tree:Node` in this case does not need to be explicitly defined, but the current URL need to be linked to the collection cfr. [1. Discovery](1-discovery.md). The collection itself then __must__ have a `hydra:search` property, describing a search form. For different use cases, the Tree Ontology specifies different search forms (add your own through a pull request):
 
-## 1. Geospatial tiles search form
+## Geospatial XYZ tiles search form ## {#xyztiles}
 
 Example:
 ```json
@@ -55,13 +55,34 @@ This search form describes a specific search form that uses a quad tree. The zoo
 
 This SPARQL query can be used to discover a geospatial search form. Mind that the ?currentUrl variable needs to be filled out.
 
-### 2. Searching through an ordered list of objects
+## Searching through an list of objects ordered by time ## {#timesearch}
 
-#### 2.1 Time series
+Same as the previous example but with the predicate `tree:timeQuery`.
 
-#### 2.2 Linked Connections
 
-### 3. Skip Graphs
-
-Using this specification, you can as well model skip graphs. //TODO: Harm
-
+Example:
+```json
+{
+   "@context": {
+     ...
+   },
+  "dcterms:isPartOf": {
+    "@id": "#coll",
+    "@type": "tree:Collection",
+    "hydra:search": {
+      "@type": "hydra:IriTemplate",
+      "hydra:template": "https://example.org/{t}",
+      "hydra:variableRepresentation": "hydra:BasicRepresentation",
+      "hydra:mapping": [
+        {
+          "@type": "hydra:IriTemplateMapping",
+          "hydra:variable": "t",
+          "hydra:property": "tree:timeQuery",
+          "hydra:required": true
+        }
+      ]
+    },
+    "tree:member": [ ..., ... ]
+  }
+}
+```

@@ -1,0 +1,18 @@
+<pre class='metadata'>
+Title: The TREE hypermedia specification
+Shortname: TREE
+Level: 1
+Status: LS
+Group: TREE community group
+URL: https://treecg.github.io/specification
+Markup Shorthands: markdown yes
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+    The TREE specification is an alternative to HTTP pagination of RDF triples.
+    Relations between pages (or nodes) allows to structure triples as search trees.
+</pre>
+
+<pre class=include>path: specs/1-discovery.md</pre>
+<pre class=include>path: specs/2-traversing.md</pre>
+<pre class=include>path: specs/3-search.md</pre>
+<pre class=include>path: vocabulary.md</pre>
