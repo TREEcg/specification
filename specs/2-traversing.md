@@ -8,7 +8,7 @@ Every `tree:Relation` SHOULD have a `tree:path`, indicating on what triple(s) th
 
 When no `tree:path` is provided in this document, the `tree:value` must be compared to all objects that *can be compared to* the `tree:value` as defined by the type of the relation. 
 
-**Informative note 1**: The latter enables server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the `tree:path`.
+Note: The latter enables server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the `tree:path`.
 
 When a `tree:path` is defined, and
  1. When no `tree:member` relations are defined, the `tree:path` needs to be evaluated on all triples in the page
@@ -21,17 +21,17 @@ When due to `rdfs:range` incompatibility, the object cannot be compared, the obj
 
 Every node MAY provide a `tree:remainingItems`. A client MAY use `tree:remainingItems` to estimate the completeness of the downloaded elements to the end-user.
 
-**Informative note 2**: Not having a `tree:member` nor `tree:path` may also be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.
+Note: Not having a `tree:member` nor `tree:path` may also be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.
 
-**Informative note 3**: A client needs to keep a list of already visited pages, as despite this being the TREE spec, circular references and back-links are not explicitly prohibited.
+Note: A client needs to keep a list of already visited pages, as despite this being the TREE spec, circular references and back-links are not explicitly prohibited.
 
 A `tree:import`MAY be defined in the `tree:Relation` instance. When there is a `tree:path` defined, and when the relation is flagged interesting to follow, the import link needs to be downloaded in order to find the necessary literals to be compared.
 
-**Informative note 4**: In contrast to `shacl:path`, a `tree:path` MAY refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to inferred the data, could try to fetch it through another `tree:Collection`, or retrieve it using URI dereferencing. An example of a `tree:import` is given here: https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27.
+Note: In contrast to `shacl:path`, a `tree:path` MAY refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to inferred the data, could try to fetch it through another `tree:Collection`, or retrieve it using URI dereferencing. An example of a `tree:import` is given here: https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27.
 
 Instead of a `tree:value`, also a `tree:qualifiedValue` MAY be used. This is a qualification of a `tree:value` and contains a way to download and reuse an existing fragmentation.
 
-**Informative note 5**: an example of how to use a qualified value can be viewed here: https://github.com/TREEcg/specification/tree/master/examples/qualified-values.
+Note: an example of how to use a qualified value can be viewed here: https://github.com/TREEcg/specification/tree/master/examples/qualified-values.
 
 ## Specific relations ## {#relations}
 
@@ -44,7 +44,7 @@ For other types: see [vocabulary](../vocabulary.md) for now.
 When using the `tree:PrefixRelation` or the `tree:SubstringRelation`, the strings MUST be compared according to *case insensitive unicode ordering*.
 Some flags MAY however indicate a small derivation from this approach:
 
-**ISSUE**: The following text has no good JavaScript support and is indicative.
+Issue: The following text has no good JavaScript support and is indicative.
 
 A comparison based on locale and other options can be done by using these predicates:
  1. `tree:stringComparisonLocale`: a BCP 47 language as defined in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation
@@ -59,9 +59,9 @@ When a `tree:path` is defined, mind that you also may have to check the language
 More languages MAY be set.
 When no language is set, all strings are compared.
 
-**Informative note 1**: By default this thus means, when typing `à`, the links to `a` can be pruned.
+Note: By default this thus means, when typing `à`, the links to `a` can be pruned.
 
-**Informative note 2**: The settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
+Note: The settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
 
 ### Comparing geospatial features ### {#geospatial}
 
@@ -72,7 +72,7 @@ The `tree:path` MUST refer to a literal containing a WKT string, such as `geospa
 ### Comparing time literals ### {#time}
 
 When using relations such as `tree:LessThanRelation` or `tree:GreaterThanRelation`, the time literals need to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
-
+<!--
 ## Compliance testing ## {#compliance-traversing}
 
 You can test compliance if the following query executed on your page gives a valid response. You need the current page URL and bind this to `<page_url>`.
@@ -101,3 +101,4 @@ CONSTRUCT {
   ?s ?p ?o .
 }
 ```
+-->

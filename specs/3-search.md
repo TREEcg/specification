@@ -1,10 +1,17 @@
 # Searching through the collection # {#searching}
 
-Searching through a Tree will allow you to immediately jump to the right `tree:Node`.
-
-The `tree:Node` in this case does not need to be explicitly defined, but the current URL need to be linked to the collection cfr. [1. Discovery](1-discovery.md). The collection itself then __must__ have a `hydra:search` property, describing a search form. For different use cases, the Tree Ontology specifies different search forms (add your own through a pull request):
+Searching through a TREE will allow you to immediately jump to the right `tree:Node`.
+TREE fully relies on the Hydra search specification for its search forms.
+It does however extend Hydra with specific search properties for different types of search forms.
 
 ## Geospatial XYZ tiles search form ## {#xyztiles}
+
+Three properties allow to specify a geospatial XYZ tiles template (also known as slippy maps).
+ 1. `tree:longitudeTile` describes the X value
+ 2. `tree:latitudeTile` descrbes the Y value
+ 3. `tree:zoom` describes the zoom level
+
+All properties expect positive integers.
 
 Example:
 ```json
@@ -13,9 +20,9 @@ Example:
      ...
    },
   "@id": "https://tiles.openplanner.team/planet/14/8411/5485/",
-  "tiles:zoom": 14,
-  "tiles:longitudeTile": 8411,
-  "tiles:latitudeTile": 5485,
+  "tree:zoom": 14,
+  "tree:longitudeTile": 8411,
+  "tree:latitudeTile": 5485,
   "dcterms:isPartOf": {
     "@id": "https://tiles.openplanner.team/planet/",
     "@type": "hydra:Collection",
@@ -29,19 +36,19 @@ Example:
         {
           "@type": "hydra:IriTemplateMapping",
           "hydra:variable": "x",
-          "hydra:property": "tiles:longitudeTile",
+          "hydra:property": "tree:longitudeTile",
           "hydra:required": true
         },
         {
           "@type": "hydra:IriTemplateMapping",
           "hydra:variable": "y",
-          "hydra:property": "tiles:latitudeTile",
+          "hydra:property": "tree:latitudeTile",
           "hydra:required": true
         },
         {
           "@type": "hydra:IriTemplateMapping",
           "hydra:variable": "z",
-          "hydra:property": "tiles:zoom",
+          "hydra:property": "tree:zoom",
           "hydra:required": true
         }
       ]
@@ -53,11 +60,11 @@ Example:
 
 This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the fragmentation. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.)
 
-This SPARQL query can be used to discover a geospatial search form. Mind that the ?currentUrl variable needs to be filled out.
+## Searching through a list of objects ordered by time ## {#timesearch}
 
-## Searching through an list of objects ordered by time ## {#timesearch}
-
-Same as the previous example but with the predicate `tree:timeQuery`.
+Same as the previous example but with the predicate `tree:timeQuery` expecting an `xsd:dateTime`.
+This time however, when the page itself does not exist, a redirect is doing to happen to the page containing the timestamp.
+A `tree:path` can indicate the time predicate which is intended.
 
 
 Example:
@@ -68,7 +75,7 @@ Example:
    },
   "dcterms:isPartOf": {
     "@id": "#coll",
-    "@type": "tree:Collection",
+    "@type": "hydra:Collection",
     "hydra:search": {
       "@type": "hydra:IriTemplate",
       "hydra:template": "https://example.org/{t}",
@@ -77,12 +84,13 @@ Example:
         {
           "@type": "hydra:IriTemplateMapping",
           "hydra:variable": "t",
+          "tree:path": "prov:generatedAtTime",
           "hydra:property": "tree:timeQuery",
           "hydra:required": true
         }
       ]
     },
-    "tree:member": [ ..., ... ]
+    "hydra:member": [ ..., ... ]
   }
 }
 ```
