@@ -1,16 +1,14 @@
-# Introduction # {#introduction}
+# Overview # {#introduction}
 
 **Namespace**: `https://w3id.org/tree#`
 
 The TREE specification introduces these core concepts:
  * a `tree:Node`: is a page on which relations to other pages are described
  * a `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
- 
      - a `tree:path` indicating the resource in the elements on which the relation applies
      - the `tree:remainingItems` defining how many items can be downloaded when following this relation
      - a `tree:value` indicating a value that can be compared
      - a `tree:node` with the URL that can be fetched when this relation is not pruned by a search algorithm
-     
  * a `tree:Collection` is a collection of elements that adhere to a certain shape. It typically has these properties when described in a node:
      - `tree:member` indicates the object is a member of the collection
      - `tree:view` indicates a root node that may have multiple relations
