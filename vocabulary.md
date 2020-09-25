@@ -1,4 +1,4 @@
-# Tree Ontology: the vocabulary
+# Vocabulary # {#voc}
 
 Prefixes:
 
@@ -10,15 +10,15 @@ Prefixes:
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 ```
 
-### Classes
+## Classes ## {#classes}
 
-#### tree:Collection
+### tree:Collection ### {#collection}
 
-#### tree:Node
+### tree:Node ### {#Node}
 
 A `tree:Node` is a node that may contain links to other dereferenceable resources that lead to a full overview of a `hydra:Collection`.
 
-#### tree:Relation
+### tree:Relation ### {#Relation}
 
 An entity that describes a relation between two `tree:Nodes`.
 
@@ -32,78 +32,78 @@ The `tree:Relation` has specific sub-classes that implement a more specific type
    - `tree:LessOrEqualThanRelation`
    - `tree:EqualThanRelation`
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
-   - `tree:GeospatiallyContainsRelation` (for semantics, see [DE-9IM](https://en.wikipedia.org/wiki/DE-9IM))
+   - `tree:GeospatiallyContainsRelation` (for semantics, see https://en.wikipedia.org/wiki/DE-9IM)
  - Interval comparison
    - `tree:InBetweenRelation`
    
-_Let us know in an issue if you want another type to be added to this official list_
+*Let us know in an issue if you want another type to be added to this official list*
 
-#### tree:Value
+### tree:Value ### {#Value}
 
-### Properties
+## Properties ## {#properties}
 
-#### tree:relation
+### tree:relation ### {#relation}
 
-__Domain__: tree:Node
-__Range__: tree:Relation
+**Domain**: tree:Node
+**Range**: tree:Relation
 
 
-#### tree:remainingItems
+### tree:remainingItems ### {#remainingItems}
 
 Remaining number of items of this node plus its children.
 
-__Domain__: tree:Node
-__Range__: xsd:integer
+**Domain**: tree:Node
+**Range**: xsd:integer
 
-#### tree:node
+### tree:node ### {#node}
 
 The URL to be derefenced when this relation cannot be pruned.
 
-__Domain__: tree:Relation
-__Range__: tree:Node
+**Domain**: tree:Relation
+**Range**: tree:Node
 
-#### tree:value
+### tree:value ### {#value}
 
 The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string, an integer, or even link to another resource where clear comparison rules apply.
 
-__Domain__: tree:Relation
+**Domain**: tree:Relation
 
-#### tree:path
+### tree:path ### {#path}
 
 A property path, as defined by shacl, that indicates what resource the `tree:value` affects.
 
 See https://github.com/pietercolpaert/TreeOntology/blob/master/specs/2-traversing.md
 
-__Domain__: tree:Relation
+**Domain**: tree:Relation
 
-#### tree:view
+### tree:view ### {#view}
 
 Links the collection to a `tree:Node` from which all other members can be found. If only a part of the collection’s members can be found from that point on, only use `dcterms:isPartOf` or `void:subset`.
 
-__Domain__: hydra:Collection
+**Domain**: hydra:Collection
 
-__Range__: tree:Node
+**Range**: tree:Node
 
-#### tree:member
+### tree:member ### {#member}
 
-#### tree:import
+### tree:import ### {#import} 
 
-#### tree:qualifiedValue
+### tree:qualifiedValue ### {#qualifiedValue}
 
-#### tree:zoom
+### tree:zoom ### {#zoom}
 
 The zoom level of the tile cfr. OSM convention
 
 As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 
-#### tree:longitudeTile
+### tree:longitudeTile ### {#longitudeTile}
 
 The X tile number from longitude cfr. OSM convention
 
 As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 
 
-#### tree:latitudeTile
+### tree:latitudeTile ### {#latitudeTile}
 
 The Y tile number from latitude cfr. OSM convention
 
