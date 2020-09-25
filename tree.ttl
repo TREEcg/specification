@@ -1,0 +1,169 @@
+@prefix tree: <https://w3id.org/tree#> .
+@prefix tiles: <https://w3id.org/tree#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gsp: <http://www.opengis.net/ont/geosparql#> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix voaf: <http://purl.org/vocommons/voaf#> .
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
+@prefix xhtm: <http://www.w3.org/1999/xhtml> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+
+tree: a foaf:Document ;
+      foaf:primaryTopic tree:Ontology;
+      cc:license <http://creativecommons.org/licenses/by/4.0/>;
+      dct:creator <https://pietercolpaert.be/#me>, <http://www.rubensworks.net/#me>.
+
+<https://pietercolpaert.be/#me> foaf:name "Pieter Colpaert"; foaf:mbox "pieter.colpaert@ugent.be".
+
+<http://www.rubensworks.net/#me> foaf:name "Ruben Taelman" .
+
+tree:Ontology a owl:Ontology ;
+              rdfs:label "Tree Ontology"@en;
+              rdfs:comment "Ontology for describing tree-like relations between hypermedia documents."@en.
+
+######## Classes
+
+tree:Collection a rdfs:Class ;
+                rdfs:label "Collection"@en;
+                rdfs:comment "A tree:Collection is a collection containing members. The members may be spread across multiple tree:Nodes."@en .
+
+tree:Node a rdfs:Class ;
+          rdfs:label "Node"@en;
+          rdfs:comment "A tree:Node is a node that may contain relations to other nodes."@en .
+tree:Value a rdfs:Class;
+           rdfs:label "Value"@en;
+           rdfs:comment "A qualified tree:value"@en .
+
+tree:Relation a rdfs:Class ;
+              rdfs:label "Relation"@en ;
+              rdfs:comment "A class describing the relation between two nodes"@en.
+
+
+tree:PrefixRelation a rdfs:Class ;
+                    rdfs:subClassOf tree:Relation ;
+                    rdfs:label "Prefix Relation"@en;
+                    rdfs:comment "All members of this related node start with this prefix"@en .
+
+tree:SubstringRelation a rdfs:Class ;
+                       rdfs:subClassOf tree:Relation ;
+                       rdfs:label "Substring Relation"@en;
+                       rdfs:comment "All members of this related node contain this substring"@en .
+                    
+tree:GreaterThanRelation a rdfs:Class ;
+                         rdfs:subClassOf tree:Relation ;
+                         rdfs:label "Greater Than Relation"@en ;
+                         rdfs:comment "All members of this related node are greater than the value"@en .
+                         
+tree:GreaterOrEqualThanRelation  a rdfs:Class ;
+                                 rdfs:subClassOf tree:Relation ;
+                                 rdfs:comment "All members of this related node are greater than or equal to the value"@en ;
+                                 rdfs:label "Greater or Equal Than Relation"@en .
+
+tree:LessThanRelation a rdfs:Class ;
+                      rdfs:subClassOf tree:Relation ;
+                      rdfs:label "Less Than Relation"@en .
+                        
+tree:LessOrEqualThanRelation a rdfs:Class ;
+                               rdfs:subClassOf tree:Relation ;
+                               rdfs:label "Less or Equal than Relation"@en .
+                               
+tree:EqualThanRelation a rdfs:Class ;
+                       rdfs:subClassOf tree:Relation ;
+                       rdfs:label "Equal Than Relation"@en .
+
+tree:GeospatiallyContainsRelation  a rdfs:Class ;
+                                   rdfs:subClassOf tree:Relation ;
+                                   rdfs:label "Geospatially Contains Relation"@en;
+                                   rdfs:comment "All further members are geospatially contained within the WKT string of the tree:value."@en.
+                                   
+tree:InBetweenRelation a rdfs:Class ;
+                       rdfs:subClassOf tree:Relation ;
+                       rdfs:label "In Between Relation"@en ;
+                       rdfs:comment "For comparing intervals: all further members are in-between the given interval"@en .
+
+######## Properties
+
+tree:relation a rdf:Property ;
+              rdfs:label "Relation"@en;
+              rdfs:comment "Links a node with another through a Relation class"@en;
+              rdfs:domain tree:Node;
+              rdfs:range tree:Relation.
+
+tree:remainingItems a rdf:Property ;
+                    rdfs:label "Remaining Items"@en;
+                    rdfs:comment "Total number of items of this node and its children"@en;
+                    rdfs:domain tree:Node;
+                    rdfs:range xsd:integer.
+                   
+tree:node a rdf:Property ;
+          rdfs:label "Has node"@en;
+          rdfs:comment "The URL to follow when this Node cannot be pruned"@en;
+          rdfs:domain tree:Relation;
+          rdfs:range tree:Node.
+
+tree:value a rdf:Property ;
+           rdfs:label "Value"@en ;
+           rdfs:comment "The value the node linked in the node relation is compared to"@en .
+#           rdfs:domain tree:Relation . # possibly a union can be documented between tree:Relation and a tree:Value
+
+tree:path a rdf:Property ;
+          rdfs:label "Path"@en ;
+          rdfs:comment "A property path, as defined by shacl, that indicates what resource the tree:value affects."@en ;
+          rdfs:domain tree:Relation ;
+          rdfs:range rdfs:Resource .
+
+tree:view a rdf:Property ;
+          rdfs:label "View"@en ;
+          rdfs:comment "Links the collection to a `tree:Node` from which all other members can be found."@en ;
+          rdfs:domain tree:Collection ;
+          rdfs:range tree:Node .
+
+tree:member  a rdf:Property ;
+             rdfs:label "Member"@en ;
+             rdfs:comment "The collection has a member."@en ;
+             rdfs:domain tree:Collection .
+
+tree:import a rdf:Property ;
+            rdfs:label "Import"@en ;
+            rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly"@en .
+
+tree:qualifiedValue a rdf:Property ;
+                    rdfs:label "Qualified value"@en ;
+                    rdfs:comment ""@en ;
+                    rdfs:domain tree:Relation ;
+                    rdfs:range tree:Value .
+
+###### Properties for the Tiles ontology
+###### Mind that tiles prefix is just a synonym for the tree prefix
+
+tiles:zoom a rdf:Property ;
+           rdfs:label "Zoom level"@en;
+           rdfs:comment "The zoom level of the tile cfr. OSM convention"@en;
+           rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:float.
+
+tiles:longitudeTile a rdf:Property ;
+           rdfs:label "The X tile number"@en;
+           rdfs:comment "The X tile number from longitude cfr. OSM convention"@en;
+           rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:float.
+
+tiles:latitudeTile a rdf:Property ;
+           rdfs:label "The Y tile number"@en;
+           rdfs:comment "The Y tile number from latitude cfr. OSM convention"@en;
+           rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:float.
