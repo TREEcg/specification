@@ -13,9 +13,6 @@ install:
 script:
   -  bikeshed spec spec.bs; mv spec.html index.html ;
 
-before_deploy:
-  - rm .gitignore
-
 deploy:
   provider: pages
   skip_cleanup: true
