@@ -48,7 +48,10 @@ tree:Value a rdfs:Class;
 tree:Relation a rdfs:Class ;
               rdfs:label "Relation"@en ;
               rdfs:comment "A class describing the relation between two nodes"@en.
-
+              
+tree:ConditionalImport a rdfs:Class ;
+              rdfs:label "Conditional Import"@en ;
+              rdfs:comment "Import a page when the tree:path is interesting for the client"@en.
 
 tree:PrefixRelation a rdfs:Class ;
                     rdfs:subClassOf tree:Relation ;
@@ -136,14 +139,13 @@ tree:member  a rdf:Property ;
 
 tree:import a rdf:Property ;
             rdfs:label "Import"@en ;
-            rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly"@en .
+            rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly or comply fully to the tree:shape defined in the Collection"@en .
 
-tree:qualifiedValue a rdf:Property ;
-                    rdfs:label "Qualified value"@en ;
-                    rdfs:comment ""@en ;
-                    rdfs:domain tree:Relation ;
-                    rdfs:range tree:Value .
-
+tree:conditionalImport a rdf:Property ;
+            rdfs:label "Import conditionally"@en ;
+            rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly"@en ;
+            rdfs:range tree:ConditionalImport .
+     
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
 
