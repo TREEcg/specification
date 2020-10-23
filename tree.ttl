@@ -169,3 +169,9 @@ tiles:latitudeTile a rdf:Property ;
            rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
            rdfs:domain tiles:Node;
            rdfs:range xsd:float.
+
+tree:timeQuery a rdf:Property ;
+           rdfs:label "Time Query"@en;
+           rdfs:comment "Will search for elements starting from a certain timestamp"@en;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:dateTime.

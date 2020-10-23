@@ -114,3 +114,7 @@ As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 The Y tile number from latitude cfr. OSM convention
 
 As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+
+### tree:timeQuery ### {#timeQuery}
+
+Accompagnied by a tree:path, indicates the property on which a time search can be done
