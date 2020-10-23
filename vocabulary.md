@@ -1,5 +1,7 @@
 # Vocabulary # {#voc}
 
+**Namespace**: `https://w3id.org/tree#`
+
 Prefixes:
 
 ```turtle
@@ -38,7 +40,7 @@ The `tree:Relation` has specific sub-classes that implement a more specific type
    
 *Let us know in an issue if you want another type to be added to this official list*
 
-### tree:Value ### {#Value}
+### tree:ConditionalImport ### {#ConditionalImport}
 
 ## Properties ## {#properties}
 
@@ -86,7 +88,11 @@ Links the collection to a `tree:Node` from which all other members can be found.
 
 ### tree:member ### {#member}
 
-### tree:import ### {#import} 
+### tree:import ### {#import}
+
+### tree:conditionalImport ### {#conditionalImport}
+
+### tree:shape ### {#shape} 
 
 ### tree:qualifiedValue ### {#qualifiedValue}
 
@@ -108,3 +114,7 @@ As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 The Y tile number from latitude cfr. OSM convention
 
 As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+
+### tree:timeQuery ### {#timeQuery}
+
+Accompagnied by a tree:path, indicates the property on which a time search can be done
