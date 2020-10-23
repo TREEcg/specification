@@ -1,4 +1,4 @@
-![](tree-logo.svg)
+<img src="tree-logo.svg" alt="TREE logo" width="400px"/>
 
 __Exposing your Linked Datasets in hypermedia collections__
 
