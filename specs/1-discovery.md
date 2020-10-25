@@ -27,14 +27,34 @@ Every entity linked from `tree:view` MUST be an entry point to retrieve **all** 
 
 ### Hydra ### {#hydra}
 
-A `tree:Collection` is kept 1 on 1 compatible with the [Hydra Collections specification](https://www.hydra-cg.com/spec/latest/core/#collections). However, instead of `hydra:view`, we use `tree:view` and do not link to a `hydra:PartialCollectionView` but to a `tree:Node`.
+A `tree:Collection` is compatible with the [Hydra Collections specification](https://www.hydra-cg.com/spec/latest/core/#collections). However, instead of `hydra:view`, we use `tree:view` and do not link to a `hydra:PartialCollectionView` but to a `tree:Node`.
+A `hydra:Collection` can thus also be extended with a `tree:shape` and `tree:view`.
+When this is done, also `hydra:member` can be used instead of `tree:member`.
+
+`hydra:totalItems` can be used to indicate the total amount of elements in the collection.
+
+Hydra paging controls such as first, last, next and previous can be ignored.
 
 ### Activity Streams 2.0 ### {#activitystreams}
 
-*TODO*
+A `tree:Collection` is also compatible with the [Activity Streams 2.0 notion of collections](https://www.w3.org/TR/activitystreams-core/#collections).
+Instead of `dcterms:isPartOf`, also `as:partOf` can be used to indicate that the current page is part of the full collection.
+While Hydra and TREE link to the members of the collection by using the specific collection as a subject, Activity Streams 2.0 indicates a member starting from the page URL.
+Therefore, when using Activity Streams 2.0 collections, a client implementation should gather the members from the `tree:Node` or `as:CollectionPage` instead.
+
+`as:totalItems` can be used to indicate the total amount of elements in the collection.
+
+AS paging controls such as first, last, next and previous can be ignored.
+
 
 ### LDP Containers ### {#ldp}
 
 https://www.w3.org/TR/ldp-paging/
+
+*TODO*
+
+### Shapetrees ### {#shapetrees}
+
+https://shapetrees.github.io/specification/spec
 
 *TODO*

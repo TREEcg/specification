@@ -1323,7 +1323,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0752a7d, updated Fri Oct 23 16:28:55 2020 -0700" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="9e9182366cb3b3152bbc75e2198cc41c154f822d" name="document-revision">
+  <meta content="697c35434ab1bfc3a098e604beb89dabdc733380" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1873,6 +1873,7 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#hydra"><span class="secno">3.3.2</span> <span class="content">Hydra</span></a>
         <li><a href="#activitystreams"><span class="secno">3.3.3</span> <span class="content">Activity Streams 2.0</span></a>
         <li><a href="#ldp"><span class="secno">3.3.4</span> <span class="content">LDP Containers</span></a>
+        <li><a href="#shapetrees"><span class="secno">3.3.5</span> <span class="content">Shapetrees</span></a>
        </ol>
      </ol>
     <li>
@@ -1999,11 +2000,23 @@ Every entity linked from <code>tree:view</code> MUST be an entry point to retrie
    <h4 class="heading settled" data-level="3.3.1" id="dcat"><span class="secno">3.3.1. </span><span class="content">DCAT</span><a class="self-link" href="#dcat"></a></h4>
    <p><a data-link-type="biblio" href="#biblio-vocab-dcat-2">[VOCAB-DCAT-2]</a> is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a <code>dcat:accessURL</code> from the <code>dcat:Distribution</code> to the entrypoint where the <code>tree:Collection</code>s are described. Furthermore, there SHOULD be a <code>dct:conformsTo</code> this URI: <code>https://w3id.org/tree</code>.</p>
    <h4 class="heading settled" data-level="3.3.2" id="hydra"><span class="secno">3.3.2. </span><span class="content">Hydra</span><a class="self-link" href="#hydra"></a></h4>
-   <p>A <code>tree:Collection</code> is kept 1 on 1 compatible with the <a href="https://www.hydra-cg.com/spec/latest/core/#collections">Hydra Collections specification</a>. However, instead of <code>hydra:view</code>, we use <code>tree:view</code> and do not link to a <code>hydra:PartialCollectionView</code> but to a <code>tree:Node</code>.</p>
+   <p>A <code>tree:Collection</code> is compatible with the <a href="https://www.hydra-cg.com/spec/latest/core/#collections">Hydra Collections specification</a>. However, instead of <code>hydra:view</code>, we use <code>tree:view</code> and do not link to a <code>hydra:PartialCollectionView</code> but to a <code>tree:Node</code>.
+A <code>hydra:Collection</code> can thus also be extended with a <code>tree:shape</code> and <code>tree:view</code>.
+When this is done, also <code>hydra:member</code> can be used instead of <code>tree:member</code>.</p>
+   <p><code>hydra:totalItems</code> can be used to indicate the total amount of elements in the collection.</p>
+   <p>Hydra paging controls such as first, last, next and previous can be ignored.</p>
    <h4 class="heading settled" data-level="3.3.3" id="activitystreams"><span class="secno">3.3.3. </span><span class="content">Activity Streams 2.0</span><a class="self-link" href="#activitystreams"></a></h4>
-   <p><em>TODO</em></p>
+   <p>A <code>tree:Collection</code> is also compatible with the <a href="https://www.w3.org/TR/activitystreams-core/#collections">Activity Streams 2.0 notion of collections</a>.
+Instead of <code>dcterms:isPartOf</code>, also <code>as:partOf</code> can be used to indicate that the current page is part of the full collection.
+While Hydra and TREE link to the members of the collection by using the specific collection as a subject, Activity Streams 2.0 indicates a member starting from the page URL.
+Therefore, when using Activity Streams 2.0 collections, a client implementation should gather the members from the <code>tree:Node</code> or <code>as:CollectionPage</code> instead.</p>
+   <p><code>as:totalItems</code> can be used to indicate the total amount of elements in the collection.</p>
+   <p>AS paging controls such as first, last, next and previous can be ignored.</p>
    <h4 class="heading settled" data-level="3.3.4" id="ldp"><span class="secno">3.3.4. </span><span class="content">LDP Containers</span><a class="self-link" href="#ldp"></a></h4>
    <p>https://www.w3.org/TR/ldp-paging/</p>
+   <p><em>TODO</em></p>
+   <h4 class="heading settled" data-level="3.3.5" id="shapetrees"><span class="secno">3.3.5. </span><span class="content">Shapetrees</span><a class="self-link" href="#shapetrees"></a></h4>
+   <p>https://shapetrees.github.io/specification/spec</p>
    <p><em>TODO</em></p>
    <h2 class="heading settled" data-level="4" id="relations"><span class="secno">4. </span><span class="content">Relations</span><a class="self-link" href="#relations"></a></h2>
    <p>A <code>tree:Node</code> element MAY have one or more <code>tree:relation</code> properties. A relation is an entity of the type <code>tree:Relation</code>, and MAY have a more specific type. A <code>tree:Relation</code> MUST have one <code>tree:node</code> object of the type <code>tree:Node</code>. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).</p>
