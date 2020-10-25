@@ -86,6 +86,9 @@ Links the collection to a `tree:Node` from which all other members can be found.
 
 **Range**: tree:Node
 
+### tree:search ### {#search}
+
+
 ### tree:member ### {#member}
 
 ### tree:import ### {#import}
