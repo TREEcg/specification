@@ -1323,7 +1323,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0752a7d, updated Fri Oct 23 16:28:55 2020 -0700" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="ae86a53da349c5e8c1a156a3215177b5e65839a5" name="document-revision">
+  <meta content="9e9182366cb3b3152bbc75e2198cc41c154f822d" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -2058,8 +2058,9 @@ When no language is set, all strings are compared.</p>
    <p>When using relations such as <code>tree:LessThanRelation</code> or <code>tree:GreaterThanRelation</code>, the time literals need to be compared according to these 3 possible data types: <code>xsd:date</code>, <code>xsd:dateTime</code> or <code>xsd:dateTimeStamp</code>.</p>
    <h2 class="heading settled" data-level="5" id="searching"><span class="secno">5. </span><span class="content">Searching through the collection</span><a class="self-link" href="#searching"></a></h2>
    <p>Searching through a TREE will allow you to immediately jump to the right <code>tree:Node</code>.
-TREE relies on the Hydra search specification for its search forms.
-It does however extend Hydra with specific search properties for different types of search forms, and searches starting from a <code>tree:Node</code>.</p>
+TREE relies on the <a href="http://www.hydra-cg.com/spec/latest/core/#hydra:search">Hydra search specification</a> for its search forms.
+It does however extend Hydra with specific search properties (<code>hydra:IriTemplate</code>) for different types of search forms, and searches starting from a <code>tree:Node</code>, to which the search form is linked with <code>tree:search</code>.
+The behaviour of the search form fully depends on the specific property, for which TREE introduces a couple of specific properties:</p>
    <h3 class="heading settled" data-level="5.1" id="xyztiles"><span class="secno">5.1. </span><span class="content">Geospatial XYZ tiles search form</span><a class="self-link" href="#xyztiles"></a></h3>
    <p>Three properties allow to specify a geospatial XYZ tiles template (also known as slippy maps).</p>
    <ol>
@@ -2111,11 +2112,10 @@ It does however extend Hydra with specific search properties for different types
         <c- f>"hydra:required"</c-><c- p>:</c-> <c- kc>true</c->
       <c- p>}</c->
     <c- p>]</c->
-    <c- p>},</c->
   <c- p>}</c->
-}
+<c- p>}</c->
 </pre>
-   <p>This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the fragmentation. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.)</p>
+   <p>This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the fragmentation. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.).</p>
    <h3 class="heading settled" data-level="5.2" id="timesearch"><span class="secno">5.2. </span><span class="content">Searching through a list of objects ordered by time</span><a class="self-link" href="#timesearch"></a></h3>
    <p>Same as the previous example but with the predicate <code>tree:timeQuery</code> expecting an <code>xsd:dateTime</code>.
 This time however, when the page itself does not exist, a redirect is doing to happen to the page containing the timestamp.
@@ -2127,10 +2127,10 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <c- p>},</c->
   <c- f>"dcterms:isPartOf"</c-><c- p>:</c-> <c- p>{</c->
     <c- f>"@id"</c-><c- p>:</c-> <c- u>"#coll"</c-><c- p>,</c->
-    <c- f>"@type"</c-><c- p>:</c-> <c- u>"hydra:Collection"</c-><c- p>,</c->
+    <c- f>"@type"</c-><c- p>:</c-> <c- u>"tree:Collection"</c-><c- p>,</c->
     <c- f>"tree:member"</c-><c- p>:</c-> <c- p>[</c-> ...<c- p>,</c-> ... <c- p>]</c->
   <c- p>},</c->
-  <c- f>"hydra:search"</c-><c- p>:</c-> <c- p>{</c->
+  <c- f>"tree:search"</c-><c- p>:</c-> <c- p>{</c->
     <c- f>"@type"</c-><c- p>:</c-> <c- u>"hydra:IriTemplate"</c-><c- p>,</c->
     <c- f>"hydra:template"</c-><c- p>:</c-> <c- u>"https://example.org/{t}"</c-><c- p>,</c->
     <c- f>"hydra:variableRepresentation"</c-><c- p>:</c-> <c- u>"hydra:BasicRepresentation"</c-><c- p>,</c->

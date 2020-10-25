@@ -1,8 +1,9 @@
 # Searching through the collection # {#searching}
 
 Searching through a TREE will allow you to immediately jump to the right `tree:Node`.
-TREE relies on the Hydra search specification for its search forms.
-It does however extend Hydra with specific search properties for different types of search forms, and searches starting from a `tree:Node`.
+TREE relies on the [Hydra search specification](http://www.hydra-cg.com/spec/latest/core/#hydra:search) for its search forms.
+It does however extend Hydra with specific search properties (`hydra:IriTemplate`) for different types of search forms, and searches starting from a `tree:Node`, to which the search form is linked with `tree:search`.
+The behaviour of the search form fully depends on the specific property, for which TREE introduces a couple of specific properties:
 
 ## Geospatial XYZ tiles search form ## {#xyztiles}
 
@@ -54,19 +55,17 @@ Example:
         "hydra:required": true
       }
     ]
-    },
   }
 }
 ```
 
-This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the fragmentation. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.)
+This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the fragmentation. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.).
 
 ## Searching through a list of objects ordered by time ## {#timesearch}
 
 Same as the previous example but with the predicate `tree:timeQuery` expecting an `xsd:dateTime`.
 This time however, when the page itself does not exist, a redirect is doing to happen to the page containing the timestamp.
 A `tree:path` can indicate the time predicate which is intended.
-
 
 Example:
 ```json
@@ -76,10 +75,10 @@ Example:
    },
   "dcterms:isPartOf": {
     "@id": "#coll",
-    "@type": "hydra:Collection",
+    "@type": "tree:Collection",
     "tree:member": [ ..., ... ]
   },
-  "hydra:search": {
+  "tree:search": {
     "@type": "hydra:IriTemplate",
     "hydra:template": "https://example.org/{t}",
     "hydra:variableRepresentation": "hydra:BasicRepresentation",
