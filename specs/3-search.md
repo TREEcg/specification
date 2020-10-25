@@ -1,8 +1,8 @@
 # Searching through the collection # {#searching}
 
 Searching through a TREE will allow you to immediately jump to the right `tree:Node`.
-TREE fully relies on the Hydra search specification for its search forms.
-It does however extend Hydra with specific search properties for different types of search forms.
+TREE relies on the Hydra search specification for its search forms.
+It does however extend Hydra with specific search properties for different types of search forms, and searches starting from a `tree:Node`.
 
 ## Geospatial XYZ tiles search form ## {#xyztiles}
 
@@ -17,43 +17,44 @@ Example:
 ```json
 {
    "@context": {
+     "viewOf" : {
+       "@reverse": "tree:view",
+       "@type": "@id"
+     },
      ...
    },
-  "@id": "https://tiles.openplanner.team/planet/14/8411/5485/",
-  "tree:zoom": 14,
-  "tree:longitudeTile": 8411,
-  "tree:latitudeTile": 5485,
-  "dcterms:isPartOf": {
+  "viewOf": {
     "@id": "https://tiles.openplanner.team/planet/",
-    "@type": "hydra:Collection",
+    "@type": "tree:Collection",
     "dcterms:license": "http://opendatacommons.org/licenses/odbl/1-0/",
     "dcterms:rights": "http://www.openstreetmap.org/copyright",
-    "hydra:search": {
-      "@type": "hydra:IriTemplate",
-      "hydra:template": "https://tiles.openplanner.team/planet/{z}/{x}/{y}",
-      "hydra:variableRepresentation": "hydra:BasicRepresentation",
-      "hydra:mapping": [
-        {
-          "@type": "hydra:IriTemplateMapping",
-          "hydra:variable": "x",
-          "hydra:property": "tree:longitudeTile",
-          "hydra:required": true
-        },
-        {
-          "@type": "hydra:IriTemplateMapping",
-          "hydra:variable": "y",
-          "hydra:property": "tree:latitudeTile",
-          "hydra:required": true
-        },
-        {
-          "@type": "hydra:IriTemplateMapping",
-          "hydra:variable": "z",
-          "hydra:property": "tree:zoom",
-          "hydra:required": true
-        }
-      ]
+    "tree:member": [ ..., ... ]
+  },
+  "tree:search": {
+    "@type": "hydra:IriTemplate",
+    "hydra:template": "https://tiles.openplanner.team/planet/{z}/{x}/{y}",
+    "hydra:variableRepresentation": "hydra:BasicRepresentation",
+    "hydra:mapping": [
+      {
+        "@type": "hydra:IriTemplateMapping",
+        "hydra:variable": "x",
+        "hydra:property": "tree:longitudeTile",
+        "hydra:required": true
+      },
+      {
+        "@type": "hydra:IriTemplateMapping",
+        "hydra:variable": "y",
+        "hydra:property": "tree:latitudeTile",
+        "hydra:required": true
+      },
+      {
+        "@type": "hydra:IriTemplateMapping",
+        "hydra:variable": "z",
+        "hydra:property": "tree:zoom",
+        "hydra:required": true
+      }
+    ]
     },
-    "hydra:member": [ ..., ... ]
   }
 }
 ```
@@ -76,21 +77,21 @@ Example:
   "dcterms:isPartOf": {
     "@id": "#coll",
     "@type": "hydra:Collection",
-    "hydra:search": {
-      "@type": "hydra:IriTemplate",
-      "hydra:template": "https://example.org/{t}",
-      "hydra:variableRepresentation": "hydra:BasicRepresentation",
-      "hydra:mapping": [
-        {
-          "@type": "hydra:IriTemplateMapping",
-          "hydra:variable": "t",
-          "tree:path": "prov:generatedAtTime",
-          "hydra:property": "tree:timeQuery",
-          "hydra:required": true
-        }
-      ]
-    },
-    "hydra:member": [ ..., ... ]
+    "tree:member": [ ..., ... ]
+  },
+  "hydra:search": {
+    "@type": "hydra:IriTemplate",
+    "hydra:template": "https://example.org/{t}",
+    "hydra:variableRepresentation": "hydra:BasicRepresentation",
+    "hydra:mapping": [
+      {
+        "@type": "hydra:IriTemplateMapping",
+        "hydra:variable": "t",
+        "tree:path": "prov:generatedAtTime",
+        "hydra:property": "tree:timeQuery",
+        "hydra:required": true
+      }
+    ]
   }
 }
 ```
