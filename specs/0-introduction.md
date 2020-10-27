@@ -27,3 +27,9 @@ Instead of `tree:import`, one can also use `tree:conditionalImport` which links 
  * `tree:path` with a property path for which this
 
 Note: imports are powerful to keep recurring objects in a separate, more cacheable, resource.
+
+For importing the `tree:shape` from a different resource, there is also the `tree:importShape` 
+
+No hypermedia controls in the body MUST be interpreted in the imported resource and the object must be fully contained within that information resource.
+
+On the resources to import, [Memento (RFC7089)](https://tools.ietf.org/html/rfc7089) controls MAY be provided for historic versions.

@@ -89,6 +89,13 @@ Links the collection to a `tree:Node` from which all other members can be found.
 
 ### tree:search ### {#search}
 
+### tree:shape ### {#shape}
+
+The SHACL shape the members of the collection adhere to.
+
+### tree:importShape ### {#importShape}
+
+A collection can link to an information resource where the full `tree:shape` can be found.
 
 ### tree:member ### {#member}
 

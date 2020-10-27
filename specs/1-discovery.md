@@ -10,14 +10,19 @@ When the current page is a `tree:Node`, there MUST be a property linking the cur
 
 ## Multiple Collections ## {#multiple-collections}
 
-When multiple collections are found by a client, it can choose to prune the collections to further traverse based on the `tree:shape` property.
+When multiple collections are found by a client, it can choose to prune the collections based on the `tree:shape` property.
+Therefore a data publisher SHOULD annotate a `tree:Collection` instance with a SHACL shape.
+The `tree:shape` points to a SHACL description of the shape (`sh:NodeShape`).
+
+When the collection is not embedded in the current page, but needs to be fetched from a separate resource, the `tree:shape`’s object needs to be found in the page linked from the `tree:Collection` instance using the `tree:importShape` predicate.
+Mind that no hypermedia controls will be followed.
 
 ## Multiple views ## {#multiple-views}
 
 Multiple views MAY be provided, and a TREE client MUST traverse all objects of `tree:view` linked to this particular collection.
 Every entity linked from `tree:view` MUST be an entry point to retrieve **all** members of the collection.
 
- that you need to iterate through all of the views, and pick one. The one you pick can be based on a priority list indicating how well it suits your purpose.
+Note: How a client picks the right view is use-case specific. In order to fetch all members, one can be chosen at random. In order to prioritize a specific view, the relations and search forms in the root nodes can be studied for their relation types, path or remaining items.
 
 ## Compatibility ## {#compatibility}
 
@@ -39,13 +44,12 @@ Hydra paging controls such as first, last, next and previous MUST be ignored.
 
 A `tree:Collection` is also compatible with [[!activitystreams-core]]’s specification of [paged collections](https://www.w3.org/TR/activitystreams-core/#collections).
 Instead of `dcterms:isPartOf`, also `as:partOf` can be used to indicate that the current page is part of the full collection.
-While Hydra and TREE link to the members of the collection by using the specific collection as a subject, Activity Streams 2.0 indicates a member starting from the page URL.
-Therefore, when using Activity Streams 2.0 collections, a client implementation should gather the members from the `tree:Node` or `as:CollectionPage` instead.
+While Hydra and TREE link to the members of the collection by using the specific collection as a subject, Activity Streams 2.0 (AS) indicates a member starting from the page URL.
+Therefore, when using AS collections, a client implementation should gather the members from the `tree:Node` or `as:CollectionPage` instead.
 
 `as:totalItems` can be used to indicate the total amount of elements in the collection.
 
 AS paging controls such as first, last, next and previous MUST be ignored.
-
 
 ### LDP Containers ### {#ldp}
 

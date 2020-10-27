@@ -15,7 +15,6 @@ A `tree:import` MAY be defined in the `tree:Relation` instance. When there is a 
 
 Note: An example of a `tree:import` is given [in the repository](https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27).
 
-
 ## Fallbacks ## {#fallbacks}
 
 When there are no `tree:member`s and/or no `tree:Collection` defined, then the `tree:path` refers to a pattern that can start from every triple in the page.
