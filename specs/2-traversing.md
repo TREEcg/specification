@@ -13,7 +13,7 @@ Note: When traversing, a client SHOULD keep a list of already visited pages, as 
 
 A `tree:import` MAY be defined in the `tree:Relation` instance. When there is a `tree:path` defined, and when the relation is flagged interesting to follow, the import link needs to be downloaded in order to find the necessary literals to be compared (it is thus already a `tree:ConditionalImport`.
 
-Note: An example of a `tree:import` is given here: https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27.
+Note: An example of a `tree:import` is given [in the repository](https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27).
 
 
 ## Fallbacks ## {#fallbacks}
@@ -40,27 +40,18 @@ For other types: see [vocabulary](../vocabulary.md) for now.
 
 ### Comparing strings ### {#strings}
 
-When using the `tree:PrefixRelation` or the `tree:SubstringRelation`, the strings MUST be compared according to *case insensitive unicode ordering*.
-Some flags MAY however indicate a small derivation from this approach:
+String values have three specific type of relations: the `tree:PrefixRelation`, the `tree:SubstringRelation` and the `tree:SuffixRelation`.
 
-Issue: The following text has no good JavaScript support and is indicative.
+Note: We experimented with server-chosen locales such that `ça suffit` can also be found when following a `tree:PrefixRelation` with a `tree:value "c"` (which at this moment is not supported). That would require an understanding of locales, and [browser/JavaScript support for locales is too low to be useful at this point](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
 
-A comparison based on locale and other options can be done by using these predicates:
- 1. `tree:stringComparisonLocale`: a BCP 47 language as defined in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation
- 2. `tree:stringComparisonLocaleMatcher`
- 3. `tree:stringComparisonUsage`
- 4. `tree:stringComparisonSensitivity`
- 5. `tree:stringComparisonIgnorePunctuation`
- 6. `tree:stringComparisonNumeric`
- 7. `tree:stringComparisonCaseFirst`
+Also the comparator relations such as `tree:GreaterThenRelation` can be used.
+The strings MUST then be compared according to *case sensitive unicode ordering*.
 
 When a `tree:path` is defined, mind that you also may have to check the language of the element using the property `shacl:inLanguage` 
 More languages MAY be set.
 When no language is set, all strings are compared.
 
-Note: By default this thus means, when typing `à`, the links to `a` can be pruned.
-
-Note: The settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.
+Note: If you want to have one resource containing both `e` and `é` as a prefix, you will have to create multiple relations to the same `tree:Node`.
 
 ### Comparing geospatial features ### {#geospatial}
 

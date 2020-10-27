@@ -1323,7 +1323,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 0752a7d, updated Fri Oct 23 16:28:55 2020 -0700" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="697c35434ab1bfc3a098e604beb89dabdc733380" name="document-revision">
+  <meta content="a173ca8bda101c74263a0107c25f1c146d07c8ea" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1825,14 +1825,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-10-25">25 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-10-27">27 October 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://treecg.github.io/specification">https://treecg.github.io/specification</a>
      <dt>Issue Tracking:
      <dd><a href="https://github.com/TREEcg/specification/issues/">GitHub</a>
-     <dd><a href="#issues-index">Inline In Spec</a>
      <dt class="editor">Editor:
      <dd class="editor p-author h-card vcard"><a class="p-name fn u-url url" href="https://pietercolpaert.be">Pieter Colpaert</a>
     </dl>
@@ -1840,7 +1839,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 25 October 2020,
+In addition, as of 27 October 2020,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1873,7 +1872,7 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#hydra"><span class="secno">3.3.2</span> <span class="content">Hydra</span></a>
         <li><a href="#activitystreams"><span class="secno">3.3.3</span> <span class="content">Activity Streams 2.0</span></a>
         <li><a href="#ldp"><span class="secno">3.3.4</span> <span class="content">LDP Containers</span></a>
-        <li><a href="#shapetrees"><span class="secno">3.3.5</span> <span class="content">Shapetrees</span></a>
+        <li><a href="#shapetrees"><span class="secno">3.3.5</span> <span class="content">Shape trees</span></a>
        </ol>
      </ol>
     <li>
@@ -1932,7 +1931,6 @@ Parts of this work may be from another specification document.  If so, those par
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
      </ol>
-    <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
   </nav>
   <main>
@@ -2004,20 +2002,25 @@ Every entity linked from <code>tree:view</code> MUST be an entry point to retrie
 A <code>hydra:Collection</code> can thus also be extended with a <code>tree:shape</code> and <code>tree:view</code>.
 When this is done, also <code>hydra:member</code> can be used instead of <code>tree:member</code>.</p>
    <p><code>hydra:totalItems</code> can be used to indicate the total amount of elements in the collection.</p>
-   <p>Hydra paging controls such as first, last, next and previous can be ignored.</p>
+   <p>Hydra paging controls such as first, last, next and previous MUST be ignored.</p>
    <h4 class="heading settled" data-level="3.3.3" id="activitystreams"><span class="secno">3.3.3. </span><span class="content">Activity Streams 2.0</span><a class="self-link" href="#activitystreams"></a></h4>
-   <p>A <code>tree:Collection</code> is also compatible with the <a href="https://www.w3.org/TR/activitystreams-core/#collections">Activity Streams 2.0 notion of collections</a>.
+   <p>A <code>tree:Collection</code> is also compatible with <a data-link-type="biblio" href="#biblio-activitystreams-core">[activitystreams-core]</a>’s specification of <a href="https://www.w3.org/TR/activitystreams-core/#collections">paged collections</a>.
 Instead of <code>dcterms:isPartOf</code>, also <code>as:partOf</code> can be used to indicate that the current page is part of the full collection.
 While Hydra and TREE link to the members of the collection by using the specific collection as a subject, Activity Streams 2.0 indicates a member starting from the page URL.
 Therefore, when using Activity Streams 2.0 collections, a client implementation should gather the members from the <code>tree:Node</code> or <code>as:CollectionPage</code> instead.</p>
    <p><code>as:totalItems</code> can be used to indicate the total amount of elements in the collection.</p>
-   <p>AS paging controls such as first, last, next and previous can be ignored.</p>
+   <p>AS paging controls such as first, last, next and previous MUST be ignored.</p>
    <h4 class="heading settled" data-level="3.3.4" id="ldp"><span class="secno">3.3.4. </span><span class="content">LDP Containers</span><a class="self-link" href="#ldp"></a></h4>
-   <p>https://www.w3.org/TR/ldp-paging/</p>
-   <p><em>TODO</em></p>
-   <h4 class="heading settled" data-level="3.3.5" id="shapetrees"><span class="secno">3.3.5. </span><span class="content">Shapetrees</span><a class="self-link" href="#shapetrees"></a></h4>
-   <p>https://shapetrees.github.io/specification/spec</p>
-   <p><em>TODO</em></p>
+   <p>Another relevant spec is <a data-link-type="biblio" href="#biblio-ldp">[LDP]</a>.
+There, the <code>tree:view</code> can be applied on top of the <code>ldp:Container</code> instance.
+Members can be found through <code>ldp:contains</code>, and/or through the indirect <code>ldp:membershipResource</code> and <code>ldp:hasMemberRelation</code> or <code>ldp:isMemberOfRelation</code> construct.</p>
+   <p>If this container is paged by the <a data-link-type="biblio" href="#biblio-ldp-paging">[ldp-paging]</a> (chapter 7) spec, then this MUST be ignored.</p>
+   <p>If there is an ordering, this MUST be ignored by TREE clients (the relations contain all necessary information for pruning).</p>
+   <h4 class="heading settled" data-level="3.3.5" id="shapetrees"><span class="secno">3.3.5. </span><span class="content">Shape trees</span><a class="self-link" href="#shapetrees"></a></h4>
+   <p><a href="https://shapetrees.github.io/specification/spec">The Shape Trees specification</a> is specifically built to work within existing ecosystems.
+As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a <code>tree:Collection</code>.
+Shape Trees can help in the source selection of what specific <code>tree:Collection</code> to pick for your goal, and may add hiearchies to a set of <code>tree:Collection</code>s.
+A client MAY infer a <code>tree:shape</code> of the collection through the <code>st:validatedBy</code> property of the Shapes Tree.</p>
    <h2 class="heading settled" data-level="4" id="relations"><span class="secno">4. </span><span class="content">Relations</span><a class="self-link" href="#relations"></a></h2>
    <p>A <code>tree:Node</code> element MAY have one or more <code>tree:relation</code> properties. A relation is an entity of the type <code>tree:Relation</code>, and MAY have a more specific type. A <code>tree:Relation</code> MUST have one <code>tree:node</code> object of the type <code>tree:Node</code>. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).</p>
    <p>The <code>tree:Relation</code>’s <code>tree:value</code> SHOULD be set. The object of <code>tree:value</code> SHOULD be accompanied by a data type when it is a literal value.</p>
@@ -2026,7 +2029,7 @@ The result of the evaluation of the <code>tree:path</code>, is the value that mu
    <p>Every <code>tree:Relation</code> MAY provide a <code>tree:remainingItems</code>. A client MAY use <code>tree:remainingItems</code> to estimate the completeness of the downloaded elements to the end-user.</p>
    <p class="note" role="note"><span>Note:</span> When traversing, a client SHOULD keep a list of already visited pages, as despite this being the TREE spec, circular references and back-links are not explicitly prohibited.</p>
    <p>A <code>tree:import</code> MAY be defined in the <code>tree:Relation</code> instance. When there is a <code>tree:path</code> defined, and when the relation is flagged interesting to follow, the import link needs to be downloaded in order to find the necessary literals to be compared (it is thus already a <code>tree:ConditionalImport</code>.</p>
-   <p class="note" role="note"><span>Note:</span> An example of a <code>tree:import</code> is given here: https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27.</p>
+   <p class="note" role="note"><span>Note:</span> An example of a <code>tree:import</code> is given <a href="https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27">in the repository</a>.</p>
    <h3 class="heading settled" data-level="4.1" id="fallbacks"><span class="secno">4.1. </span><span class="content">Fallbacks</span><a class="self-link" href="#fallbacks"></a></h3>
    <p>When there are no <code>tree:member</code>s and/or no <code>tree:Collection</code> defined, then the <code>tree:path</code> refers to a pattern that can start from every triple in the page.</p>
    <p class="note" role="note"><span>Note:</span> This may enable server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the <code>tree:path</code>.</p>
@@ -2040,30 +2043,13 @@ In contrast to <code>shacl:path</code>, a <code>tree:path</code> MAY refer to an
    <p>When the <em>only</em> type given for a certain Relation is <code>tree:Relation</code>, then the client must dereference all of the nodes. While this may seem useless, it can be used for the same use case as a <code>hydra:PartialCollectionView</code>.</p>
    <p>For other types: see <a href="../vocabulary.md">vocabulary</a> for now.</p>
    <h4 class="heading settled" data-level="4.2.1" id="strings"><span class="secno">4.2.1. </span><span class="content">Comparing strings</span><a class="self-link" href="#strings"></a></h4>
-   <p>When using the <code>tree:PrefixRelation</code> or the <code>tree:SubstringRelation</code>, the strings MUST be compared according to <em>case insensitive unicode ordering</em>.
-Some flags MAY however indicate a small derivation from this approach:</p>
-   <p class="issue" id="issue-417ceb4d"><a class="self-link" href="#issue-417ceb4d"></a> The following text has no good JavaScript support and is indicative.</p>
-   <p>A comparison based on locale and other options can be done by using these predicates:</p>
-   <ol>
-    <li data-md>
-     <p><code>tree:stringComparisonLocale</code>: a BCP 47 language as defined in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation</p>
-    <li data-md>
-     <p><code>tree:stringComparisonLocaleMatcher</code></p>
-    <li data-md>
-     <p><code>tree:stringComparisonUsage</code></p>
-    <li data-md>
-     <p><code>tree:stringComparisonSensitivity</code></p>
-    <li data-md>
-     <p><code>tree:stringComparisonIgnorePunctuation</code></p>
-    <li data-md>
-     <p><code>tree:stringComparisonNumeric</code></p>
-    <li data-md>
-     <p><code>tree:stringComparisonCaseFirst</code></p>
-   </ol>
+   <p>String values have three specific type of relations: the <code>tree:PrefixRelation</code>, the <code>tree:SubstringRelation</code> and the <code>tree:SuffixRelation</code>.</p>
+   <p class="note" role="note"><span>Note:</span> We experimented with server-chosen locales such that <code>ça suffit</code> can also be found when following a <code>tree:PrefixRelation</code> with a <code>tree:value "c"</code> (which at this moment is not supported). That would require an understanding of locales, and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation">browser/JavaScript support for locales is too low to be useful at this point</a>.</p>
+   <p>Also the comparator relations such as <code>tree:GreaterThenRelation</code> can be used.
+The strings MUST then be compared according to <em>case sensitive unicode ordering</em>.</p>
    <p>When a <code>tree:path</code> is defined, mind that you also may have to check the language of the element using the property <code>shacl:inLanguage</code> More languages MAY be set.
 When no language is set, all strings are compared.</p>
-   <p class="note" role="note"><span>Note:</span> By default this thus means, when typing <code>à</code>, the links to <code>a</code> can be pruned.</p>
-   <p class="note" role="note"><span>Note:</span> The settings used for autocompletion on the client may be different on the client than on the server. The only thing the string comparison settings are used for, is for the client to understand whether it can safely prune its search tree or not.</p>
+   <p class="note" role="note"><span>Note:</span> If you want to have one resource containing both <code>e</code> and <code>é</code> as a prefix, you will have to create multiple relations to the same <code>tree:Node</code>.</p>
    <h4 class="heading settled" data-level="4.2.2" id="geospatial"><span class="secno">4.2.2. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h4>
    <p>The <code>tree:GeospatiallyContainsRelation</code> is the relation than can be used to express all further members will be contained within a geospatial region defined by the WKT String in the <code>tree:value</code>.</p>
    <p>The <code>tree:path</code> MUST refer to a literal containing a WKT string, such as <code>geosparql:asWKT</code>.</p>
@@ -2179,13 +2165,15 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
     <li data-md>
      <p>String, Date or Number comparison:</p>
     <li data-md>
-     <p><code>tree:PrefixRelation</code> - All elements in the related node have this prefix</p>
+     <p><code>tree:PrefixRelation</code> — All elements in the related node have this prefix</p>
     <li data-md>
-     <p><code>tree:SubstringRelation</code> - All elements in the related node have this substring</p>
+     <p><code>tree:SubstringRelation</code> — All elements in the related node have this substring</p>
     <li data-md>
-     <p><code>tree:GreaterThanRelation</code> - the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration</p>
+     <p><code>tree:SuffixRelation</code> — All members of this related node end with this suffix</p>
     <li data-md>
-     <p><code>tree:GreaterOrEqualThanRelation</code> - similar to ↑</p>
+     <p><code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration</p>
+    <li data-md>
+     <p><code>tree:GreaterOrEqualThanRelation</code> — similar to ↑</p>
     <li data-md>
      <p><code>tree:LessThanRelation</code></p>
     <li data-md>
@@ -2390,8 +2378,14 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-activitystreams-core">[ACTIVITYSTREAMS-CORE]
+   <dd>James Snell; Evan Prodromou. <a href="https://www.w3.org/TR/activitystreams-core/">Activity Streams 2.0</a>. 23 May 2017. REC. URL: <a href="https://www.w3.org/TR/activitystreams-core/">https://www.w3.org/TR/activitystreams-core/</a>
    <dt id="biblio-eventsource">[EVENTSOURCE]
    <dd>Ian Hickson. <a href="https://www.w3.org/TR/eventsource/">Server-Sent Events</a>. 3 February 2015. REC. URL: <a href="https://www.w3.org/TR/eventsource/">https://www.w3.org/TR/eventsource/</a>
+   <dt id="biblio-ldp">[LDP]
+   <dd>Steve Speicher; John Arwe; Ashok Malhotra. <a href="https://www.w3.org/TR/ldp/">Linked Data Platform 1.0</a>. 26 February 2015. REC. URL: <a href="https://www.w3.org/TR/ldp/">https://www.w3.org/TR/ldp/</a>
+   <dt id="biblio-ldp-paging">[LDP-PAGING]
+   <dd>Steve Speicher; John Arwe; Ashok Malhotra. <a href="https://www.w3.org/TR/ldp-paging/">Linked Data Platform Paging 1.0</a>. 30 June 2015. NOTE. URL: <a href="https://www.w3.org/TR/ldp-paging/">https://www.w3.org/TR/ldp-paging/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-vocab-dcat-2">[VOCAB-DCAT-2]
@@ -2399,7 +2393,3 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <dt id="biblio-websockets">[WEBSOCKETS]
    <dd>Ian Hickson. <a href="https://www.w3.org/TR/websockets/">The WebSocket API</a>. 20 September 2012. CR. URL: <a href="https://www.w3.org/TR/websockets/">https://www.w3.org/TR/websockets/</a>
   </dl>
-  <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
-  <div style="counter-reset:issue">
-   <div class="issue"> The following text has no good JavaScript support and is indicative.<a href="#issue-417ceb4d"> ↵ </a></div>
-  </div>
