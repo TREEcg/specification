@@ -32,4 +32,4 @@ For importing the `tree:shape` from a different resource, there is also the `tre
 
 No hypermedia controls in the body MUST be interpreted in the imported resource and the object must be fully contained within that information resource.
 
-On the resources to import, [Memento (RFC7089)](https://tools.ietf.org/html/rfc7089) controls MAY be provided for historic versions.
+On the resources to import, Memento [[!RFC7089]] controls MAY be provided for historic versions.
