@@ -62,7 +62,12 @@ tree:SubstringRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
                        rdfs:label "Substring Relation"@en;
                        rdfs:comment "All members of this related node contain this substring"@en .
-                    
+
+tree:SuffixRelation a rdfs:Class ;
+                      rdfs:subClassOf tree:Relation ;
+                      rdfs:label "Suffix Relation"@en ;
+                      rdfs:comment "All members of this related node end with this suffix"@en .
+
 tree:GreaterThanRelation a rdfs:Class ;
                          rdfs:subClassOf tree:Relation ;
                          rdfs:label "Greater Than Relation"@en ;

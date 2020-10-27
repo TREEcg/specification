@@ -26,10 +26,11 @@ An entity that describes a relation between two `tree:Nodes`.
 
 The `tree:Relation` has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are `rdf:subClassOf` `tree:Relation`):
  - String, Date or Number comparison:
-   - `tree:PrefixRelation` - All elements in the related node have this prefix
-   - `tree:SubstringRelation` - All elements in the related node have this substring
-   - `tree:GreaterThanRelation` - the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration
-   - `tree:GreaterOrEqualThanRelation` - similar to ↑
+   - `tree:PrefixRelation` — All elements in the related node have this prefix
+   - `tree:SubstringRelation` — All elements in the related node have this substring
+   - `tree:SuffixRelation` — All members of this related node end with this suffix
+   - `tree:GreaterThanRelation` — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration
+   - `tree:GreaterOrEqualThanRelation` — similar to ↑
    - `tree:LessThanRelation`
    - `tree:LessOrEqualThanRelation`
    - `tree:EqualThanRelation`
