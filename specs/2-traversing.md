@@ -1,5 +1,7 @@
 # Relations # {#relations}
 
+## Traversing relations ## {#traversing}
+
 A `tree:Node` element MAY have one or more `tree:relation` properties. A relation is an entity of the type `tree:Relation`, and MAY have a more specific type. A `tree:Relation` MUST have one `tree:node` object of the type `tree:Node`. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).
 
 The `tree:Relation`’s `tree:value` SHOULD be set. The object of `tree:value` SHOULD be accompanied by a data type when it is a literal value.
@@ -35,7 +37,7 @@ In contrast to `shacl:path`, a `tree:path` MAY refer to an implicit property and
 
 When the *only* type given for a certain Relation is `tree:Relation`, then the client must dereference all of the nodes. While this may seem useless, it can be used for the same use case as a `hydra:PartialCollectionView`.
 
-For other types: see [vocabulary](../vocabulary.md) for now.
+For other types check the chapter on relation types in the vocabulary [](#Relation).
 
 ### Comparing strings ### {#strings}
 
@@ -56,7 +58,7 @@ Note: If you want to have one resource containing both `e` and `é` as a prefix,
 
 The `tree:GeospatiallyContainsRelation` is the relation than can be used to express all further members will be contained within a geospatial region defined by the WKT String in the `tree:value`.
 
-The `tree:path` MUST refer to a literal containing a WKT string, such as `geosparql:asWKT`.
+When using `tree:GeospatiallyContainsRelation`, the `tree:path` MUST refer to a literal containing a WKT string, such as `geosparql:asWKT`.
 
 ### Comparing time literals ### {#time}
 
