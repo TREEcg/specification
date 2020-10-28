@@ -1321,9 +1321,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 0752a7d, updated Fri Oct 23 16:28:55 2020 -0700" name="generator">
+  <meta content="Bikeshed version fa61ee1, updated Tue Oct 27 15:16:31 2020 -0700" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="7423162dce308acf215c6747099785c9ac11661b" name="document-revision">
+  <meta content="bae7f961e0b5de916da0cc05e887ff01f913a219" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1825,7 +1825,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-10-27">27 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-10-28">28 October 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1839,7 +1839,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 27 October 2020,
+In addition, as of 28 October 2020,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1878,13 +1878,14 @@ Parts of this work may be from another specification document.  If so, those par
     <li>
      <a href="#relations"><span class="secno">4</span> <span class="content">Relations</span></a>
      <ol class="toc">
-      <li><a href="#fallbacks"><span class="secno">4.1</span> <span class="content">Fallbacks</span></a>
+      <li><a href="#traversing"><span class="secno">4.1</span> <span class="content">Traversing relations</span></a>
+      <li><a href="#fallbacks"><span class="secno">4.2</span> <span class="content">Fallbacks</span></a>
       <li>
-       <a href="#relationsubclasses"><span class="secno">4.2</span> <span class="content">Specific relations</span></a>
+       <a href="#relationsubclasses"><span class="secno">4.3</span> <span class="content">Specific relations</span></a>
        <ol class="toc">
-        <li><a href="#strings"><span class="secno">4.2.1</span> <span class="content">Comparing strings</span></a>
-        <li><a href="#geospatial"><span class="secno">4.2.2</span> <span class="content">Comparing geospatial features</span></a>
-        <li><a href="#time"><span class="secno">4.2.3</span> <span class="content">Comparing time literals</span></a>
+        <li><a href="#strings"><span class="secno">4.3.1</span> <span class="content">Comparing strings</span></a>
+        <li><a href="#geospatial"><span class="secno">4.3.2</span> <span class="content">Comparing geospatial features</span></a>
+        <li><a href="#time"><span class="secno">4.3.3</span> <span class="content">Comparing time literals</span></a>
        </ol>
      </ol>
     <li>
@@ -1894,7 +1895,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#timesearch"><span class="secno">5.2</span> <span class="content">Searching through a list of objects ordered by time</span></a>
      </ol>
     <li>
-     <a href="#voc"><span class="secno">6</span> <span class="content">Vocabulary</span></a>
+     <a href="#vocabulary"><span class="secno">6</span> <span class="content">Vocabulary</span></a>
      <ol class="toc">
       <li>
        <a href="#classes"><span class="secno">6.1</span> <span class="content">Classes</span></a>
@@ -1919,12 +1920,10 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#member"><span class="secno">6.2.10</span> <span class="content">tree:member</span></a>
         <li><a href="#import"><span class="secno">6.2.11</span> <span class="content">tree:import</span></a>
         <li><a href="#conditionalImport"><span class="secno">6.2.12</span> <span class="content">tree:conditionalImport</span></a>
-        <li><a href="#shape①"><span class="secno">6.2.13</span> <span class="content">tree:shape</span></a>
-        <li><a href="#qualifiedValue"><span class="secno">6.2.14</span> <span class="content">tree:qualifiedValue</span></a>
-        <li><a href="#zoom"><span class="secno">6.2.15</span> <span class="content">tree:zoom</span></a>
-        <li><a href="#longitudeTile"><span class="secno">6.2.16</span> <span class="content">tree:longitudeTile</span></a>
-        <li><a href="#latitudeTile"><span class="secno">6.2.17</span> <span class="content">tree:latitudeTile</span></a>
-        <li><a href="#timeQuery"><span class="secno">6.2.18</span> <span class="content">tree:timeQuery</span></a>
+        <li><a href="#zoom"><span class="secno">6.2.13</span> <span class="content">tree:zoom</span></a>
+        <li><a href="#longitudeTile"><span class="secno">6.2.14</span> <span class="content">tree:longitudeTile</span></a>
+        <li><a href="#latitudeTile"><span class="secno">6.2.15</span> <span class="content">tree:latitudeTile</span></a>
+        <li><a href="#timeQuery"><span class="secno">6.2.16</span> <span class="content">tree:timeQuery</span></a>
        </ol>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
@@ -2031,6 +2030,7 @@ As it was conceived to interoperate with LDP, the term Container in the Shape Tr
 Shape Trees can help in the source selection of what specific <code>tree:Collection</code> to pick for your goal, and may add hiearchies to a set of <code>tree:Collection</code>s.
 A client MAY infer a <code>tree:shape</code> of the collection through the <code>st:validatedBy</code> property of the Shapes Tree.</p>
    <h2 class="heading settled" data-level="4" id="relations"><span class="secno">4. </span><span class="content">Relations</span><a class="self-link" href="#relations"></a></h2>
+   <h3 class="heading settled" data-level="4.1" id="traversing"><span class="secno">4.1. </span><span class="content">Traversing relations</span><a class="self-link" href="#traversing"></a></h3>
    <p>A <code>tree:Node</code> element MAY have one or more <code>tree:relation</code> properties. A relation is an entity of the type <code>tree:Relation</code>, and MAY have a more specific type. A <code>tree:Relation</code> MUST have one <code>tree:node</code> object of the type <code>tree:Node</code>. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).</p>
    <p>The <code>tree:Relation</code>’s <code>tree:value</code> SHOULD be set. The object of <code>tree:value</code> SHOULD be accompanied by a data type when it is a literal value.</p>
    <p>Every <code>tree:Relation</code> SHOULD have a <code>tree:path</code>, indicating the path from the member to the object to which the <code>tree:Relation</code> applies. For the different ways to express or handle a <code>tree:path</code>, we refer to <a href="https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths">2.3.1 in the shacl specification</a>. All possible combinations of e.g., <code>shacl:alternativePath</code>, <code>shacl:inversePath</code> or <code>shacl:inLanguage</code> in the SHACL spec can be used. When <code>shacl:alternativePath</code> is used, the order in the list will define the importance of the order when evaluating the <code>tree:Relation</code>. A wildcard in the path is limited to the <code>tree:shape</code> of the <code>tree:Collection</code>.
@@ -2039,7 +2039,7 @@ The result of the evaluation of the <code>tree:path</code>, is the value that mu
    <p class="note" role="note"><span>Note:</span> When traversing, a client SHOULD keep a list of already visited pages, as despite this being the TREE spec, circular references and back-links are not explicitly prohibited.</p>
    <p>A <code>tree:import</code> MAY be defined in the <code>tree:Relation</code> instance. When there is a <code>tree:path</code> defined, and when the relation is flagged interesting to follow, the import link needs to be downloaded in order to find the necessary literals to be compared (it is thus already a <code>tree:ConditionalImport</code>.</p>
    <p class="note" role="note"><span>Note:</span> An example of a <code>tree:import</code> is given <a href="https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27">in the repository</a>.</p>
-   <h3 class="heading settled" data-level="4.1" id="fallbacks"><span class="secno">4.1. </span><span class="content">Fallbacks</span><a class="self-link" href="#fallbacks"></a></h3>
+   <h3 class="heading settled" data-level="4.2" id="fallbacks"><span class="secno">4.2. </span><span class="content">Fallbacks</span><a class="self-link" href="#fallbacks"></a></h3>
    <p>When there are no <code>tree:member</code>s and/or no <code>tree:Collection</code> defined, then the <code>tree:path</code> refers to a pattern that can start from every triple in the page.</p>
    <p class="note" role="note"><span>Note:</span> This may enable server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the <code>tree:path</code>.</p>
    <p>When no <code>tree:path</code> is defined, the <code>tree:value</code> MUST be compared to all members’ triples that <em>can be compared to</em> the <code>tree:value</code> as defined by the type of the relation (or when no members or collection are defined, on every triple in the page).
@@ -2048,10 +2048,10 @@ When due to <code>rdfs:range</code> incompatibility, the object cannot be compar
    <p class="note" role="note"><span>Note:</span> Not having a <code>tree:member</code> nor <code>tree:path</code> may also be useful for triple-based indexes such as <a href="https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/">Triple Pattern Fragments</a>. In order to support metadata about the triples itself, something like <a href="http://blog.liu.se/olafhartig/tag/rdf-star/">RDF*</a> would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.</p>
    <p>The target object SHOULD be materialized in the current Node document, but when it is not, the object MAY be considered implicit on the condition both <code>tree:path</code> and <code>tree:member</code> are defined.
 In contrast to <code>shacl:path</code>, a <code>tree:path</code> MAY refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to infer the data, could try to fetch it through another <code>tree:Collection</code>, or retrieve it using URI dereferencing.</p>
-   <h3 class="heading settled" data-level="4.2" id="relationsubclasses"><span class="secno">4.2. </span><span class="content">Specific relations</span><a class="self-link" href="#relationsubclasses"></a></h3>
+   <h3 class="heading settled" data-level="4.3" id="relationsubclasses"><span class="secno">4.3. </span><span class="content">Specific relations</span><a class="self-link" href="#relationsubclasses"></a></h3>
    <p>When the <em>only</em> type given for a certain Relation is <code>tree:Relation</code>, then the client must dereference all of the nodes. While this may seem useless, it can be used for the same use case as a <code>hydra:PartialCollectionView</code>.</p>
-   <p>For other types: see <a href="../vocabulary.md">vocabulary</a> for now.</p>
-   <h4 class="heading settled" data-level="4.2.1" id="strings"><span class="secno">4.2.1. </span><span class="content">Comparing strings</span><a class="self-link" href="#strings"></a></h4>
+   <p>For other types check the chapter on relation types in the vocabulary <a href="#Relation">§ 6.1.3 tree:Relation</a>.</p>
+   <h4 class="heading settled" data-level="4.3.1" id="strings"><span class="secno">4.3.1. </span><span class="content">Comparing strings</span><a class="self-link" href="#strings"></a></h4>
    <p>String values have three specific type of relations: the <code>tree:PrefixRelation</code>, the <code>tree:SubstringRelation</code> and the <code>tree:SuffixRelation</code>.</p>
    <p class="note" role="note"><span>Note:</span> We experimented with server-chosen locales such that <code>ça suffit</code> can also be found when following a <code>tree:PrefixRelation</code> with a <code>tree:value "c"</code> (which at this moment is not supported). That would require an understanding of locales, and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation">browser/JavaScript support for locales is too low to be useful at this point</a>.</p>
    <p>Also the comparator relations such as <code>tree:GreaterThenRelation</code> can be used.
@@ -2059,10 +2059,10 @@ The strings MUST then be compared according to <em>case sensitive unicode orderi
    <p>When a <code>tree:path</code> is defined, mind that you also may have to check the language of the element using the property <code>shacl:inLanguage</code> More languages MAY be set.
 When no language is set, all strings are compared.</p>
    <p class="note" role="note"><span>Note:</span> If you want to have one resource containing both <code>e</code> and <code>é</code> as a prefix, you will have to create multiple relations to the same <code>tree:Node</code>.</p>
-   <h4 class="heading settled" data-level="4.2.2" id="geospatial"><span class="secno">4.2.2. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h4>
+   <h4 class="heading settled" data-level="4.3.2" id="geospatial"><span class="secno">4.3.2. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h4>
    <p>The <code>tree:GeospatiallyContainsRelation</code> is the relation than can be used to express all further members will be contained within a geospatial region defined by the WKT String in the <code>tree:value</code>.</p>
-   <p>The <code>tree:path</code> MUST refer to a literal containing a WKT string, such as <code>geosparql:asWKT</code>.</p>
-   <h4 class="heading settled" data-level="4.2.3" id="time"><span class="secno">4.2.3. </span><span class="content">Comparing time literals</span><a class="self-link" href="#time"></a></h4>
+   <p>When using <code>tree:GeospatiallyContainsRelation</code>, the <code>tree:path</code> MUST refer to a literal containing a WKT string, such as <code>geosparql:asWKT</code>.</p>
+   <h4 class="heading settled" data-level="4.3.3" id="time"><span class="secno">4.3.3. </span><span class="content">Comparing time literals</span><a class="self-link" href="#time"></a></h4>
    <p>When using relations such as <code>tree:LessThanRelation</code> or <code>tree:GreaterThanRelation</code>, the time literals need to be compared according to these 3 possible data types: <code>xsd:date</code>, <code>xsd:dateTime</code> or <code>xsd:dateTimeStamp</code>.</p>
    <h2 class="heading settled" data-level="5" id="searching"><span class="secno">5. </span><span class="content">Searching through the collection</span><a class="self-link" href="#searching"></a></h2>
    <p>Searching through a TREE will allow you to immediately jump to the right <code>tree:Node</code>.
@@ -2154,93 +2154,106 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
   <c- p>}</c->
 <c- p>}</c->
 </pre>
-   <h2 class="heading settled" data-level="6" id="voc"><span class="secno">6. </span><span class="content">Vocabulary</span><a class="self-link" href="#voc"></a></h2>
+   <h2 class="heading settled" data-level="6" id="vocabulary"><span class="secno">6. </span><span class="content">Vocabulary</span><a class="self-link" href="#vocabulary"></a></h2>
    <p><strong>Namespace</strong>: <code>https://w3id.org/tree#</code></p>
    <p>Prefixes:</p>
 <pre class="language-turtle highlight"><c- k>@prefix</c-> <c- nn>tree:</c-> <c- g>&lt;https://w3id.org/tree#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>foaf:</c-> <c- g>&lt;http://xmlns.com/foaf/0.1/></c-><c- p>.</c->
 <c- k>@prefix</c-> <c- nn>hydra:</c-> <c- g>&lt;http://www.w3.org/ns/hydra/core#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>schema:</c-> <c- g>&lt;http://schema.org/></c-><c- p>.</c->
 <c- k>@prefix</c-> <c- nn>rdf:</c-> <c- g>&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#></c-><c- p>.</c->
+<c- k>@prefix</c-> <c- nn>sh:</c-> <c- g>&lt;http://www.w3.org/ns/shacl#></c-> <c- p>.</c->
+<c- k>@prefix</c-> <c- nn>xsd:</c-> <c- g>&lt;http://www.w3.org/2001/XMLSchema#></c-> <c- p>.</c->
 </pre>
    <h3 class="heading settled" data-level="6.1" id="classes"><span class="secno">6.1. </span><span class="content">Classes</span><a class="self-link" href="#classes"></a></h3>
    <h4 class="heading settled" data-level="6.1.1" id="collection"><span class="secno">6.1.1. </span><span class="content">tree:Collection</span><a class="self-link" href="#collection"></a></h4>
+   <p>A collection has members that may adhere to a certain shape.</p>
    <h4 class="heading settled" data-level="6.1.2" id="Node"><span class="secno">6.1.2. </span><span class="content">tree:Node</span><a class="self-link" href="#Node"></a></h4>
-   <p>A <code>tree:Node</code> is a node that may contain links to other dereferenceable resources that lead to a full overview of a <code>hydra:Collection</code>.</p>
+   <p>A <code>tree:Node</code> is a node that may contain links to other dereferenceable resources that lead to a full overview of a <code>tree:Collection</code>.</p>
    <h4 class="heading settled" data-level="6.1.3" id="Relation"><span class="secno">6.1.3. </span><span class="content">tree:Relation</span><a class="self-link" href="#Relation"></a></h4>
    <p>An entity that describes a relation between two <code>tree:Nodes</code>.</p>
    <p>The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>):</p>
    <ul>
     <li data-md>
      <p>String, Date or Number comparison:</p>
-    <li data-md>
-     <p><code>tree:PrefixRelation</code> — All elements in the related node have this prefix</p>
-    <li data-md>
-     <p><code>tree:SubstringRelation</code> — All elements in the related node have this substring</p>
-    <li data-md>
-     <p><code>tree:SuffixRelation</code> — All members of this related node end with this suffix</p>
-    <li data-md>
-     <p><code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration</p>
-    <li data-md>
-     <p><code>tree:GreaterOrEqualThanRelation</code> — similar to ↑</p>
-    <li data-md>
-     <p><code>tree:LessThanRelation</code></p>
-    <li data-md>
-     <p><code>tree:LessOrEqualThanRelation</code></p>
-    <li data-md>
-     <p><code>tree:EqualThanRelation</code></p>
+     <ul>
+      <li data-md>
+       <p><code>tree:PrefixRelation</code> — All elements in the related node have this prefix</p>
+      <li data-md>
+       <p><code>tree:SubstringRelation</code> — All elements in the related node have this substring</p>
+      <li data-md>
+       <p><code>tree:SuffixRelation</code> — All members of this related node end with this suffix</p>
+      <li data-md>
+       <p><code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration</p>
+      <li data-md>
+       <p><code>tree:GreaterOrEqualThanRelation</code> — similar to ↑</p>
+      <li data-md>
+       <p><code>tree:LessThanRelation</code></p>
+      <li data-md>
+       <p><code>tree:LessOrEqualThanRelation</code></p>
+      <li data-md>
+       <p><code>tree:EqualThanRelation</code></p>
+     </ul>
     <li data-md>
      <p>Geo-spatial comparison (requires the node values to be WKT-strings):</p>
-    <li data-md>
-     <p><code>tree:GeospatiallyContainsRelation</code> (for semantics, see https://en.wikipedia.org/wiki/DE-9IM)</p>
-    <li data-md>
-     <p>Interval comparison</p>
-    <li data-md>
-     <p><code>tree:InBetweenRelation</code></p>
+     <ul>
+      <li data-md>
+       <p><code>tree:GeospatiallyContainsRelation</code> — (for semantics, see the <a href="https://en.wikipedia.org/wiki/DE-9IM">DE-9IM wikipedia page</a>)</p>
+     </ul>
    </ul>
-   <p><em>Let us know in an issue if you want another type to be added to this official list</em></p>
    <h4 class="heading settled" data-level="6.1.4" id="ConditionalImport"><span class="secno">6.1.4. </span><span class="content">tree:ConditionalImport</span><a class="self-link" href="#ConditionalImport"></a></h4>
+   <p>A class to import a file or a stream based on a <code>tree:path</code> of properties. This way it can import the necessary data for complying to the SHACL shape, or evaluating a relation type.</p>
    <h3 class="heading settled" data-level="6.2" id="properties"><span class="secno">6.2. </span><span class="content">Properties</span><a class="self-link" href="#properties"></a></h3>
    <h4 class="heading settled" data-level="6.2.1" id="relation"><span class="secno">6.2.1. </span><span class="content">tree:relation</span><a class="self-link" href="#relation"></a></h4>
-   <p><strong>Domain</strong>: tree:Node <strong>Range</strong>: tree:Relation</p>
+   <p>Links a node to a relation</p>
+   <p><strong>Domain</strong>: <code>tree:Node</code></p>
+   <p><strong>Range</strong>: <code>tree:Relation</code></p>
    <h4 class="heading settled" data-level="6.2.2" id="remainingItems"><span class="secno">6.2.2. </span><span class="content">tree:remainingItems</span><a class="self-link" href="#remainingItems"></a></h4>
-   <p>Remaining number of items of this node plus its children.</p>
-   <p><strong>Domain</strong>: tree:Node <strong>Range</strong>: xsd:integer</p>
+   <p>Remaining number of items of this node, the items in its children included.</p>
+   <p><strong>Domain</strong>: <code>tree:Node</code></p>
+   <p><strong>Range</strong>: <code>xsd:integer</code></p>
    <h4 class="heading settled" data-level="6.2.3" id="node"><span class="secno">6.2.3. </span><span class="content">tree:node</span><a class="self-link" href="#node"></a></h4>
    <p>The URL to be derefenced when this relation cannot be pruned.</p>
-   <p><strong>Domain</strong>: tree:Relation <strong>Range</strong>: tree:Node</p>
+   <p><strong>Domain</strong>: <code>tree:Relation</code></p>
+   <p><strong>Range</strong>: <code>tree:Node</code></p>
    <h4 class="heading settled" data-level="6.2.4" id="value"><span class="secno">6.2.4. </span><span class="content">tree:value</span><a class="self-link" href="#value"></a></h4>
    <p>The contextual value of this node: may contain e.g., a WKT-string with the bound of a rectangle, may contain a string, an integer, or even link to another resource where clear comparison rules apply.</p>
-   <p><strong>Domain</strong>: tree:Relation</p>
+   <p><strong>Domain</strong>: <code>tree:Relation</code></p>
    <h4 class="heading settled" data-level="6.2.5" id="path"><span class="secno">6.2.5. </span><span class="content">tree:path</span><a class="self-link" href="#path"></a></h4>
-   <p>A property path, as defined by shacl, that indicates what resource the <code>tree:value</code> affects.</p>
-   <p>See https://github.com/pietercolpaert/TreeOntology/blob/master/specs/2-traversing.md</p>
-   <p><strong>Domain</strong>: tree:Relation</p>
+   <p>A property path, <a href="https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths">as defined by SHACL</a>, that indicates what resource the <code>tree:value</code> affects.</p>
+   <p>See <a href="#relations">§ 4 Relations</a></p>
+   <p><strong>Domain</strong>: <code>tree:Relation</code></p>
    <h4 class="heading settled" data-level="6.2.6" id="view"><span class="secno">6.2.6. </span><span class="content">tree:view</span><a class="self-link" href="#view"></a></h4>
-   <p>Links the collection to a <code>tree:Node</code> from which all other members can be found. If only a part of the collection’s members can be found from that point on, only use <code>dcterms:isPartOf</code> or <code>void:subset</code>.</p>
-   <p><strong>Domain</strong>: hydra:Collection</p>
-   <p><strong>Range</strong>: tree:Node</p>
+   <p>Links the collection to a <code>tree:Node</code> from which all members can be found. If only a part of the collection’s members can be found from that point on, only use <code>dcterms:isPartOf</code> or <code>void:subset</code>.</p>
+   <p><strong>Domain</strong>: <code>tree:Collection</code></p>
+   <p><strong>Range</strong>: <code>tree:Node</code></p>
    <h4 class="heading settled" data-level="6.2.7" id="search"><span class="secno">6.2.7. </span><span class="content">tree:search</span><a class="self-link" href="#search"></a></h4>
+   <p>Links a <code>tree:Node</code> to a <code>hydra:IriTemplate</code>. The search form will search the remaining items of the node.</p>
+   <p><strong>Domain</strong>: <code>tree:Node</code></p>
+   <p><strong>Range</strong>: <code>hydra:IriTemplate</code></p>
    <h4 class="heading settled" data-level="6.2.8" id="shape"><span class="secno">6.2.8. </span><span class="content">tree:shape</span><a class="self-link" href="#shape"></a></h4>
    <p>The SHACL shape the members of the collection adhere to.</p>
+   <p><strong>Domain</strong>: <code>tree:Collection</code></p>
+   <p><strong>Range</strong>: <code>sh:NodeShape</code></p>
    <h4 class="heading settled" data-level="6.2.9" id="importShape"><span class="secno">6.2.9. </span><span class="content">tree:importShape</span><a class="self-link" href="#importShape"></a></h4>
    <p>A collection can link to an information resource where the full <code>tree:shape</code> can be found.</p>
+   <p><strong>Domain</strong>: <code>tree:Collection</code></p>
    <h4 class="heading settled" data-level="6.2.10" id="member"><span class="secno">6.2.10. </span><span class="content">tree:member</span><a class="self-link" href="#member"></a></h4>
+   <p>Links to the collection’s items that are the <code>sh:targetNode</code>s of the SHACL shape defined with <code>tree:shape</code>.</p>
+   <p><strong>Domain</strong>: <code>tree:Collection</code></p>
    <h4 class="heading settled" data-level="6.2.11" id="import"><span class="secno">6.2.11. </span><span class="content">tree:import</span><a class="self-link" href="#import"></a></h4>
+   <p>Imports a document containing triples needed for complying to the SHACL shape, or for evaluating the relation.</p>
    <h4 class="heading settled" data-level="6.2.12" id="conditionalImport"><span class="secno">6.2.12. </span><span class="content">tree:conditionalImport</span><a class="self-link" href="#conditionalImport"></a></h4>
-   <h4 class="heading settled" data-level="6.2.13" id="shape①"><span class="secno">6.2.13. </span><span class="content">tree:shape</span><a class="self-link" href="#shape①"></a></h4>
-   <h4 class="heading settled" data-level="6.2.14" id="qualifiedValue"><span class="secno">6.2.14. </span><span class="content">tree:qualifiedValue</span><a class="self-link" href="#qualifiedValue"></a></h4>
-   <h4 class="heading settled" data-level="6.2.15" id="zoom"><span class="secno">6.2.15. </span><span class="content">tree:zoom</span><a class="self-link" href="#zoom"></a></h4>
-   <p>The zoom level of the tile cfr. OSM convention</p>
-   <p>As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames</p>
-   <h4 class="heading settled" data-level="6.2.16" id="longitudeTile"><span class="secno">6.2.16. </span><span class="content">tree:longitudeTile</span><a class="self-link" href="#longitudeTile"></a></h4>
-   <p>The X tile number from longitude cfr. OSM convention</p>
-   <p>As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames</p>
-   <h4 class="heading settled" data-level="6.2.17" id="latitudeTile"><span class="secno">6.2.17. </span><span class="content">tree:latitudeTile</span><a class="self-link" href="#latitudeTile"></a></h4>
-   <p>The Y tile number from latitude cfr. OSM convention</p>
-   <p>As defined by: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames</p>
-   <h4 class="heading settled" data-level="6.2.18" id="timeQuery"><span class="secno">6.2.18. </span><span class="content">tree:timeQuery</span><a class="self-link" href="#timeQuery"></a></h4>
-   <p>Accompagnied by a tree:path, indicates the property on which a time search can be done</p>
+   <p>Imports a document only when the client is interesting in a specific <code>tree:path</code>.</p>
+   <h4 class="heading settled" data-level="6.2.13" id="zoom"><span class="secno">6.2.13. </span><span class="content">tree:zoom</span><a class="self-link" href="#zoom"></a></h4>
+   <p>A search form parameter: the zoom level of the tile cfr. OSM convention.</p>
+   <p>As defined by <a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">Slippy Map Tilenames in OpenStreetMap</a></p>
+   <h4 class="heading settled" data-level="6.2.14" id="longitudeTile"><span class="secno">6.2.14. </span><span class="content">tree:longitudeTile</span><a class="self-link" href="#longitudeTile"></a></h4>
+   <p>A search form parameter: the X tile number from longitude cfr. OSM convention.</p>
+   <p>As defined by <a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">Slippy Map Tilenames in OpenStreetMap</a></p>
+   <h4 class="heading settled" data-level="6.2.15" id="latitudeTile"><span class="secno">6.2.15. </span><span class="content">tree:latitudeTile</span><a class="self-link" href="#latitudeTile"></a></h4>
+   <p>A search form parameter: the Y tile number from latitude cfr. OSM convention.</p>
+   <p>As defined by <a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">Slippy Map Tilenames in OpenStreetMap</a></p>
+   <h4 class="heading settled" data-level="6.2.16" id="timeQuery"><span class="secno">6.2.16. </span><span class="content">tree:timeQuery</span><a class="self-link" href="#timeQuery"></a></h4>
+   <p>A search form parameter: accompagnied by a <code>tree:path</code>, it indicates the property on which a time search can be done</p>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
