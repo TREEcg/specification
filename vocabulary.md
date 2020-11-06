@@ -108,12 +108,6 @@ The SHACL shape the members of the collection adhere to.
 
 **Range**: `sh:NodeShape`
 
-### tree:importShape ### {#importShape}
-
-A collection can link to an information resource where the full `tree:shape` can be found.
-
-**Domain**: `tree:Collection`
-
 ### tree:member ### {#member}
 
 Links to the collection’s items that are the `sh:targetNode`s of the SHACL shape defined with `tree:shape`.
