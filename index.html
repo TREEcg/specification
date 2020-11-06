@@ -1321,9 +1321,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version fa61ee1, updated Tue Oct 27 15:16:31 2020 -0700" name="generator">
+  <meta content="Bikeshed version adf8655, updated Thu Oct 29 16:15:09 2020 -0700" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="bae7f961e0b5de916da0cc05e887ff01f913a219" name="document-revision">
+  <meta content="4acf2a87170e82ce076ba2706cc9189f2519d78b" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1825,7 +1825,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-10-28">28 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-11-06">6 November 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1839,7 +1839,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 28 October 2020,
+In addition, as of 6 November 2020,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1916,14 +1916,13 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#view"><span class="secno">6.2.6</span> <span class="content">tree:view</span></a>
         <li><a href="#search"><span class="secno">6.2.7</span> <span class="content">tree:search</span></a>
         <li><a href="#shape"><span class="secno">6.2.8</span> <span class="content">tree:shape</span></a>
-        <li><a href="#importShape"><span class="secno">6.2.9</span> <span class="content">tree:importShape</span></a>
-        <li><a href="#member"><span class="secno">6.2.10</span> <span class="content">tree:member</span></a>
-        <li><a href="#import"><span class="secno">6.2.11</span> <span class="content">tree:import</span></a>
-        <li><a href="#conditionalImport"><span class="secno">6.2.12</span> <span class="content">tree:conditionalImport</span></a>
-        <li><a href="#zoom"><span class="secno">6.2.13</span> <span class="content">tree:zoom</span></a>
-        <li><a href="#longitudeTile"><span class="secno">6.2.14</span> <span class="content">tree:longitudeTile</span></a>
-        <li><a href="#latitudeTile"><span class="secno">6.2.15</span> <span class="content">tree:latitudeTile</span></a>
-        <li><a href="#timeQuery"><span class="secno">6.2.16</span> <span class="content">tree:timeQuery</span></a>
+        <li><a href="#member"><span class="secno">6.2.9</span> <span class="content">tree:member</span></a>
+        <li><a href="#import"><span class="secno">6.2.10</span> <span class="content">tree:import</span></a>
+        <li><a href="#conditionalImport"><span class="secno">6.2.11</span> <span class="content">tree:conditionalImport</span></a>
+        <li><a href="#zoom"><span class="secno">6.2.12</span> <span class="content">tree:zoom</span></a>
+        <li><a href="#longitudeTile"><span class="secno">6.2.13</span> <span class="content">tree:longitudeTile</span></a>
+        <li><a href="#latitudeTile"><span class="secno">6.2.14</span> <span class="content">tree:latitudeTile</span></a>
+        <li><a href="#timeQuery"><span class="secno">6.2.15</span> <span class="content">tree:timeQuery</span></a>
        </ol>
      </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
@@ -1968,7 +1967,7 @@ Parts of this work may be from another specification document.  If so, those par
    <p>A <code>tree:import</code> can be defined on multiple levels. When defined as part of a <code>tree:Node</code>, this document always needs to be fetched when processing this Node.
 When defined as part of the <code>tree:Relation</code>, one MUST fetch the import when the relation needs to be correctly evaluated (e.g., the resulting page contains elements without materialized WKT strings, which however can be fetched from the import).
 When importing a file, no hypermedia relations will be followed from that import in order to get more data.</p>
-   <p>A <code>tree:importStream</code> can also be defined for providing a pubsub interface for subscribing to real-time updates. The object is supposed to be a <a data-link-type="biblio" href="#biblio-websockets">[websockets]</a> or Server-Sent Events (<a data-link-type="biblio" href="#biblio-eventsource">[eventsource]</a>).</p>
+   <p>A <code>tree:importStream</code> can also be defined for providing a pubsub interface for subscribing to real-time updates. The object SHOULD be a <a data-link-type="biblio" href="#biblio-websockets">[websockets]</a> or Server-Sent Events (<a data-link-type="biblio" href="#biblio-eventsource">[eventsource]</a>).</p>
    <p>Instead of <code>tree:import</code>, one can also use <code>tree:conditionalImport</code> which links to an object of the type <code>tree:ConditionalImport</code> with these properties:</p>
    <ul>
     <li data-md>
@@ -1977,7 +1976,6 @@ When importing a file, no hypermedia relations will be followed from that import
      <p><code>tree:path</code> with a property path for which this</p>
    </ul>
    <p class="note" role="note"><span>Note:</span> imports are powerful to keep recurring objects in a separate, more cacheable, resource.</p>
-   <p>For importing the <code>tree:shape</code> from a different resource, there is also the <code>tree:importShape</code></p>
    <p>No hypermedia controls in the body MUST be interpreted in the imported resource and the object must be fully contained within that information resource.</p>
    <p>On the resources to import, Memento <a data-link-type="biblio" href="#biblio-rfc7089">[RFC7089]</a> controls MAY be provided for historic versions.</p>
    <h2 class="heading settled" data-level="3" id="metadata"><span class="secno">3. </span><span class="content">Extracting metadata</span><a class="self-link" href="#metadata"></a></h2>
@@ -1996,8 +1994,7 @@ The object of the <code>tree:view</code> triple will contain a root node from wh
    <p>When multiple collections are found by a client, it can choose to prune the collections based on the <code>tree:shape</code> property.
 Therefore a data publisher SHOULD annotate a <code>tree:Collection</code> instance with a SHACL shape.
 The <code>tree:shape</code> points to a SHACL description of the shape (<code>sh:NodeShape</code>).</p>
-   <p>When the collection is not embedded in the current page, but needs to be fetched from a separate resource, the <code>tree:shape</code>’s object needs to be found in the page linked from the <code>tree:Collection</code> instance using the <code>tree:importShape</code> predicate.
-Mind that no hypermedia controls will be followed.</p>
+   <p class="note" role="note"><span>Note:</span> the shape can be a blank node, or a named node on which you should follow your nose when it is defined at a different HTTP URL.</p>
    <h3 class="heading settled" data-level="3.2" id="multiple-views"><span class="secno">3.2. </span><span class="content">Multiple views</span><a class="self-link" href="#multiple-views"></a></h3>
    <p>Multiple views MAY be provided, and a TREE client MUST traverse all objects of <code>tree:view</code> linked to this particular collection.
 Every entity linked from <code>tree:view</code> MUST be an entry point to retrieve <strong>all</strong> members of the collection.</p>
@@ -2233,26 +2230,23 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <p>The SHACL shape the members of the collection adhere to.</p>
    <p><strong>Domain</strong>: <code>tree:Collection</code></p>
    <p><strong>Range</strong>: <code>sh:NodeShape</code></p>
-   <h4 class="heading settled" data-level="6.2.9" id="importShape"><span class="secno">6.2.9. </span><span class="content">tree:importShape</span><a class="self-link" href="#importShape"></a></h4>
-   <p>A collection can link to an information resource where the full <code>tree:shape</code> can be found.</p>
-   <p><strong>Domain</strong>: <code>tree:Collection</code></p>
-   <h4 class="heading settled" data-level="6.2.10" id="member"><span class="secno">6.2.10. </span><span class="content">tree:member</span><a class="self-link" href="#member"></a></h4>
+   <h4 class="heading settled" data-level="6.2.9" id="member"><span class="secno">6.2.9. </span><span class="content">tree:member</span><a class="self-link" href="#member"></a></h4>
    <p>Links to the collection’s items that are the <code>sh:targetNode</code>s of the SHACL shape defined with <code>tree:shape</code>.</p>
    <p><strong>Domain</strong>: <code>tree:Collection</code></p>
-   <h4 class="heading settled" data-level="6.2.11" id="import"><span class="secno">6.2.11. </span><span class="content">tree:import</span><a class="self-link" href="#import"></a></h4>
+   <h4 class="heading settled" data-level="6.2.10" id="import"><span class="secno">6.2.10. </span><span class="content">tree:import</span><a class="self-link" href="#import"></a></h4>
    <p>Imports a document containing triples needed for complying to the SHACL shape, or for evaluating the relation.</p>
-   <h4 class="heading settled" data-level="6.2.12" id="conditionalImport"><span class="secno">6.2.12. </span><span class="content">tree:conditionalImport</span><a class="self-link" href="#conditionalImport"></a></h4>
+   <h4 class="heading settled" data-level="6.2.11" id="conditionalImport"><span class="secno">6.2.11. </span><span class="content">tree:conditionalImport</span><a class="self-link" href="#conditionalImport"></a></h4>
    <p>Imports a document only when the client is interesting in a specific <code>tree:path</code>.</p>
-   <h4 class="heading settled" data-level="6.2.13" id="zoom"><span class="secno">6.2.13. </span><span class="content">tree:zoom</span><a class="self-link" href="#zoom"></a></h4>
+   <h4 class="heading settled" data-level="6.2.12" id="zoom"><span class="secno">6.2.12. </span><span class="content">tree:zoom</span><a class="self-link" href="#zoom"></a></h4>
    <p>A search form parameter: the zoom level of the tile cfr. OSM convention.</p>
    <p>As defined by <a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">Slippy Map Tilenames in OpenStreetMap</a></p>
-   <h4 class="heading settled" data-level="6.2.14" id="longitudeTile"><span class="secno">6.2.14. </span><span class="content">tree:longitudeTile</span><a class="self-link" href="#longitudeTile"></a></h4>
+   <h4 class="heading settled" data-level="6.2.13" id="longitudeTile"><span class="secno">6.2.13. </span><span class="content">tree:longitudeTile</span><a class="self-link" href="#longitudeTile"></a></h4>
    <p>A search form parameter: the X tile number from longitude cfr. OSM convention.</p>
    <p>As defined by <a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">Slippy Map Tilenames in OpenStreetMap</a></p>
-   <h4 class="heading settled" data-level="6.2.15" id="latitudeTile"><span class="secno">6.2.15. </span><span class="content">tree:latitudeTile</span><a class="self-link" href="#latitudeTile"></a></h4>
+   <h4 class="heading settled" data-level="6.2.14" id="latitudeTile"><span class="secno">6.2.14. </span><span class="content">tree:latitudeTile</span><a class="self-link" href="#latitudeTile"></a></h4>
    <p>A search form parameter: the Y tile number from latitude cfr. OSM convention.</p>
    <p>As defined by <a href="https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">Slippy Map Tilenames in OpenStreetMap</a></p>
-   <h4 class="heading settled" data-level="6.2.16" id="timeQuery"><span class="secno">6.2.16. </span><span class="content">tree:timeQuery</span><a class="self-link" href="#timeQuery"></a></h4>
+   <h4 class="heading settled" data-level="6.2.15" id="timeQuery"><span class="secno">6.2.15. </span><span class="content">tree:timeQuery</span><a class="self-link" href="#timeQuery"></a></h4>
    <p>A search form parameter: accompagnied by a <code>tree:path</code>, it indicates the property on which a time search can be done</p>
   </main>
   <div data-fill-with="conformance">

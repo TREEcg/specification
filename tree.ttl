@@ -154,12 +154,6 @@ tree:shape a rdf:Property ;
            rdfs:domain tree:Collection ;
            rdfs:range sh:NodeShape .
 
-
-tree:importShape a rdf:Property ;
-           rdfs:label "Import Shape"@en ;
-           rdfs:comment "The URL to be imported for the tree:shape"@en ;
-           rdfs:domain tree:Collection .
-           
 tree:import a rdf:Property ;
             rdfs:label "Import"@en ;
             rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly or comply fully to the tree:shape defined in the Collection"@en .

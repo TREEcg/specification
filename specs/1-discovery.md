@@ -14,8 +14,7 @@ When multiple collections are found by a client, it can choose to prune the coll
 Therefore a data publisher SHOULD annotate a `tree:Collection` instance with a SHACL shape.
 The `tree:shape` points to a SHACL description of the shape (`sh:NodeShape`).
 
-When the collection is not embedded in the current page, but needs to be fetched from a separate resource, the `tree:shape`’s object needs to be found in the page linked from the `tree:Collection` instance using the `tree:importShape` predicate.
-Mind that no hypermedia controls will be followed.
+Note: the shape can be a blank node, or a named node on which you should follow your nose when it is defined at a different HTTP URL.
 
 ## Multiple views ## {#multiple-views}
 
