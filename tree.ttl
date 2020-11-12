@@ -29,8 +29,8 @@ tree: a foaf:Document ;
 <http://www.rubensworks.net/#me> foaf:name "Ruben Taelman" .
 
 tree:Ontology a owl:Ontology ;
-              rdfs:label "Tree Ontology"@en;
-              rdfs:comment "Ontology for describing tree-like relations between hypermedia documents."@en.
+              rdfs:label "TREE"@en;
+              rdfs:comment "A hypermedia specification for fragmenting collections."@en.
 
 ######## Classes
 
