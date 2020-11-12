@@ -41,9 +41,6 @@ tree:Collection a rdfs:Class ;
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
           rdfs:comment "A tree:Node is a node that may contain relations to other nodes."@en .
-tree:Value a rdfs:Class;
-           rdfs:label "Value"@en;
-           rdfs:comment "A qualified tree:value"@en .
 
 tree:Relation a rdfs:Class ;
               rdfs:label "Relation"@en ;
