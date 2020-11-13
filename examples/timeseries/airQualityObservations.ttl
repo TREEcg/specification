@@ -19,7 +19,7 @@
                                 a tree:GeospatiallyContainsRelation ;
                                 tree:path ( sosa:hasFeatureOfInterest geosparql:asWKT );
                                 tree:node </14/8393/5467> ;
-                                tree:value  "POLYGON((4.41650390625 51.248163159055906, 4.41650390625 51.2344073516346, 4.4384765625 51.2344073516346, 4.4384765625 51.248163159055906, 4.41650390625 51.248163159055906))"
+                                tree:value "POLYGON((4.41650390625 51.248163159055906, 4.41650390625 51.2344073516346, 4.4384765625 51.2344073516346, 4.4384765625 51.248163159055906, 4.41650390625 51.248163159055906))"^^geosparql:wktLiteral
                               ] ;
                               # Option 2: use lat long relations
                               tree:relation [

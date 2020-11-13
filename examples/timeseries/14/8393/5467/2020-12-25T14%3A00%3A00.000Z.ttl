@@ -62,6 +62,6 @@ _:b3 a sosa:Observation ;
 
 <#Airquality/lat=51.23759466223419&long=4.415932092815638> a sosa:FeatureOfInterest;
                                                           rdfs:label "Air quality at this point location";
-                                                          geosparql:asWKT "POINT (4.426460266113281 51.24171563651943)" ;
+                                                          geosparql:asWKT "POINT (4.426460266113281 51.24171563651943)"^^geosparql:wktLiteral ;
                                                           geo:latitude "51.23759466223419";
                                                           geo:longitude "4.415932092815638".
