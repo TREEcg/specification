@@ -1,0 +1,84 @@
+@prefix tree: <https://w3id.org/tree#>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix lc: <http://semweb.mmlab.be/ns/linkedconnections#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>.
+@prefix tiles: <https://w3id.org/tree#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix cot: <https://w3id.org/city_of_things#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix geosparql: <http://www.opengis.net/ont/geosparql#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+
+<airQualityObservations.ttl> a tree:Node ;
+                              # Let's specify the geospatial boundaries of the root node of a tile
+                              # Option 1: use WKT literal
+                              tree:relation [
+                                a tree:GeospatiallyContainsRelation ;
+                                tree:path ( sosa:hasFeatureOfInterest geosparql:asWKT );
+                                tree:node </14/8393/5467> ;
+                                tree:value "POLYGON((4.41650390625 51.248163159055906, 4.41650390625 51.2344073516346, 4.4384765625 51.2344073516346, 4.4384765625 51.248163159055906, 4.41650390625 51.248163159055906))"^^geosparql:wktLiteral
+                              ] ;
+                              # Option 2: use lat long relations
+                              tree:relation [
+                                a tree:GreaterOrEqualThanRelation ;
+                                tree:path ( sosa:hasFeatureOfInterest geo:longitude );
+                                tree:node </14/8393/5467> ;
+                                tree:value  "4.41650390625"
+                              ] ;
+                              tree:relation [
+                                a tree:LessOrEqualThanRelation ;
+                                tree:path ( sosa:hasFeatureOfInterest geo:longitude );
+                                tree:node </14/8393/5467> ;
+                                tree:value  "4.4384765625"
+                              ] ;
+                              tree:relation [
+                                a tree:LessOrEqualThanRelation ;
+                                tree:path ( sosa:hasFeatureOfInterest geo:latitude );
+                                tree:node </14/8393/5467> ;
+                                tree:value  "51.248163159055906"
+                              ] ;
+                              tree:relation [
+                                a tree:GreaterOrEqualThanRelation ;
+                                tree:path ( sosa:hasFeatureOfInterest geo:latitude );
+                                tree:node </14/8393/5467> ;
+                                tree:value  "51.2344073516346"
+                              ] ;
+                              tree:search _:b0 .
+
+<airQualityObservations.ttl#AQcollection> a tree:Collection ;
+                                                  rdfs:label "All airquality observations of our city."@en ;
+                                                  # Here you can find the root node of the collection
+                                                  tree:view <airQualityObservations.ttl> ;
+                                                  # (Optional) Point to the root node per tile
+                                                  void:subset </14/8393/5467> . # This will redirect to the page with the latest sensor data from that tile. In this example, this will redirect to </14/8393/5467/2020-12-25T15%3A00%3A00.000Z.ttl>
+
+_:b0  a  hydra:IriTemplate ;
+      hydra:variableRepresentation hydra:BasicRepresentation ;
+      hydra:template "https://lodi.ilabt.imec.be/air/{z}/{x}/{y}/{t}";
+      hydra:mapping [
+        a hydra:IriTemplateMapping ;
+        hydra:variable "x" ;
+        hydra:property tiles:longitudeTile ;
+        hydra:required "true"^^xsd:boolean ;
+        sh:minInclusive "8393" ;
+        sh:maxInclusive "8393"
+      ], [ 
+        a hydra:IriTemplateMapping ;
+        hydra:variable "y" ;
+        hydra:property tiles:latitudeTile ;
+        hydra:required "true"^^xsd:boolean ;
+        sh:hasValue "5467"
+      ], [ a hydra:IriTemplateMapping ;
+        hydra:variable "z" ;
+        hydra:property tiles:zoom ;
+        hydra:required "true"^^xsd:boolean ;
+        sh:hasValue "14"
+      ], [  a hydra:IriTemplateMapping ;
+        hydra:variable "t" ;
+        tree:path sosa:resultTime ;
+        hydra:property tree:timeQuery ;
+        hydra:required "false"^^xsd:boolean
+      ] .
