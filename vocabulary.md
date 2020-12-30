@@ -32,9 +32,9 @@ The `tree:Relation` has specific sub-classes that implement a more specific type
      - `tree:SubstringRelation` — All elements in the related node have this substring
      - `tree:SuffixRelation` — All members of this related node end with this suffix
      - `tree:GreaterThanRelation` — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration
-     - `tree:GreaterOrEqualThanRelation` — similar to ↑
+     - `tree:GreaterThanOrEqualToRelation` — similar to ↑
      - `tree:LessThanRelation`
-     - `tree:LessOrEqualThanRelation`
+     - `tree:LessThanOrEqualToRelation`
      - `tree:EqualThanRelation`
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
      - `tree:GeospatiallyContainsRelation` — (for semantics, see the [DE-9IM wikipedia page](https://en.wikipedia.org/wiki/DE-9IM))

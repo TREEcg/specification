@@ -45,7 +45,7 @@ String values have three specific type of relations: the `tree:PrefixRelation`, 
 
 Note: We experimented with server-chosen locales such that `ça suffit` can also be found when following a `tree:PrefixRelation` with a `tree:value "c"` (which at this moment is not supported). That would require an understanding of locales, and [browser/JavaScript support for locales is too low to be useful at this point](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
 
-Also the comparator relations such as `tree:GreaterThenRelation` can be used.
+Also the comparator relations such as `tree:GreaterThanRelation` can be used.
 The strings MUST then be compared according to *case sensitive unicode ordering*.
 
 When a `tree:path` is defined, mind that you also may have to check the language of the element using the property `shacl:inLanguage` 
