@@ -23,7 +23,7 @@
                                                               tree:remainingItems 3
                                                               ],
                                                               [
-                                                              a tree:GreaterOrEqualThanRelation ;
+                                                              a tree:GreaterThanOrEqualToRelation ;
                                                               tree:node </14/8393/5467/2020-12-25T14%3A00%3A00.000Z> ;
                                                               tree:path sosa:resultTime ;
                                                               tree:value "2020-12-25T14:00:00.000Z"^^xsd:dateTime ;
