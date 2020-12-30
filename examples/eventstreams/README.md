@@ -53,7 +53,7 @@ CONSTRUCT {
 ## Fragmentation strategies
 
 The main interesting fragmentation strategy for an event stream is to split it in time.
-This can be done with simple TREE relations such as: `tree:GreaterThanOrEqualRelation` and `tree:LessThanOrEqualRelation`.
+This can be done with simple TREE relations such as: `tree:GreaterThanOrEqualToRelation` and `tree:LessThanOrEqualToRelation`.
 
 The first page of the event stream starts with the oldest events:
 
@@ -65,7 +65,7 @@ The first page of the event stream starts with the oldest events:
 
 <?page=1> a tree:Node ;
     tree:relation [
-        a tree:GreaterThanOrEqualRelation ;
+        a tree:GreaterThanOrEqualToRelation ;
         tree:path sosa:resultTime ;
         tree:node <?page=2> ;
         tree:value "2020-12-24T12:00:00Z"^^xsd:dateTime

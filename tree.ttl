@@ -70,18 +70,18 @@ tree:GreaterThanRelation a rdfs:Class ;
                          rdfs:label "Greater Than Relation"@en ;
                          rdfs:comment "All members of this related node are greater than the value"@en .
                          
-tree:GreaterOrEqualThanRelation  a rdfs:Class ;
+tree:GreaterThanOrEqualToRelation  a rdfs:Class ;
                                  rdfs:subClassOf tree:Relation ;
                                  rdfs:comment "All members of this related node are greater than or equal to the value"@en ;
-                                 rdfs:label "Greater or Equal Than Relation"@en .
+                                 rdfs:label "Greater than or equal to relation"@en .
 
 tree:LessThanRelation a rdfs:Class ;
                       rdfs:subClassOf tree:Relation ;
                       rdfs:label "Less Than Relation"@en .
                         
-tree:LessOrEqualThanRelation a rdfs:Class ;
+tree:LessThanOrEqualToRelation a rdfs:Class ;
                                rdfs:subClassOf tree:Relation ;
-                               rdfs:label "Less or Equal than Relation"@en .
+                               rdfs:label "Less than or equal to Relation"@en .
                                
 tree:EqualThanRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;

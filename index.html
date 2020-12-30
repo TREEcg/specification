@@ -1484,9 +1484,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 3886cea, updated Wed Dec 2 15:53:33 2020 -0800" name="generator">
+  <meta content="Bikeshed version 57a4140, updated Wed Dec 23 14:08:29 2020 -0800" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="731a9d28efbdd6267e7f75077b0a874211583245" name="document-revision">
+  <meta content="428811808c0b6dc4c2af02911f30693b5137e674" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1996,7 +1996,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-12-14">14 December 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-12-30">30 December 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2010,7 +2010,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 14 December 2020,
+In addition, as of 30 December 2020,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2222,7 +2222,7 @@ In contrast to <code>shacl:path</code>, a <code>tree:path</code> MAY refer to an
    <h4 class="heading settled" data-level="4.3.1" id="strings"><span class="secno">4.3.1. </span><span class="content">Comparing strings</span><a class="self-link" href="#strings"></a></h4>
    <p>String values have three specific type of relations: the <code>tree:PrefixRelation</code>, the <code>tree:SubstringRelation</code> and the <code>tree:SuffixRelation</code>.</p>
    <p class="note" role="note"><span>Note:</span> We experimented with server-chosen locales such that <code>ça suffit</code> can also be found when following a <code>tree:PrefixRelation</code> with a <code>tree:value "c"</code> (which at this moment is not supported). That would require an understanding of locales, and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation">browser/JavaScript support for locales is too low to be useful at this point</a>.</p>
-   <p>Also the comparator relations such as <code>tree:GreaterThenRelation</code> can be used.
+   <p>Also the comparator relations such as <code>tree:GreaterThanRelation</code> can be used.
 The strings MUST then be compared according to <em>case sensitive unicode ordering</em>.</p>
    <p>When a <code>tree:path</code> is defined, mind that you also may have to check the language of the element using the property <code>shacl:inLanguage</code> More languages MAY be set.
 When no language is set, all strings are compared.</p>
@@ -2352,11 +2352,11 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
       <li data-md>
        <p><code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration</p>
       <li data-md>
-       <p><code>tree:GreaterOrEqualThanRelation</code> — similar to ↑</p>
+       <p><code>tree:GreaterThanOrEqualToRelation</code> — similar to ↑</p>
       <li data-md>
        <p><code>tree:LessThanRelation</code></p>
       <li data-md>
-       <p><code>tree:LessOrEqualThanRelation</code></p>
+       <p><code>tree:LessThanOrEqualToRelation</code></p>
       <li data-md>
        <p><code>tree:EqualThanRelation</code></p>
      </ul>

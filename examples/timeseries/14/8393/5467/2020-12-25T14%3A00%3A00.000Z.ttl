@@ -16,7 +16,7 @@
                 							            dcterms:isPartOf <airQualityObservations.ttl#AQcollection> ;
                                           # Historic data ends here
                                           # Only a relation to go forward in time
-                							            tree:relation [     a tree:GreaterOrEqualThanRelation ;
+                							            tree:relation [     a tree:GreaterThanOrEqualToRelation ;
                 							                                tree:node </14/8393/5467/2020-12-25T15%3A00%3A00.000Z.ttl> ;
                 							                                tree:path sosa:resultTime ;
                 							                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime

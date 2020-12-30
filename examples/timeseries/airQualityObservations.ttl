@@ -23,25 +23,25 @@
                               ] ;
                               # Option 2: use lat long relations
                               tree:relation [
-                                a tree:GreaterOrEqualThanRelation ;
+                                a tree:GreaterThanOrEqualToRelation ;
                                 tree:path ( sosa:hasFeatureOfInterest geo:longitude );
                                 tree:node </14/8393/5467> ;
                                 tree:value  "4.41650390625"
                               ] ;
                               tree:relation [
-                                a tree:LessOrEqualThanRelation ;
+                                a tree:LessThanOrEqualToRelation ;
                                 tree:path ( sosa:hasFeatureOfInterest geo:longitude );
                                 tree:node </14/8393/5467> ;
                                 tree:value  "4.4384765625"
                               ] ;
                               tree:relation [
-                                a tree:LessOrEqualThanRelation ;
+                                a tree:LessThanOrEqualToRelation ;
                                 tree:path ( sosa:hasFeatureOfInterest geo:latitude );
                                 tree:node </14/8393/5467> ;
                                 tree:value  "51.248163159055906"
                               ] ;
                               tree:relation [
-                                a tree:GreaterOrEqualThanRelation ;
+                                a tree:GreaterThanOrEqualToRelation ;
                                 tree:path ( sosa:hasFeatureOfInterest geo:latitude );
                                 tree:node </14/8393/5467> ;
                                 tree:value  "51.2344073516346"
