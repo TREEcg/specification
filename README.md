@@ -1,46 +1,34 @@
-# ᴛʀᴇᴇ
+<img src="tree-logo.svg" alt="TREE logo" width="400px"/>
 
-__“The first hypermedia specification for autonomous querying”__
+__Exposing your Linked Datasets in hypermedia collections__
 
-ᴛʀᴇᴇ enables describing relations between values and all items on related pages.
-Using this specific relation, a script or autonomous query client (such as [Comunica](https://comunica.linkeddatafragments.org/) and [Planner.js](https://planner.js.org)) can understand whether following the link would certainly not give any more results and therefore the relation can be pruned from its search space.
+ᴛʀᴇᴇ enables you to describe relations between a specific value and all members a page linked from this current page.
+Using this specific relation, a script or autonomous query client (such as [Comunica](https://comunica.linkeddatafragments.org/) and [Planner.js](https://planner.js.org)) can understand whether following the link will be useful or not.
 
-Possible use cases include describing index structures such as a reverse index, search trees, geospatial tiling, or graph patterns; and describing simple pagination with optional context.
+Build the spec using [bikeshed](https://tabatkins.github.io/bikeshed/):
+```bash
+bikeshed watch spec.bs
+```
+The spec will be built [automatically](.travis.yml) when pushing to master.
 
 ## The Vocabulary
 
-Base URI to be used: `https://w3id.org/tree#`. Preferred prefixes: `tree:` or `tiles:` (the latter makes sense if you only use the geospatial tiling specific terms).
+Base URI to be used: `https://w3id.org/tree#`.
+
+Preferred prefix: `tree:`.
 
 All newly introduced terms are explained in the [RDF vocabulary](vocabulary.md).
 
-![ᴛʀᴇᴇ Ontology](treeontology.png)
+Most important concepts:
+ * a `tree:Node` is a page that may contain members of a `tree:Collection`
+ * a node has `tree:relation` entities with links to other nodes. This relation is typed (e.g., `tree:GeospatiallyContainsRelation` or a `tree:PrefixRelation`),
+ * the relation has a `tree:value` and a `tree:path`. The former is a literal value on which the search term can be compared. The `tree:path` explains to which property of the members of the collection this relation applies.
 
-## Specifications
+## The specification
 
-A couple of formal specifications can be implemented by clients to understand specific hypermedia building blocks using the [vocabulary](vocabulary.md):
- 1. [Discovery](specs/1-discovery.md): how to discover a `tree:Node`
- 2. [Traversing](specs/2-traversing.md) a `tree:Node`’s `tree:relation` for more specific information
- 3. [Search forms](specs/3-search.md) for making certain nodes directly accessible
-
-We are also planning to specify how to describe [Provenance and Summaries](specs/4-provenance-and-summaries.md). Feel free to pull request ideas.
+Available at https://treecg.github.io/specification
 
 Mind that a server exposing data with ᴛʀᴇᴇ __must__ [set the CORS headers](http://enable-cors.org) to allow any host.
-
-In order to write a full ᴛʀᴇᴇ compliant client, you need to implement all building blocks. [Comunica](https://github.com/comunica/comunica) and its hypermedia actors will be our main reference implementation (work in progress).
-
-See the [specs](specs/) folder for more information.
-
-### Implementations
-
-Neat examples can be found here:
-
- * Autocompletion and geo-spatial search prototype: https://dexagod.github.io
- * Routable tiles for routing over a geospatially tiled road network:
-     - The initial paper: http://pieter.pm/demo-paper-routable-tiles/
-     - Calculating an isochrone demo with user-feedback while querying: http://hdelva.be/isochrone/demo.html
-
-Also in the example folder in here, we’ve taken the effort to illustrate a couple of use cases:
- * [An ordered collection of pages](examples/paged-collection-with-order/)
  
 ## Questions and Answers
 

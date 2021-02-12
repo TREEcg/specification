@@ -29,19 +29,26 @@ tree: a foaf:Document ;
 <http://www.rubensworks.net/#me> foaf:name "Ruben Taelman" .
 
 tree:Ontology a owl:Ontology ;
-              rdfs:label "Tree Ontology"@en;
-              rdfs:comment "Ontology for describing tree-like relations between hypermedia documents."@en.
+              rdfs:label "TREE"@en;
+              rdfs:comment "A hypermedia specification for fragmenting collections."@en.
 
 ######## Classes
 
+tree:Collection a rdfs:Class ;
+                rdfs:label "Collection"@en;
+                rdfs:comment "A tree:Collection is a collection containing members. The members may be spread across multiple tree:Nodes."@en .
+
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
-          rdfs:comment "A tree:Node is a node that may contain a link to other dereferenceable resources"@en .
+          rdfs:comment "A tree:Node is a node that may contain relations to other nodes."@en .
 
 tree:Relation a rdfs:Class ;
               rdfs:label "Relation"@en ;
               rdfs:comment "A class describing the relation between two nodes"@en.
-
+              
+tree:ConditionalImport a rdfs:Class ;
+              rdfs:label "Conditional Import"@en ;
+              rdfs:comment "Import a page when the tree:path is interesting for the client"@en.
 
 tree:PrefixRelation a rdfs:Class ;
                     rdfs:subClassOf tree:Relation ;
@@ -52,24 +59,29 @@ tree:SubstringRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
                        rdfs:label "Substring Relation"@en;
                        rdfs:comment "All members of this related node contain this substring"@en .
-                    
+
+tree:SuffixRelation a rdfs:Class ;
+                      rdfs:subClassOf tree:Relation ;
+                      rdfs:label "Suffix Relation"@en ;
+                      rdfs:comment "All members of this related node end with this suffix"@en .
+
 tree:GreaterThanRelation a rdfs:Class ;
                          rdfs:subClassOf tree:Relation ;
                          rdfs:label "Greater Than Relation"@en ;
                          rdfs:comment "All members of this related node are greater than the value"@en .
                          
-tree:GreaterOrEqualThanRelation  a rdfs:Class ;
+tree:GreaterThanOrEqualToRelation  a rdfs:Class ;
                                  rdfs:subClassOf tree:Relation ;
                                  rdfs:comment "All members of this related node are greater than or equal to the value"@en ;
-                                 rdfs:label "Greater or Equal Than Relation"@en .
+                                 rdfs:label "Greater than or equal to relation"@en .
 
 tree:LessThanRelation a rdfs:Class ;
                       rdfs:subClassOf tree:Relation ;
                       rdfs:label "Less Than Relation"@en .
                         
-tree:LessOrEqualThanRelation a rdfs:Class ;
+tree:LessThanOrEqualToRelation a rdfs:Class ;
                                rdfs:subClassOf tree:Relation ;
-                               rdfs:label "Less or Equal than Relation"@en .
+                               rdfs:label "Less than or equal to Relation"@en .
                                
 tree:EqualThanRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
@@ -84,7 +96,6 @@ tree:InBetweenRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
                        rdfs:label "In Between Relation"@en ;
                        rdfs:comment "For comparing intervals: all further members are in-between the given interval"@en .
-
 
 ######## Properties
 
@@ -108,8 +119,8 @@ tree:node a rdf:Property ;
 
 tree:value a rdf:Property ;
            rdfs:label "Value"@en ;
-           rdfs:comment "The value the node linked in the node relation is compared to"@en;
-           rdfs:domain tree:Relation .
+           rdfs:comment "The value the node linked in the node relation is compared to"@en .
+#           rdfs:domain tree:Relation . # possibly a union can be documented between tree:Relation and a tree:Value
 
 tree:path a rdf:Property ;
           rdfs:label "Path"@en ;
@@ -120,9 +131,35 @@ tree:path a rdf:Property ;
 tree:view a rdf:Property ;
           rdfs:label "View"@en ;
           rdfs:comment "Links the collection to a `tree:Node` from which all other members can be found."@en ;
-          rdfs:domain hydra:Collection ;
+          rdfs:domain tree:Collection ;
           rdfs:range tree:Node .
 
+tree:member  a rdf:Property ;
+             rdfs:label "Member"@en ;
+             rdfs:comment "The collection has a member."@en ;
+             rdfs:domain tree:Collection .
+
+tree:search  a rdf:Property ;
+             rdfs:label "Search"@en ;
+             rdfs:comment "The Node can be searched for child nodes."@en ;
+             rdfs:domain tree:Node ;
+             rdfs:range hydra:IriTemplate .
+
+tree:shape a rdf:Property ;
+           rdfs:label "Shape"@en ;
+           rdfs:comment "The SHACL shape the members of the collection adhere to."@en ;
+           rdfs:domain tree:Collection ;
+           rdfs:range sh:NodeShape .
+
+tree:import a rdf:Property ;
+            rdfs:label "Import"@en ;
+            rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly or comply fully to the tree:shape defined in the Collection"@en .
+
+tree:conditionalImport a rdf:Property ;
+            rdfs:label "Import conditionally"@en ;
+            rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly"@en ;
+            rdfs:range tree:ConditionalImport .
+     
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
 
@@ -146,3 +183,9 @@ tiles:latitudeTile a rdf:Property ;
            rdfs:isDefinedBy <https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames> ;
            rdfs:domain tiles:Node;
            rdfs:range xsd:float.
+
+tree:timeQuery a rdf:Property ;
+           rdfs:label "Time Query"@en;
+           rdfs:comment "Will search for elements starting from a certain timestamp"@en;
+           rdfs:domain tiles:Node;
+           rdfs:range xsd:dateTime.

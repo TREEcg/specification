@@ -1,0 +1,67 @@
+@prefix tree: <https://w3id.org/tree#>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix lc: <http://semweb.mmlab.be/ns/linkedconnections#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>.
+@prefix tiles: <https://w3id.org/tree#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix cot: <https://w3id.org/city_of_things#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix geosparql: <http://www.opengis.net/ont/geosparql#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+
+</14/8393/5467/2020-12-25T14%3A00%3A00.000Z.ttl> a tree:Node ;
+                							            dcterms:isPartOf <airQualityObservations.ttl#AQcollection> ;
+                                          # Historic data ends here
+                                          # Only a relation to go forward in time
+                							            tree:relation [     a tree:GreaterThanOrEqualToRelation ;
+                							                                tree:node </14/8393/5467/2020-12-25T15%3A00%3A00.000Z.ttl> ;
+                							                                tree:path sosa:resultTime ;
+                							                                tree:value "2020-12-25T15:00:00.000Z"^^xsd:dateTime
+                							                           ];
+                							            tiles:longitudeTile "8393" ;
+                							            tiles:latitudeTile "5467";
+                							            tiles:zoom "14";
+                							            tree:timeQuery "2020-12-25T14:00:00.000Z"^^xsd:dateTime ; # the user followed the LowerThanRelation link from node </14/8393/5467?page=2020-12-25T150000.ttl> to this node
+                                          tree:search _:b0 .
+
+
+<airQualityObservations.ttl#AQcollection> a tree:Collection ;
+                                          tree:view <airQualityObservations.ttl> ;
+                                          void:subset </14/8393/5467/2020-12-25T14%3A00%3A00.000Z.ttl> ;
+                                          tree:member _:b1, _:b2, _:b3 .
+
+# Specific search form within this tile
+_:b0  a  hydra:IriTemplate ;
+      hydra:variableRepresentation hydra:BasicRepresentation ;
+      hydra:template "https://lodi.ilabt.imec.be/air/14/8393/5467/{t}";
+      hydra:mapping [  a hydra:IriTemplateMapping ;
+        hydra:variable "t" ;
+        tree:path sosa:resultTime ;
+        hydra:property tree:timeQuery ;
+        hydra:required "false"^^xsd:boolean
+      ] .
+
+## The data itself
+_:b1 a sosa:Observation;
+  sosa:resultTime "2020-12-25T14:05:00.000Z"^^xsd:dateTime ;
+  sosa:hasFeatureOfInterest <#Airquality/lat=51.23759466223419&long=4.415932092815638>, cot:AirQuality ; 
+  sosa:observedProperty cot:PM1 .
+
+_:b2 a sosa:Observation ;
+  sosa:resultTime "2020-12-25T14:15:00.000Z"^^xsd:dateTime ;
+  sosa:hasFeatureOfInterest <#Airquality/lat=51.23759466223419&long=4.415932092815638>, cot:AirQuality ; 
+  sosa:observedProperty cot:PM10 .
+
+_:b3 a sosa:Observation ;
+  sosa:resultTime "2020-12-25T14:55:00.000Z"^^xsd:dateTime ;
+  sosa:hasFeatureOfInterest <#Airquality/lat=51.23759466223419&long=4.415932092815638>, cot:AirQuality ; 
+  sosa:observedProperty cot:NO2 .
+
+<#Airquality/lat=51.23759466223419&long=4.415932092815638> a sosa:FeatureOfInterest;
+                                                          rdfs:label "Air quality at this point location";
+                                                          geosparql:asWKT "POINT (4.426460266113281 51.24171563651943)"^^geosparql:wktLiteral ;
+                                                          geo:latitude "51.23759466223419";
+                                                          geo:longitude "4.415932092815638".
