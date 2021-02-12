@@ -1484,9 +1484,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 57a4140, updated Wed Dec 23 14:08:29 2020 -0800" name="generator">
+  <meta content="Bikeshed version abfe966, updated Fri Feb 5 17:27:03 2021 -0800" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="428811808c0b6dc4c2af02911f30693b5137e674" name="document-revision">
+  <meta content="75ce168e7a89a708879c84d22d2c52cd35dc07bb" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1996,7 +1996,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2020-12-30">30 December 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-02-12">12 February 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2010,7 +2010,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 30 December 2020,
+In addition, as of 12 February 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2115,9 +2115,9 @@ Parts of this work may be from another specification document.  If so, those par
       <li data-md>
        <p><code>tree:member</code> indicates the object is a member of the collection</p>
       <li data-md>
-       <p><code>tree:view</code> indicates a root node that may have multiple relations</p>
+       <p><code>tree:view</code> indicates a root node from where all members can be reached</p>
       <li data-md>
-       <p><code>tree:shape</code> indicates the SHACL shape to which each element in the collection adheres</p>
+       <p><code>tree:shape</code> indicates the SHACL shape to which each member in the collection adheres</p>
      </ul>
     <li data-md>
      <p>a <code>tree:Node</code>: is a page on which relations to other pages are described through the <code>tree:relation</code> predicate, and/or through which a next <code>tree:Node</code> can by found by using the <code>tree:search</code> form.</p>
@@ -2125,13 +2125,13 @@ Parts of this work may be from another specification document.  If so, those par
      <p>a <code>tree:Relation</code> is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a <code>tree:GreaterThanRelation</code>). A relation typically has these properties:</p>
      <ul>
       <li data-md>
-       <p>a <code>tree:path</code> indicating the resource in the elements on which the relation applies</p>
+       <p>a <code>tree:node</code> the URL of the other node</p>
       <li data-md>
-       <p>the <code>tree:remainingItems</code> defining how many items can be downloaded when following this relation</p>
+       <p>a <code>tree:path</code> indicating to which of the members' properties this relation applies</p>
       <li data-md>
-       <p>a <code>tree:value</code> indicating a value that can be compared</p>
+       <p>a <code>tree:value</code> indicating a value constraint on the members' values</p>
       <li data-md>
-       <p>a <code>tree:node</code> with the URL that can be fetched when this relation is not pruned by a search algorithm</p>
+       <p>a <code>tree:remainingItems</code> defining how many members can be reached when following this relation</p>
      </ul>
    </ul>
    <h2 class="heading settled" data-level="2" id="imports"><span class="secno">2. </span><span class="content">Imports</span><a class="self-link" href="#imports"></a></h2>
@@ -2572,7 +2572,7 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <dt id="biblio-activitystreams-core">[ACTIVITYSTREAMS-CORE]
    <dd>James Snell; Evan Prodromou. <a href="https://www.w3.org/TR/activitystreams-core/">Activity Streams 2.0</a>. 23 May 2017. REC. URL: <a href="https://www.w3.org/TR/activitystreams-core/">https://www.w3.org/TR/activitystreams-core/</a>
    <dt id="biblio-eventsource">[EVENTSOURCE]
-   <dd>Ian Hickson. <a href="https://www.w3.org/TR/eventsource/">Server-Sent Events</a>. 3 February 2015. REC. URL: <a href="https://www.w3.org/TR/eventsource/">https://www.w3.org/TR/eventsource/</a>
+   <dd>Ian Hickson. <a href="https://www.w3.org/TR/eventsource/">Server-Sent Events</a>. 28 January 2021. REC. URL: <a href="https://www.w3.org/TR/eventsource/">https://www.w3.org/TR/eventsource/</a>
    <dt id="biblio-ldp">[LDP]
    <dd>Steve Speicher; John Arwe; Ashok Malhotra. <a href="https://www.w3.org/TR/ldp/">Linked Data Platform 1.0</a>. 26 February 2015. REC. URL: <a href="https://www.w3.org/TR/ldp/">https://www.w3.org/TR/ldp/</a>
    <dt id="biblio-ldp-paging">[LDP-PAGING]
@@ -2584,5 +2584,5 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <dt id="biblio-vocab-dcat-2">[VOCAB-DCAT-2]
    <dd>Riccardo Albertoni; et al. <a href="https://www.w3.org/TR/vocab-dcat-2/">Data Catalog Vocabulary (DCAT) - Version 2</a>. 4 February 2020. REC. URL: <a href="https://www.w3.org/TR/vocab-dcat-2/">https://www.w3.org/TR/vocab-dcat-2/</a>
    <dt id="biblio-websockets">[WEBSOCKETS]
-   <dd>Ian Hickson. <a href="https://www.w3.org/TR/websockets/">The WebSocket API</a>. 20 September 2012. CR. URL: <a href="https://www.w3.org/TR/websockets/">https://www.w3.org/TR/websockets/</a>
+   <dd>Ian Hickson. <a href="https://www.w3.org/TR/websockets/">The WebSocket API</a>. 28 January 2021. NOTE. URL: <a href="https://www.w3.org/TR/websockets/">https://www.w3.org/TR/websockets/</a>
   </dl>
