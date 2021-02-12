@@ -5,15 +5,15 @@
 The TREE specification introduces these core concepts:
  * a `tree:Collection` is a collection of elements that adhere to a certain shape. It typically has these properties when described in a node:
      - `tree:member` indicates the object is a member of the collection
-     - `tree:view` indicates a root node that may have multiple relations
-     - `tree:shape` indicates the SHACL shape to which each element in the collection adheres
+     - `tree:view` indicates a root node from where all members can be reached
+     - `tree:shape` indicates the SHACL shape to which each member in the collection adheres
  * a `tree:Node`: is a page on which relations to other pages are described through the `tree:relation` predicate, and/or through which a next `tree:Node` can by found by using the `tree:search` form.
  * a `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
-     - a `tree:path` indicating the resource in the elements on which the relation applies
-     - the `tree:remainingItems` defining how many items can be downloaded when following this relation
-     - a `tree:value` indicating a value that can be compared
-     - a `tree:node` with the URL that can be fetched when this relation is not pruned by a search algorithm
-
+     - a `tree:node` the URL of the other node
+     - a `tree:path` indicating to which of the members' properties this relation applies
+     - a `tree:value` indicating a value constraint on the members' values
+     - a `tree:remainingItems` defining how many members can be reached when following this relation
+     
 # Imports # {#imports}
 
 A `tree:import` can be defined on multiple levels. When defined as part of a `tree:Node`, this document always needs to be fetched when processing this Node.
