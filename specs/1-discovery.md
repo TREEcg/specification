@@ -66,3 +66,77 @@ If there is an ordering, this MUST be ignored by TREE clients (the relations con
 As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a `tree:Collection`.
 Shape Trees can help in the source selection of what specific `tree:Collection` to pick for your goal, and may add hiearchies to a set of `tree:Collection`s.
 A client MAY infer a `tree:shape` of the collection through the `st:validatedBy` property of the Shapes Tree.
+
+An example of a collection using Shape Tree terms. In this example a sensor with some observations is validated by using a [Shape Expressions](http://shex.io/shex-semantics/) (ShEx) file.
+
+```turtle
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+
+<2021.ttl#Collection> a ldp:Container; 
+    st:validatedBy <Sensor.shex#Sensor>;
+    tree:member <sensor1>, <sensor2> .
+
+<sensor1>
+    a sosa:Sensor;
+    sosa:madeObservation
+        <sensor1-observation1>,
+        <sensor1-observation2>;
+    sosa:observes om:Temperature .
+
+<sensor1-observation1>
+    a sosa:Observation;
+    sosa:observedProperty om:Temperature;
+    sosa:madeBySensor <sensor1>;
+    sosa:hasResult <result1>;
+    sosa:resultTime "2020-08-25T07:05:31Z"^^xsd:dateTime .
+
+<result1> a om:Measure; 
+    om:hasValue "22"^^xsd:float; 
+    om:hasUnit om:degreeCelsius .
+
+<sensor1-observation2>
+    a sosa:Observation;
+    sosa:observedProperty om:Temperature;
+    sosa:madeBySensor <sensor1>;
+    sosa:hasResult <result2>;
+    sosa:resultTime "2020-08-25T07:05:32Z"^^xsd:dateTime .
+
+<result2> a om:Measure; 
+    om:hasValue "22"^^xsd:float; 
+    om:hasUnit om:degreeCelsius .
+
+<sensor2>
+    a sosa:Sensor;
+    sosa:observes om:Temperature .
+```
+
+And its corresponding ShEx file (called Sensor.shex)
+
+```shex
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+<#Sensor> {
+    a [sosa:Sensor] ;
+    sosa:observes [om:Temperature]  ; 
+    sosa:madeObservation @<#TemperatureObservation> * 
+}
+
+<#TemperatureObservation> {
+    a [sosa:Observation] ;
+    sosa:resultTime xsd:dateTime ;
+    sosa:madeBySensor @<#Sensor> ? ;
+    sosa:observedProperty [om:Temperature];
+    sosa:hasResult @<#TemperatureResult> 
+}
+
+<#TemperatureResult> { 
+    a [om:Measure];
+    om:hasValue xsd:float ;
+    om:hasUnit [om:degreeCelsius]
+}
+```

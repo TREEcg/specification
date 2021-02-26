@@ -1484,9 +1484,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version abfe966, updated Fri Feb 5 17:27:03 2021 -0800" name="generator">
+  <meta content="Bikeshed version 7573c85, updated Fri Feb 19 16:30:08 2021 -0800" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="75ce168e7a89a708879c84d22d2c52cd35dc07bb" name="document-revision">
+  <meta content="741f45aa9548c3e1c34f08d7b6696bf1ca7d9b05" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1996,7 +1996,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-02-12">12 February 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-02-26">26 February 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2010,7 +2010,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 12 February 2021,
+In addition, as of 26 February 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2197,6 +2197,74 @@ Members can be found through <code>ldp:contains</code>, and/or through the indir
 As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a <code>tree:Collection</code>.
 Shape Trees can help in the source selection of what specific <code>tree:Collection</code> to pick for your goal, and may add hiearchies to a set of <code>tree:Collection</code>s.
 A client MAY infer a <code>tree:shape</code> of the collection through the <code>st:validatedBy</code> property of the Shapes Tree.</p>
+   <p>An example of a collection using Shape Tree terms. In this example a sensor with some observations is validated by using a <a href="http://shex.io/shex-semantics/">Shape Expressions</a> (ShEx) file.</p>
+<pre class="language-turtle highlight"><c- k>@prefix</c-> <c- nn>sosa:</c-> <c- g>&lt;http://www.w3.org/ns/sosa/></c-> <c- p>.</c->
+<c- k>@prefix</c-> <c- nn>om:</c-> <c- g>&lt;http://www.ontology-of-units-of-measure.org/resource/om-2/></c-> <c- p>.</c->
+<c- k>@prefix</c-> <c- nn>ldp:</c-> <c- g>&lt;http://www.w3.org/ns/ldp#></c-> <c- p>.</c->
+
+<c- g>&lt;2021.ttl#Collection></c-> <c- b>a</c-> <c- nn>ldp</c-><c- p>:</c-><c- f>Container</c-><c- p>;</c-> 
+    <c- nn>st</c-><c- p>:</c-><c- f>validatedBy</c-> <c- g>&lt;Sensor.shex#Sensor></c-><c- p>;</c->
+    <c- nn>tree</c-><c- p>:</c-><c- f>member</c-> <c- g>&lt;sensor1></c-><c- p>,</c-> <c- g>&lt;sensor2></c-> <c- p>.</c->
+
+<c- g>&lt;sensor1></c->
+    <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Sensor</c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>madeObservation</c->
+        <c- g>&lt;sensor1-observation1></c-><c- p>,</c->
+        <c- g>&lt;sensor1-observation2></c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observes</c-> <c- nn>om</c-><c- p>:</c-><c- f>Temperature</c-> <c- p>.</c->
+
+<c- g>&lt;sensor1-observation1></c->
+    <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- nn>om</c-><c- p>:</c-><c- f>Temperature</c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;sensor1></c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>hasResult</c-> <c- g>&lt;result1></c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2020-08-25T07:05:31Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
+
+<c- g>&lt;result1></c-> <c- b>a</c-> <c- nn>om</c-><c- p>:</c-><c- f>Measure</c-><c- p>;</c-> 
+    <c- nn>om</c-><c- p>:</c-><c- f>hasValue</c-> <c- s>"22"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>float</c-><c- p>;</c-> 
+    <c- nn>om</c-><c- p>:</c-><c- f>hasUnit</c-> <c- nn>om</c-><c- p>:</c-><c- f>degreeCelsius</c-> <c- p>.</c->
+
+<c- g>&lt;sensor1-observation2></c->
+    <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- nn>om</c-><c- p>:</c-><c- f>Temperature</c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- g>&lt;sensor1></c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>hasResult</c-> <c- g>&lt;result2></c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- s>"2020-08-25T07:05:32Z"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>.</c->
+
+<c- g>&lt;result2></c-> <c- b>a</c-> <c- nn>om</c-><c- p>:</c-><c- f>Measure</c-><c- p>;</c-> 
+    <c- nn>om</c-><c- p>:</c-><c- f>hasValue</c-> <c- s>"22"</c-><c- p>^^</c-><c- nn>xsd</c-><c- p>:</c-><c- f>float</c-><c- p>;</c-> 
+    <c- nn>om</c-><c- p>:</c-><c- f>hasUnit</c-> <c- nn>om</c-><c- p>:</c-><c- f>degreeCelsius</c-> <c- p>.</c->
+
+<c- g>&lt;sensor2></c->
+    <c- b>a</c-> <c- nn>sosa</c-><c- p>:</c-><c- f>Sensor</c-><c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observes</c-> <c- nn>om</c-><c- p>:</c-><c- f>Temperature</c-> <c- p>.</c->
+</pre>
+   <p>And its corresponding ShEx file (called Sensor.shex)</p>
+<pre class="language-shex highlight"><c- k>PREFIX</c-> <c- nn>sosa</c-><c- p>:</c-> <c- nl>&lt;http://www.w3.org/ns/sosa/></c->
+<c- k>PREFIX</c-> <c- nn>xsd</c-><c- p>:</c-> <c- nl>&lt;http://www.w3.org/2001/XMLSchema#></c->
+<c- k>PREFIX</c-> <c- nn>om</c-><c- p>:</c-> <c- nl>&lt;http://www.ontology-of-units-of-measure.org/resource/om-2/></c->
+<c- k>PREFIX</c-> <c- nn>rdfs</c-><c- p>:</c-> <c- nl>&lt;http://www.w3.org/2000/01/rdf-schema#></c->
+
+<c- nl>&lt;#Sensor></c-> <c- p>{</c->
+    <c- k>a</c-> <c- p>[</c-><c- nn>sosa</c-><c- p>:</c-><c- f>Sensor</c-><c- p>]</c-> <c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observes</c-> <c- p>[</c-><c- nn>om</c-><c- p>:</c-><c- f>Temperature</c-><c- p>]</c->  <c- p>;</c-> 
+    <c- nn>sosa</c-><c- p>:</c-><c- f>madeObservation</c-> <c- o>@</c-><c- nl>&lt;#TemperatureObservation></c-> <c- o>*</c-> 
+<c- p>}</c->
+
+<c- nl>&lt;#TemperatureObservation></c-> <c- p>{</c->
+    <c- k>a</c-> <c- p>[</c-><c- nn>sosa</c-><c- p>:</c-><c- f>Observation</c-><c- p>]</c-> <c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>resultTime</c-> <c- nn>xsd</c-><c- p>:</c-><c- f>dateTime</c-> <c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>madeBySensor</c-> <c- o>@</c-><c- nl>&lt;#Sensor></c-> <c- o>?</c-> <c- p>;</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>observedProperty</c-> <c- p>[</c-><c- nn>om</c-><c- p>:</c-><c- f>Temperature</c-><c- p>];</c->
+    <c- nn>sosa</c-><c- p>:</c-><c- f>hasResult</c-> <c- o>@</c-><c- nl>&lt;#TemperatureResult></c-> 
+<c- p>}</c->
+
+<c- nl>&lt;#TemperatureResult></c-> <c- p>{</c-> 
+    <c- k>a</c-> <c- p>[</c-><c- nn>om</c-><c- p>:</c-><c- f>Measure</c-><c- p>];</c->
+    <c- nn>om</c-><c- p>:</c-><c- f>hasValue</c-> <c- nn>xsd</c-><c- p>:</c-><c- f>float</c-> <c- p>;</c->
+    <c- nn>om</c-><c- p>:</c-><c- f>hasUnit</c-> <c- p>[</c-><c- nn>om</c-><c- p>:</c-><c- f>degreeCelsius</c-><c- p>]</c->
+<c- p>}</c->
+</pre>
    <h2 class="heading settled" data-level="4" id="relations"><span class="secno">4. </span><span class="content">Relations</span><a class="self-link" href="#relations"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="traversing"><span class="secno">4.1. </span><span class="content">Traversing relations</span><a class="self-link" href="#traversing"></a></h3>
    <p>A <code>tree:Node</code> element MAY have one or more <code>tree:relation</code> properties. A relation is an entity of the type <code>tree:Relation</code>, and MAY have a more specific type. A <code>tree:Relation</code> MUST have one <code>tree:node</code> object of the type <code>tree:Node</code>. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).</p>
