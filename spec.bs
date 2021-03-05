@@ -12,7 +12,7 @@ Abstract:
     A collection of items can be fragmented, and these fragments can be interlinked.
     It is an alternative to one-dimensional HTTP pagination.
     Instead of linking to the next or previous page, the relation describes what elements can be found by following the link to another page.
-    Multiple links can be specified, enabling parallellization when traversing the search space.
+    Multiple links can be specified, enabling parallelization when traversing the search space.
 </pre>
 
 <pre class=include>path: specs/0-introduction.md</pre>

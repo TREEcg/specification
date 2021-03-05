@@ -1,6 +1,6 @@
 # Extracting metadata # {#metadata}
 
-The root node from which all members of a collection can be found can be discovered through the predicate `tree:view`.
+The root node from which all members of a collection can be discovered through the predicate `tree:view`.
 The object of the `tree:view` triple will contain a root node from which all elements in the collection can be retrieved.
 
 When the current page is a `tree:Node`, there MUST be a property linking the current page URL to the URI of the `tree:Collection`. Three properties may be used:
@@ -64,7 +64,7 @@ If there is an ordering, this MUST be ignored by TREE clients (the relations con
 
 [The Shape Trees specification](https://shapetrees.github.io/specification/spec) is specifically built to work within existing ecosystems.
 As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a `tree:Collection`.
-Shape Trees can help in the source selection of what specific `tree:Collection` to pick for your goal, and may add hiearchies to a set of `tree:Collection`s.
+Shape Trees can help in the source selection of what specific `tree:Collection` to pick for your goal, and may add hierarchies to a set of `tree:Collection`s.
 A client MAY infer a `tree:shape` of the collection through the `st:validatedBy` property of the Shapes Tree.
 
 An example of a collection using Shape Tree terms. In this example a sensor with some observations is validated by using a [Shape Expressions](http://shex.io/shex-semantics/) (ShEx) file.
