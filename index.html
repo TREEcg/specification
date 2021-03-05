@@ -1486,7 +1486,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5ca2d46, updated Tue Mar 2 17:33:01 2021 -0800" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="1971d4525af8169dc33f647928454db5ba99e662" name="document-revision">
+  <meta content="abef26aea5ee1577369209d4db5701d64e1fecec" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -2023,7 +2023,7 @@ Parts of this work may be from another specification document.  If so, those par
     A collection of items can be fragmented, and these fragments can be interlinked.
     It is an alternative to one-dimensional HTTP pagination.
     Instead of linking to the next or previous page, the relation describes what elements can be found by following the link to another page.
-    Multiple links can be specified, enabling parallellization when traversing the search space.</p>
+    Multiple links can be specified, enabling parallelization when traversing the search space.</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
@@ -2120,7 +2120,7 @@ Parts of this work may be from another specification document.  If so, those par
        <p><code>tree:shape</code> indicates the SHACL <a data-link-type="biblio" href="#biblio-shacl">[SHACL]</a> shape to which each member in the collection adheres</p>
      </ul>
     <li data-md>
-     <p>a <code>tree:Node</code>: is a page on which relations to other pages are described through the <code>tree:relation</code> predicate, and/or through which a next <code>tree:Node</code> can by found by using the <code>tree:search</code> form.</p>
+     <p>a <code>tree:Node</code>: is a page on which relations to other pages are described through the <code>tree:relation</code> predicate, and/or through which a next <code>tree:Node</code> can be found by using the <code>tree:search</code> form.</p>
     <li data-md>
      <p>a <code>tree:Relation</code> is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a <code>tree:GreaterThanRelation</code>). A relation typically has these properties:</p>
      <ul>
@@ -2144,13 +2144,13 @@ When importing a file, no hypermedia relations will be followed from that import
     <li data-md>
      <p><code>tree:import</code> with a link to the page to import, or a <code>tree:importStream</code> with a pubsub stream to import (optionally)</p>
     <li data-md>
-     <p><code>tree:path</code> with a property path for which this</p>
+     <p><code>tree:path</code> with a property path that indicates the resource that elements in the imported resource contain</p>
    </ul>
    <p class="note" role="note"><span>Note:</span> imports are powerful to keep recurring objects in a separate, more cacheable, resource.</p>
    <p>No hypermedia controls in the body MUST be interpreted in the imported resource and the object must be fully contained within that information resource.</p>
    <p>On the resources to import, Memento <a data-link-type="biblio" href="#biblio-rfc7089">[RFC7089]</a> controls MAY be provided for historic versions.</p>
    <h2 class="heading settled" data-level="3" id="metadata"><span class="secno">3. </span><span class="content">Extracting metadata</span><a class="self-link" href="#metadata"></a></h2>
-   <p>The root node from which all members of a collection can be found can be discovered through the predicate <code>tree:view</code>.
+   <p>The root node from which all members of a collection can be discovered through the predicate <code>tree:view</code>.
 The object of the <code>tree:view</code> triple will contain a root node from which all elements in the collection can be retrieved.</p>
    <p>When the current page is a <code>tree:Node</code>, there MUST be a property linking the current page URL to the URI of the <code>tree:Collection</code>. Three properties may be used:</p>
    <ol>
@@ -2195,7 +2195,7 @@ Members can be found through <code>ldp:contains</code>, and/or through the indir
    <h4 class="heading settled" data-level="3.3.5" id="shapetrees"><span class="secno">3.3.5. </span><span class="content">Shape trees</span><a class="self-link" href="#shapetrees"></a></h4>
    <p><a href="https://shapetrees.github.io/specification/spec">The Shape Trees specification</a> is specifically built to work within existing ecosystems.
 As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a <code>tree:Collection</code>.
-Shape Trees can help in the source selection of what specific <code>tree:Collection</code> to pick for your goal, and may add hiearchies to a set of <code>tree:Collection</code>s.
+Shape Trees can help in the source selection of what specific <code>tree:Collection</code> to pick for your goal, and may add hierarchies to a set of <code>tree:Collection</code>s.
 A client MAY infer a <code>tree:shape</code> of the collection through the <code>st:validatedBy</code> property of the Shapes Tree.</p>
    <p>An example of a collection using Shape Tree terms. In this example a sensor with some observations is validated by using a <a href="http://shex.io/shex-semantics/">Shape Expressions</a> (ShEx) file.</p>
 <pre class="language-turtle highlight"><c- k>@prefix</c-> <c- nn>sosa:</c-> <c- g>&lt;http://www.w3.org/ns/sosa/></c-> <c- p>.</c->

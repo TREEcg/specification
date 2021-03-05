@@ -7,7 +7,7 @@ The TREE specification introduces these core concepts:
      - `tree:member` indicates the object is a member of the collection
      - `tree:view` indicates a root node from where all members can be reached
      - `tree:shape` indicates the SHACL [[!SHACL]] shape to which each member in the collection adheres
- * a `tree:Node`: is a page on which relations to other pages are described through the `tree:relation` predicate, and/or through which a next `tree:Node` can by found by using the `tree:search` form.
+ * a `tree:Node`: is a page on which relations to other pages are described through the `tree:relation` predicate, and/or through which a next `tree:Node` can be found by using the `tree:search` form.
  * a `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
      - a `tree:node` the URL of the other node
      - a `tree:path` indicating to which of the members' properties this relation applies
@@ -24,7 +24,7 @@ A `tree:importStream` can also be defined for providing a pubsub interface for s
 
 Instead of `tree:import`, one can also use `tree:conditionalImport` which links to an object of the type `tree:ConditionalImport` with these properties:
  * `tree:import` with a link to the page to import, or a `tree:importStream` with a pubsub stream to import (optionally)
- * `tree:path` with a property path for which this
+ * `tree:path` with a property path that indicates the resource that elements in the imported resource contain
 
 Note: imports are powerful to keep recurring objects in a separate, more cacheable, resource.
 
