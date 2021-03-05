@@ -15,8 +15,10 @@ Abstract:
     Multiple links can be specified, enabling parallelization when traversing the search space.
 </pre>
 
+
 <pre class=include>path: specs/0-introduction.md</pre>
 <pre class=include>path: specs/1-discovery.md</pre>
 <pre class=include>path: specs/2-traversing.md</pre>
 <pre class=include>path: specs/3-search.md</pre>
+<pre class=include>path: specs/5-imports.md</pre>
 <pre class=include>path: vocabulary.md</pre>
