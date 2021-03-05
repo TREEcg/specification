@@ -1484,9 +1484,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 7573c85, updated Fri Feb 19 16:30:08 2021 -0800" name="generator">
+  <meta content="Bikeshed version 5ca2d46, updated Tue Mar 2 17:33:01 2021 -0800" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="741f45aa9548c3e1c34f08d7b6696bf1ca7d9b05" name="document-revision">
+  <meta content="1971d4525af8169dc33f647928454db5ba99e662" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1996,7 +1996,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-02-26">26 February 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-03-05">5 March 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2010,7 +2010,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 26 February 2021,
+In addition, as of 5 March 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2117,7 +2117,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li data-md>
        <p><code>tree:view</code> indicates a root node from where all members can be reached</p>
       <li data-md>
-       <p><code>tree:shape</code> indicates the SHACL shape to which each member in the collection adheres</p>
+       <p><code>tree:shape</code> indicates the SHACL <a data-link-type="biblio" href="#biblio-shacl">[SHACL]</a> shape to which each member in the collection adheres</p>
      </ul>
     <li data-md>
      <p>a <code>tree:Node</code>: is a page on which relations to other pages are described through the <code>tree:relation</code> predicate, and/or through which a next <code>tree:Node</code> can by found by using the <code>tree:search</code> form.</p>
@@ -2269,7 +2269,7 @@ A client MAY infer a <code>tree:shape</code> of the collection through the <code
    <h3 class="heading settled" data-level="4.1" id="traversing"><span class="secno">4.1. </span><span class="content">Traversing relations</span><a class="self-link" href="#traversing"></a></h3>
    <p>A <code>tree:Node</code> element MAY have one or more <code>tree:relation</code> properties. A relation is an entity of the type <code>tree:Relation</code>, and MAY have a more specific type. A <code>tree:Relation</code> MUST have one <code>tree:node</code> object of the type <code>tree:Node</code>. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).</p>
    <p>The <code>tree:Relation</code>’s <code>tree:value</code> SHOULD be set. The object of <code>tree:value</code> SHOULD be accompanied by a data type when it is a literal value.</p>
-   <p>Every <code>tree:Relation</code> SHOULD have a <code>tree:path</code>, indicating the path from the member to the object to which the <code>tree:Relation</code> applies. For the different ways to express or handle a <code>tree:path</code>, we refer to <a href="https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths">2.3.1 in the shacl specification</a>. All possible combinations of e.g., <code>shacl:alternativePath</code>, <code>shacl:inversePath</code> or <code>shacl:inLanguage</code> in the SHACL spec can be used. When <code>shacl:alternativePath</code> is used, the order in the list will define the importance of the order when evaluating the <code>tree:Relation</code>. A wildcard in the path is limited to the <code>tree:shape</code> of the <code>tree:Collection</code>.
+   <p>Every <code>tree:Relation</code> SHOULD have a <code>tree:path</code>, indicating the path from the member to the object on which the <code>tree:Relation</code> applies. For the different ways to express or handle a <code>tree:path</code>, we refer to <a href="https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths">2.3.1 in the shacl specification</a>. All possible combinations of e.g., <code>shacl:alternativePath</code>, <code>shacl:inversePath</code> or <code>shacl:inLanguage</code> in the SHACL spec can be used. When <code>shacl:alternativePath</code> is used, the order in the list will define the importance of the order when evaluating the <code>tree:Relation</code>. A wildcard in the path is limited to the <code>tree:shape</code> of the <code>tree:Collection</code>.
 The result of the evaluation of the <code>tree:path</code>, is the value that must be compared to the <code>tree:value</code>.</p>
    <p>Every <code>tree:Relation</code> MAY provide a <code>tree:remainingItems</code>. A client MAY use <code>tree:remainingItems</code> to estimate the completeness of the downloaded elements to the end-user.</p>
    <p class="note" role="note"><span>Note:</span> When traversing, a client SHOULD keep a list of already visited pages, as despite this being the TREE spec, circular references and back-links are not explicitly prohibited.</p>
@@ -2649,6 +2649,8 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc7089">[RFC7089]
    <dd>H. Van de Sompel; M. Nelson; R. Sanderson. <a href="https://tools.ietf.org/html/rfc7089">HTTP Framework for Time-Based Access to Resource States -- Memento</a>. December 2013. Informational. URL: <a href="https://tools.ietf.org/html/rfc7089">https://tools.ietf.org/html/rfc7089</a>
+   <dt id="biblio-shacl">[SHACL]
+   <dd>Holger Knublauch; Dimitris Kontokostas. <a href="https://www.w3.org/TR/shacl/">Shapes Constraint Language (SHACL)</a>. 20 July 2017. REC. URL: <a href="https://www.w3.org/TR/shacl/">https://www.w3.org/TR/shacl/</a>
    <dt id="biblio-vocab-dcat-2">[VOCAB-DCAT-2]
    <dd>Riccardo Albertoni; et al. <a href="https://www.w3.org/TR/vocab-dcat-2/">Data Catalog Vocabulary (DCAT) - Version 2</a>. 4 February 2020. REC. URL: <a href="https://www.w3.org/TR/vocab-dcat-2/">https://www.w3.org/TR/vocab-dcat-2/</a>
    <dt id="biblio-websockets">[WEBSOCKETS]

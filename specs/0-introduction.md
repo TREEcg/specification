@@ -6,7 +6,7 @@ The TREE specification introduces these core concepts:
  * a `tree:Collection` is a collection of elements that adhere to a certain shape. It typically has these properties when described in a node:
      - `tree:member` indicates the object is a member of the collection
      - `tree:view` indicates a root node from where all members can be reached
-     - `tree:shape` indicates the SHACL shape to which each member in the collection adheres
+     - `tree:shape` indicates the SHACL [[!SHACL]] shape to which each member in the collection adheres
  * a `tree:Node`: is a page on which relations to other pages are described through the `tree:relation` predicate, and/or through which a next `tree:Node` can by found by using the `tree:search` form.
  * a `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
      - a `tree:node` the URL of the other node
