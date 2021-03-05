@@ -1,4 +1,4 @@
-# Extracting metadata # {#metadata}
+# Core Concepts # {#core-concepts}
 
 The root node from which all members of a collection can be found can be discovered through the predicate `tree:view`.
 The object of the `tree:view` triple will contain a root node from which all elements in the collection can be retrieved.
