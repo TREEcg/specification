@@ -1484,9 +1484,9 @@ Possible extra rowspan handling
 		}
 	}
 </style>
-  <meta content="Bikeshed version 5ca2d46, updated Tue Mar 2 17:33:01 2021 -0800" name="generator">
+  <meta content="Bikeshed version 458e6e9, updated Fri Mar 5 10:12:18 2021 -0800" name="generator">
   <link href="https://treecg.github.io/specification" rel="canonical">
-  <meta content="abef26aea5ee1577369209d4db5701d64e1fecec" name="document-revision">
+  <meta content="5a5d85f9fd64f79b7530a35bab961bcff7632015" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -2032,7 +2032,7 @@ Parts of this work may be from another specification document.  If so, those par
     <li><a href="#introduction"><span class="secno">1</span> <span class="content">Collections</span></a>
     <li><a href="#imports"><span class="secno">2</span> <span class="content">Imports</span></a>
     <li>
-     <a href="#metadata"><span class="secno">3</span> <span class="content">Extracting metadata</span></a>
+     <a href="#core-concepts"><span class="secno">3</span> <span class="content">Core Concepts</span></a>
      <ol class="toc">
       <li><a href="#multiple-collections"><span class="secno">3.1</span> <span class="content">Multiple Collections</span></a>
       <li><a href="#multiple-views"><span class="secno">3.2</span> <span class="content">Multiple views</span></a>
@@ -2149,7 +2149,7 @@ When importing a file, no hypermedia relations will be followed from that import
    <p class="note" role="note"><span>Note:</span> imports are powerful to keep recurring objects in a separate, more cacheable, resource.</p>
    <p>No hypermedia controls in the body MUST be interpreted in the imported resource and the object must be fully contained within that information resource.</p>
    <p>On the resources to import, Memento <a data-link-type="biblio" href="#biblio-rfc7089">[RFC7089]</a> controls MAY be provided for historic versions.</p>
-   <h2 class="heading settled" data-level="3" id="metadata"><span class="secno">3. </span><span class="content">Extracting metadata</span><a class="self-link" href="#metadata"></a></h2>
+   <h2 class="heading settled" data-level="3" id="core-concepts"><span class="secno">3. </span><span class="content">Core Concepts</span><a class="self-link" href="#core-concepts"></a></h2>
    <p>The root node from which all members of a collection can be discovered through the predicate <code>tree:view</code>.
 The object of the <code>tree:view</code> triple will contain a root node from which all elements in the collection can be retrieved.</p>
    <p>When the current page is a <code>tree:Node</code>, there MUST be a property linking the current page URL to the URI of the <code>tree:Collection</code>. Three properties may be used:</p>
