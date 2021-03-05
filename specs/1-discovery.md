@@ -1,6 +1,6 @@
 # Extracting metadata # {#metadata}
 
-The root node from which all members of a collection can be found can be discovered through the predicate `tree:view`.
+The root node from which all members of a collection can be discovered through the predicate `tree:view`.
 The object of the `tree:view` triple will contain a root node from which all elements in the collection can be retrieved.
 
 When the current page is a `tree:Node`, there MUST be a property linking the current page URL to the URI of the `tree:Collection`. Three properties may be used:
