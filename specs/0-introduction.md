@@ -24,7 +24,7 @@ A `tree:importStream` can also be defined for providing a pubsub interface for s
 
 Instead of `tree:import`, one can also use `tree:conditionalImport` which links to an object of the type `tree:ConditionalImport` with these properties:
  * `tree:import` with a link to the page to import, or a `tree:importStream` with a pubsub stream to import (optionally)
- * `tree:path` with a property path for which this
+ * `tree:path` with a property path that indicates the resource that elements in the imported resource contain
 
 Note: imports are powerful to keep recurring objects in a separate, more cacheable, resource.
 
