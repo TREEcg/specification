@@ -37,7 +37,7 @@ When this is done, also `hydra:member` can be used instead of `tree:member`.
 
 `hydra:totalItems` can be used to indicate the total amount of elements in the collection.
 
-Hydra paging controls such as first, last, next and previous MUST be ignored.
+Hydra paging controls such as `hydra:next`and `hydra:previous`are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
 
 ### Activity Streams 2.0 ### {#activitystreams}
 
@@ -48,7 +48,7 @@ Therefore, when using AS collections, a client implementation should gather the 
 
 `as:totalItems` can be used to indicate the total amount of elements in the collection.
 
-AS paging controls such as first, last, next and previous MUST be ignored.
+AS paging controls such as `as:next`and `as:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not add provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
 
 ### LDP Containers ### {#ldp}
 
