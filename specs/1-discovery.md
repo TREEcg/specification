@@ -69,6 +69,7 @@ A client MAY infer a `tree:shape` of the collection through the `st:validatedBy`
 
 An example of a collection using Shape Tree terms. In this example a sensor with some observations is validated by using a [Shape Expressions](http://shex.io/shex-semantics/) (ShEx) file.
 
+<div class="example">
 ```turtle
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
@@ -140,3 +141,4 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     om:hasUnit [om:degreeCelsius]
 }
 ```
+</div>

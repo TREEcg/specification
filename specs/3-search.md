@@ -14,7 +14,7 @@ Three properties allow to specify a geospatial XYZ tiles template (also known as
 
 All properties expect positive integers.
 
-Example:
+<div class="example">
 ```json
 {
    "@context": {
@@ -58,6 +58,7 @@ Example:
   }
 }
 ```
+</div>
 
 This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the fragmentation. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.).
 
@@ -67,7 +68,7 @@ Same as the previous example but with the predicate `tree:timeQuery` expecting a
 This time however, when the page itself does not exist, a redirect is doing to happen to the page containing the timestamp.
 A `tree:path` can indicate the time predicate which is intended.
 
-Example:
+<div class="example">
 ```json
 {
    "@context": {
@@ -94,3 +95,4 @@ Example:
   }
 }
 ```
+</div>

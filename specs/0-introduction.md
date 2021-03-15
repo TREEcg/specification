@@ -13,6 +13,3 @@ The TREE specification introduces these core concepts:
      - a `tree:path` indicating to which of the members' properties this relation applies
      - a `tree:value` indicating a value constraint on the members' values
      - a `tree:remainingItems` defining how many members can be reached when following this relation
-     
-
-

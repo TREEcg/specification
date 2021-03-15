@@ -4,7 +4,8 @@ Shortname: TREE
 Level: 1
 Status: LS
 Group: TREE community group
-URL: https://treecg.github.io/specification
+URL: https://w3id.org/tree/specification
+Repository: https://github.com/treecg/specification
 Markup Shorthands: markdown yes
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
