@@ -4,7 +4,8 @@ Shortname: TREE
 Level: 1
 Status: LS
 Group: TREE community group
-URL: https://treecg.github.io/specification
+URL: https://w3id.org/tree/specification
+Repository: https://github.com/treecg/specification
 Markup Shorthands: markdown yes
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
@@ -15,8 +16,10 @@ Abstract:
     Multiple links can be specified, enabling parallelization when traversing the search space.
 </pre>
 
+
 <pre class=include>path: specs/0-introduction.md</pre>
 <pre class=include>path: specs/1-discovery.md</pre>
 <pre class=include>path: specs/2-traversing.md</pre>
 <pre class=include>path: specs/3-search.md</pre>
+<pre class=include>path: specs/5-imports.md</pre>
 <pre class=include>path: vocabulary.md</pre>
