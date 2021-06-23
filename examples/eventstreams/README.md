@@ -8,7 +8,7 @@ Example:
 ```turtle
 <C> a tree:Collection ;
     tree:shape <shape1.shacl> ; # this shacl shape for as long as this collection exists will need to be backwards compatible.
-    tree:member <Obervation1> .
+    tree:member <Observation1> .
 
 <Observation1> a sosa:Observation ;
     sosa:resultTime "2020..." ;
@@ -60,7 +60,7 @@ The first page of the event stream starts with the oldest events:
 ```turtle
 <C> a tree:Collection ;
     tree:shape <shape1.shacl> ; # this shacl shape for as long as this collection exists will need to be backwards compatible.
-    tree:member <Obervation1>, ... ;
+    tree:member <Observation1>, ... ;
     tree:view <?page=1> .
 
 <?page=1> a tree:Node ;
