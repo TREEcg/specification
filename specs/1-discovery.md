@@ -62,7 +62,7 @@ If there is an ordering, this MUST be ignored by TREE clients (the relations con
 
 ### Shape trees ### {#shapetrees}
 
-[The Shape Trees specification](https://shapetrees.github.io/specification/spec) is specifically built to work within existing ecosystems.
+[The Shape Trees specification](https://shapetrees.org/TR/specification/) is specifically built to work within existing ecosystems.
 As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a `tree:Collection`.
 Shape Trees can help in the source selection of what specific `tree:Collection` to pick for your goal, and may add hierarchies to a set of `tree:Collection`s.
 A client MAY infer a `tree:shape` of the collection through the `st:validatedBy` property of the Shapes Tree.
