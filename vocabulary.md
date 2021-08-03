@@ -58,7 +58,7 @@ Links a node to a relation
 
 Remaining number of items of this node, the items in its children included.
 
-**Domain**: `tree:Node`
+**Domain**: `tree:Relation`
 
 **Range**: `xsd:integer`
 
