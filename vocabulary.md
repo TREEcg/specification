@@ -35,7 +35,7 @@ The `tree:Relation` has specific sub-classes that implement a more specific type
      - `tree:GreaterThanOrEqualToRelation` — similar to ↑
      - `tree:LessThanRelation`
      - `tree:LessThanOrEqualToRelation`
-     - `tree:EqualThanRelation`
+     - `tree:EqualToRelation`
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
      - `tree:GeospatiallyContainsRelation` — (for semantics, see the [DE-9IM wikipedia page](https://en.wikipedia.org/wiki/DE-9IM))
 
