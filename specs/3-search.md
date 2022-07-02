@@ -2,7 +2,7 @@
 
 Searching through a TREE will allow you to immediately jump to the right `tree:Node`.
 TREE relies on the [Hydra search specification](http://www.hydra-cg.com/spec/latest/core/#hydra:search) for its search forms.
-It does however extend Hydra with specific search properties (`hydra:IriTemplate`) for different types of search forms, and searches starting from a `tree:Node`, to which the search form is linked with `tree:search`.
+It does however extend Hydra with specific search properties (`hydra:IriTemplate`) for different types of search forms, and searches starting from a `tree:ViewDescription`, to which the search form is linked with `tree:search`.
 The behaviour of the search form fully depends on the specific property, for which TREE introduces a couple of specific properties:
 
 ## Geospatial XYZ tiles search form ## {#xyztiles}
@@ -15,48 +15,37 @@ Three properties allow to specify a geospatial XYZ tiles template (also known as
 All properties expect positive integers.
 
 <div class="example">
-```json
-{
-   "@context": {
-     "viewOf" : {
-       "@reverse": "tree:view",
-       "@type": "@id"
-     },
-     ...
-   },
-  "viewOf": {
-    "@id": "https://tiles.openplanner.team/planet/",
-    "@type": "tree:Collection",
-    "dcterms:license": "http://opendatacommons.org/licenses/odbl/1-0/",
-    "dcterms:rights": "http://www.openstreetmap.org/copyright",
-    "tree:member": [ ..., ... ]
-  },
-  "tree:search": {
-    "@type": "hydra:IriTemplate",
-    "hydra:template": "https://tiles.openplanner.team/planet/{z}/{x}/{y}",
-    "hydra:variableRepresentation": "hydra:BasicRepresentation",
-    "hydra:mapping": [
-      {
-        "@type": "hydra:IriTemplateMapping",
-        "hydra:variable": "x",
-        "hydra:property": "tree:longitudeTile",
-        "hydra:required": true
-      },
-      {
-        "@type": "hydra:IriTemplateMapping",
-        "hydra:variable": "y",
-        "hydra:property": "tree:latitudeTile",
-        "hydra:required": true
-      },
-      {
-        "@type": "hydra:IriTemplateMapping",
-        "hydra:variable": "z",
-        "hydra:property": "tree:zoom",
-        "hydra:required": true
-      }
-    ]
-  }
-}
+```turtle
+<https://tiles.openplanner.team/#LatestCollection> a tree:Collection ;
+    dcterms:title "A prototype tree:Collection for Linked OpenStreetMap’s roads"@en ;
+    tree:view <https://tiles.openplanner.team/planet/20201103-095900/14/8411/5485> .
+
+<https://tiles.openplanner.team/planet/20201103-095900/14/8411/5485> a tree:Node ;
+    tree:viewDescription <https://tiles.openplanner.team/planet/> .
+
+<https://tiles.openplanner.team/planet/> a tree:ViewDescription ;
+    tree:search [
+         a hydra:IriTemplate ;
+         hydra:template "https://tiles.openplanner.team/planet/20201103-095900/{z}/{x}/{y}" ;
+         hydra:variableRepresentation hydra:BasicRepresentation ;
+         hydra:mapping [
+             a hydra:IriTemplateMapping ;
+             hydra:variable "x";
+             hydra:property tree:longitudeTile;
+             hydra:required true
+         ],[
+             a hydra:IriTemplateMapping ;
+             hydra:variable "y";
+             hydra:property tree:latitudeTile;
+             hydra:required true
+         ],[
+             a hydra:IriTemplateMapping ;
+             hydra:variable "z";
+             hydra:property tree:zoom;
+             hydra:required true
+         ]
+    ] .
+    
 ```
 </div>
 
@@ -69,30 +58,26 @@ This time however, when the page itself does not exist, a redirect is doing to h
 A `tree:path` can indicate the time predicate which is intended.
 
 <div class="example">
-```json
-{
-   "@context": {
-     ...
-   },
-  "dcterms:isPartOf": {
-    "@id": "#coll",
-    "@type": "tree:Collection",
-    "tree:member": [ ..., ... ]
-  },
-  "tree:search": {
-    "@type": "hydra:IriTemplate",
-    "hydra:template": "https://example.org/{t}",
-    "hydra:variableRepresentation": "hydra:BasicRepresentation",
-    "hydra:mapping": [
-      {
-        "@type": "hydra:IriTemplateMapping",
-        "hydra:variable": "t",
-        "tree:path": "prov:generatedAtTime",
-        "hydra:property": "tree:timeQuery",
-        "hydra:required": true
-      }
-    ]
-  }
-}
+```turtle
+<https://example.org/#Collection> a tree:Collection ;
+    dcterms:title "An example collection with a time search view"@en ;
+    tree:view <https://example.org/Node1> .
+
+<https://example.org/Node1> a tree:Node ;
+    tree:viewDescription <https://example.org/#TimeSearch> .
+
+<https://example.org/#TimeSearch> a tree:ViewDescription ;
+    tree:search [
+         a hydra:IriTemplate ;
+         hydra:template "https://example.org/{generatedAt}" ;
+         hydra:variableRepresentation hydra:BasicRepresentation ;
+         hydra:mapping [
+             a hydra:IriTemplateMapping ;
+             hydra:variable "generatedAt";
+             tree:path prov:generatedAtTime;
+             hydra:property tree:timeQuery;
+             hydra:required true
+         ]
+    ] .
 ```
 </div>

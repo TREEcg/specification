@@ -18,6 +18,7 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
 
 tree: a foaf:Document ;
       foaf:primaryTopic tree:Ontology;
@@ -37,6 +38,11 @@ tree:Ontology a owl:Ontology ;
 tree:Collection a rdfs:Class ;
                 rdfs:label "Collection"@en;
                 rdfs:comment "A tree:Collection is a collection containing members. The members may be spread across multiple tree:Nodes."@en .
+
+tree:ViewDescription a rdfs:Class ;
+                     rdfs:subClassOf dcat:DataService ;
+                     rdfs:label "View Description"@en ;
+                     rdfs:comment "Describes a specific TREE structure on top of the tree:Collection"@en .
 
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
@@ -83,9 +89,9 @@ tree:LessThanOrEqualToRelation a rdfs:Class ;
                                rdfs:subClassOf tree:Relation ;
                                rdfs:label "Less than or equal to Relation"@en .
                                
-tree:EqualThanRelation a rdfs:Class ;
+tree:EqualToRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
-                       rdfs:label "Equal Than Relation"@en .
+                       rdfs:label "Equal To Relation"@en .
 
 tree:GeospatiallyContainsRelation  a rdfs:Class ;
                                    rdfs:subClassOf tree:Relation ;
@@ -98,6 +104,12 @@ tree:InBetweenRelation a rdfs:Class ;
                        rdfs:comment "For comparing intervals: all further members are in-between the given interval"@en .
 
 ######## Properties
+
+tree:viewDescription a rdf:Property ;
+                     rdfs:label "View Description";
+                     rdfs:comment "Links together a tree:Node with its description of this TREE structure"@en;
+                     rdfs:domain tree:Node ;
+                     rdfs:range tree:ViewDescription .
 
 tree:relation a rdf:Property ;
               rdfs:label "Relation"@en;
