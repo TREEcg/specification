@@ -43,6 +43,10 @@ The `tree:Relation` has specific sub-classes that implement a more specific type
 
 A class to import a file or a stream based on a `tree:path` of properties. This way it can import the necessary data for complying to the SHACL shape, or evaluating a relation type.
 
+### tree:ViewDescription ### {#ViewDescription}
+
+Describes a specific TREE structure on top of the `tree:Collection`.
+
 ## Properties ## {#properties}
 
 ### tree:relation ### {#relation}
@@ -143,3 +147,11 @@ As defined by [Slippy Map Tilenames in OpenStreetMap](https://wiki.openstreetmap
 ### tree:timeQuery ### {#timeQuery}
 
 A search form parameter: accompagnied by a `tree:path`, it indicates the property on which a time search can be done
+
+### tree:viewDescription ### {#viewDescription}
+
+Links together a tree:Node with its description of this TREE structure.
+
+**Domain**: `tree:Node`
+
+**Range**: `tree:ViewDescription`

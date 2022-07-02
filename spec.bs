@@ -22,4 +22,6 @@ Abstract:
 <pre class=include>path: specs/2-traversing.md</pre>
 <pre class=include>path: specs/3-search.md</pre>
 <pre class=include>path: specs/5-imports.md</pre>
+<pre class=include>path: specs/6-compatibility.md</pre>
+
 <pre class=include>path: vocabulary.md</pre>
