@@ -45,7 +45,7 @@ ex:Fragmentation1 a tree:ViewDescription ; #this is an rdfs:subClassOf dcat:Data
   dcat:servesDataset ex:C1 .
 ```
 
-Note: In Linked Data Event Streams, the [`ldes:EventSource` class](https://w3id.org/ldes#EventSource) exists to indicate this fragmentation is designed to be the source for all derived views. The Linked Data Evnet Streams specification can also further elaborate on the ViewDescription by for example describing a retention policy on top of it.
+Note: In Linked Data Event Streams, the [`ldes:EventSource` class](https://w3id.org/ldes#EventSource) exists to indicate this fragmentation is designed to be the source for all derived views. The Linked Data Event Streams specification can also further elaborate on the ViewDescription by for example describing a retention policy on top of it.
 
 Note: In [the Smart Data Specification](https://w3id.org/sds/specification), a `tree:ViewDescription` can be used to describe the algorithm that created this specific fragmentation.
 
