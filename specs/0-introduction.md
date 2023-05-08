@@ -3,7 +3,7 @@
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vTTCjBkBum1J4xgbg0oZJaD_H05dpZxhL6jrp1yzqoIsYw5EOa-7D24No_rfEyTipq1rLb-_tPTEYV0/pub?w=1093&amp;h=546" width="100%">
 
 The TREE specification introduces these core concepts:
- * a `tree:Collection` is a collection of elements that adhere to a certain shape. It typically has these properties when described in a node:
+ * a `tree:Collection` is a subclass of `dcat:Dataset`. The specialization is that it is a collection of members that MAY adhere to a certain shape. It typically has these properties when described in a node:
      - `tree:member` indicates the object is a member of the collection
      - `tree:view` indicates a root node from where all members can be reached
      - `tree:shape` indicates the SHACL [[!SHACL]] shape to which each member in the collection adheres
