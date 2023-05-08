@@ -36,6 +36,7 @@ tree:Ontology a owl:Ontology ;
 ######## Classes
 
 tree:Collection a rdfs:Class ;
+                rdfs:subClassOf dcat:Dataset ;
                 rdfs:label "Collection"@en;
                 rdfs:comment "A tree:Collection is a collection containing members. The members may be spread across multiple tree:Nodes."@en .
 
