@@ -2,7 +2,7 @@
 
 ### DCAT ### {#dcat}
 
-[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a `dcat:accessURL` from the `dcat:Distribution` to the entrypoint where the `tree:Collection`s are described. Furthermore, there SHOULD be a `dct:conformsTo` this URI: `https://w3id.org/tree`.
+[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a `dcat:endpointURL` from the `dcat:DataService` to the entrypoint where the `tree:Collection`s are described. Furthermore, there SHOULD be a `dct:conformsTo` this URI: `https://w3id.org/tree`.
 
 ### Hydra ### {#hydra}
 
@@ -12,7 +12,7 @@ When this is done, also `hydra:member` can be used instead of `tree:member`.
 
 `hydra:totalItems` can be used to indicate the total amount of elements in the collection.
 
-Hydra paging controls such as `hydra:next`and `hydra:previous`are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
+Hydra paging controls such as `hydra:next` and `hydra:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
 
 ### Activity Streams 2.0 ### {#activitystreams}
 

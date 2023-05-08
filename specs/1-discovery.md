@@ -2,12 +2,12 @@
 
 A node from which all members of a collection can be discovered, can be found through a triple stating `ex:C1 tree:view ex:N1` with `ex:C1` being a `tree:Collection` and `ex:N1` being a `tree:Node`.
 
-When the current page is a `tree:Node`, there MUST be a property linking the current page URL to the URI of the `tree:Collection`. However, not from all `tree:Node`s all members can be reached, and therefore 2 other properties can be used: `void:subset` and `dcterms:isPartOf`.
+When the current page is a `tree:Node`, there MUST be a property linking the current page URL to the URI of the `tree:Collection`. However, not from all `tree:Node`s all members can be reached, and therefore 2 other properties can be used: `void:subset`, or the inverse property, `dcterms:isPartOf`.
 
 Three properties may thus be used:
  1. `ex:C1 tree:view <> .`<br/>May be used *only* in the case when the entire `tree:Collection` can be found starting from the current node.
- 2. `ex:C1 void:subset <> .`<br/>When the node is not a node from which all members can be found, but still a subset of the collection can be found.
- 3. `<> dcterms:isPartOf ex:C1 .`<br/>The reverse property of 2.
+ 2. `ex:C1 void:subset <> .`<br/>When the node is not a node from which all members can be found, but still is a subset of the collection that can be found.
+ 3. `<> dcterms:isPartOf ex:C1 .`<br/>The inverse property of 2.
 
 ## Selecting from multiple Collections ## {#multiple-collections}
 
@@ -31,21 +31,27 @@ In order to fetch all members, one can be chosen at random if no specific `tree:
 In order to prioritize a specific view, the relations and search forms in the root nodes can be studied for their relation types, path or remaining items.
 
 
-### Describing the ViewDescription ### {#view-description}
+### Describing the View using a ViewDescription ### {#view-description}
 
 The class `tree:ViewDescription` indicates a specific TREE structure on a `tree:Collection`.
-It is an `rdfs:subClassOf` a `dcat:DataService`.
-Through the property `tree:viewDescription` 
+Through the property `tree:viewDescription` a `tree:Node` can create an entity that describes the view, and can be reused in data portals as the dcat:DataService.
+The `tree:ViewDescription` class is a `rdfs:subClassOf` a `dcat:DataService`.
+
+
 ```
 ex:N1 a tree:Node ;
   tree:viewDescription ex:Fragmentation1 .
   
+ex:C1 tree:view ex:N1 .
+  
 ex:Fragmentation1 a tree:ViewDescription ; #this is an rdfs:subClassOf dcat:DataService
   dcat:endpointURL ex:N1 ; # The entry point that can be advertised in a data portal
-  dcat:servesDataset ex:C1 .
+  dcat:servesDataset ex:C1 . # Can be infered from the `tree:view → tree:viewDescription` property path.
 ```
 
-Note: In Linked Data Event Streams, the [`ldes:EventSource` class](https://w3id.org/ldes#EventSource) exists to indicate this fragmentation is designed to be the source for all derived views. The Linked Data Evnet Streams specification can also further elaborate on the ViewDescription by for example describing a retention policy on top of it.
+When there is no `tree:viewDescription` property in this page, a client either already discovered the description of this view in an earlier `tree:Node`, either the current `tree:Node` is implicitly the ViewDescription. Therefore, when the property path `tree:view → tree:viewDescription` does not yield a result, the view properties MUST be extracted from the object of the `tree:view` triple.
+
+Note: In Linked Data Event Streams, the [ldes:EventSource class](https://w3id.org/ldes#EventSource) exists to indicate this fragmentation is designed to be the source for all derived views. The Linked Data Event Streams specification can also further elaborate on the ViewDescription by for example describing a retention policy on top of it.
 
 Note: In [the Smart Data Specification](https://w3id.org/sds/specification), a `tree:ViewDescription` can be used to describe the algorithm that created this specific fragmentation.
 
