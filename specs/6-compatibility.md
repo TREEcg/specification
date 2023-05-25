@@ -1,10 +1,10 @@
-## Compatibility ## {#compatibility}
+# Compatibility ## {#compatibility}
 
-### DCAT ### {#dcat}
+## DCAT ## {#dcat}
 
 [[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a `dcat:endpointURL` from the `dcat:DataService` to the entrypoint where the `tree:Collection`s are described. Furthermore, there SHOULD be a `dct:conformsTo` this URI: `https://w3id.org/tree`.
 
-### Hydra ### {#hydra}
+## Hydra ## {#hydra}
 
 A `tree:Collection` is compatible with the [Hydra Collections specification](https://www.hydra-cg.com/spec/latest/core/#collections). However, instead of `hydra:view`, we use `tree:view` and do not link to a `hydra:PartialCollectionView` but to a `tree:Node`.
 A `hydra:Collection` can thus also be extended with a `tree:shape` and `tree:view`.
@@ -14,7 +14,7 @@ When this is done, also `hydra:member` can be used instead of `tree:member`.
 
 Hydra paging controls such as `hydra:next` and `hydra:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
 
-### Activity Streams 2.0 ### {#activitystreams}
+## Activity Streams 2.0 ## {#activitystreams}
 
 A `tree:Collection` is also compatible with [[!activitystreams-core]]’s specification of [paged collections](https://www.w3.org/TR/activitystreams-core/#collections).
 Instead of `dcterms:isPartOf`, also `as:partOf` can be used to indicate that the current page is part of the full collection.
@@ -25,7 +25,7 @@ Therefore, when using AS collections, a client implementation should gather the 
 
 AS paging controls such as `as:next`and `as:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not add provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
 
-### LDP Containers ### {#ldp}
+## LDP Containers ## {#ldp}
 
 Another relevant spec is [[!LDP]].
 There, the `tree:view` can be applied on top of the `ldp:Container` instance.
@@ -35,7 +35,7 @@ If this container is paged by the [[!ldp-paging]] (chapter 7) spec, then this MU
 
 If there is an ordering, this MUST be ignored by TREE clients (the relations contain all necessary information for pruning).
 
-### Shape trees ### {#shapetrees}
+## Shape trees ## {#shapetrees}
 
 [The Shape Trees specification](https://shapetrees.org/TR/specification/) is specifically built to work within existing ecosystems.
 As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a `tree:Collection`.
