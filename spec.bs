@@ -2,11 +2,13 @@
 Title: The TREE hypermedia specification
 Shortname: TREE
 Level: 1
-Status: LS
+Status: CG-DRAFT
 Group: TREE community group
 URL: https://w3id.org/tree/specification
 Repository: https://github.com/treecg/specification
 Markup Shorthands: markdown yes
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
     The TREE specification enables API developers to define relations between HTTP resources.
