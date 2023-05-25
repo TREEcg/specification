@@ -1,4 +1,4 @@
-# Compatibility ## {#compatibility}
+# Compatibility # {#compatibility}
 
 ## DCAT ## {#dcat}
 
