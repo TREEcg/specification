@@ -3,7 +3,7 @@ Title: The TREE hypermedia specification
 Shortname: TREE
 Level: 1
 Status: CG-DRAFT
-Group: TREE community group
+Group: TREE hypermedia community group
 URL: https://w3id.org/tree/specification
 Repository: https://github.com/treecg/specification
 Markup Shorthands: markdown yes
