@@ -1,4 +1,6 @@
-# Relations # {#relations}
+# The tree:Relations # {#relations}
+
+The initial configuration of the `tree:Collection` and the description of the view is always provided when the view has been discovered, either in a separate document describing the view, either in the entry node itself. The configuration MUST be reused on any subsequent `tree:Node`.
 
 ## Traversing relations ## {#traversing}
 
@@ -19,19 +21,15 @@ Note: An example of a `tree:import` is given [in the repository](https://github.
 
 ## Fallbacks ## {#fallbacks}
 
-When there are no `tree:member`s and/or no `tree:Collection` defined, then the `tree:path` refers to a pattern that can start from every triple in the page.
-
-Note: This may enable server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the `tree:path`.
+When there are no `tree:member`s and/or no `tree:Collection` defined, then still a `tree:Relation` can be defined. The `tree:path` in the `tree:Relation` then refers to a pattern that can start from every triple in the page.
 
 When no `tree:path` is defined, the `tree:value` MUST be compared to all members’ triples that *can be compared to* the `tree:value` as defined by the type of the relation (or when no members or collection are defined, on every triple in the page).
 When due to `rdfs:range` incompatibility, the object cannot be compared, the object will not be considered for comparison.
 
-When there is no `tree:shape` given, then this collection may contain any kind of triple and can not be automatically pruned in the source selection. This may however still be useful in triple-based collections.
+Note: This may enable server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the `tree:path`.
 
-Note: Not having a `tree:member` nor `tree:path` may also be useful for triple-based indexes such as [Triple Pattern Fragments](https://www.hydra-cg.com/spec/latest/triple-pattern-fragments/). In order to support metadata about the triples itself, something like [RDF*](http://blog.liu.se/olafhartig/tag/rdf-star/) would otherwise be needed, or a triple indicating whether we should look at the page as a “page of triples” or a “page of members”.
-
-The target object SHOULD be materialized in the current Node document, but when it is not, the object MAY be considered implicit on the condition both `tree:path` and `tree:member` are defined.
-In contrast to `shacl:path`, a `tree:path` MAY refer to an implicit property and may not materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to infer the data, could try to fetch it through another `tree:Collection`, or retrieve it using URI dereferencing.
+The target object of a `tree:path` SHOULD be materialized in the current Node document, but when it is not, the object MAY be considered implicit on the condition both `tree:path` and `tree:member` are defined.
+In contrast to `shacl:path`, a `tree:path` MAY refer to an implicit property and may not be materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to infer the data, could try to fetch it through another `tree:Collection`, or retrieve it using URI dereferencing.
 
 ## Specific relations ## {#relationsubclasses}
 

@@ -2,7 +2,7 @@
 
 ## DCAT ## {#dcat}
 
-[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a `dcat:endpointURL` from the `dcat:DataService` to the entrypoint where the `tree:Collection`s are described. Furthermore, there SHOULD be a `dct:conformsTo` this URI: `https://w3id.org/tree`.
+[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a `dcat:endpointDescription` from the `dcat:DataService` to the entrypoint where the `tree:Collection`s and the `tree:ViewDescription`s are listed. Furthermore, there SHOULD be a `dct:conformsTo` this URI: `https://w3id.org/tree`.
 
 ## Hydra ## {#hydra}
 
@@ -11,8 +11,7 @@ A `hydra:Collection` can thus also be extended with a `tree:shape` and `tree:vie
 When this is done, also `hydra:member` can be used instead of `tree:member`.
 
 `hydra:totalItems` can be used to indicate the total amount of elements in the collection.
-
-Hydra paging controls such as `hydra:next` and `hydra:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
+Hydra paging controls such as `hydra:next` and `hydra:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property.
 
 ## Activity Streams 2.0 ## {#activitystreams}
 
@@ -23,12 +22,11 @@ Therefore, when using AS collections, a client implementation should gather the 
 
 `as:totalItems` can be used to indicate the total amount of elements in the collection.
 
-AS paging controls such as `as:next`and `as:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property. These do not add provide any additional information to a client traversing a collection; the discovered node retains the value constraints from the current node. 
+AS paging controls such as `as:next`and `as:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property.
 
 ## LDP Containers ## {#ldp}
 
-Another relevant spec is [[!LDP]].
-There, the `tree:view` can be applied on top of the `ldp:Container` instance.
+In [[!LDP]], the `tree:view` can be applied on top of the `ldp:Container` instance.
 Members can be found through `ldp:contains`, and/or through the indirect `ldp:membershipResource` and `ldp:hasMemberRelation` or `ldp:isMemberOfRelation` construct.
 
 If this container is paged by the [[!ldp-paging]] (chapter 7) spec, then this MUST be ignored.
