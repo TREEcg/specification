@@ -11,11 +11,10 @@ Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
-    The TREE specification enables API developers to define relations between HTTP resources.
-    A collection of items can be fragmented, and these fragments can be interlinked.
-    It is an alternative to one-dimensional HTTP pagination.
-    Instead of linking to the next or previous page, the relation describes what elements can be found by following the link to another page.
-    Multiple links can be specified, enabling parallelization when traversing the search space.
+    The TREE hypermedia specification enables data publishers and API developers to publish collections of entities (the members).
+    It then allows to create one or more views of this collection.
+    A view organizes the members into multiple pages or nodes, and these nodes are interlinked using relations and/or search forms.
+    This way, a user agent that can interpret the TREE hypermedia controls can find the most efficient way to the members of interest to them.
 </pre>
 
 
