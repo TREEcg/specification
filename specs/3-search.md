@@ -1,4 +1,4 @@
-# Searching through the collection # {#searching}
+# Search forms # {#searching}
 
 Searching through a TREE will allow you to immediately jump to the right `tree:Node`.
 TREE relies on the [Hydra search specification](http://www.hydra-cg.com/spec/latest/core/#hydra:search) for its search forms.
