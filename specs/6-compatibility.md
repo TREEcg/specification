@@ -2,32 +2,32 @@
 
 ## DCAT ## {#dcat}
 
-[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a `dcat:endpointDescription` from the `dcat:DataService` to the entrypoint where the `tree:Collection`s and the `tree:ViewDescription`s are listed. Furthermore, there SHOULD be a `dct:conformsTo` this URI: `https://w3id.org/tree`.
+[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a <code>dcat:endpointDescription</code> from the <code>dcat:DataService</code> to the entrypoint where the <code>tree:Collection</code>s and the <code>tree:ViewDescription</code>s are listed. Furthermore, there SHOULD be a <code>dct:conformsTo</code> this URI: <code>https://w3id.org/tree</code>.
 
 ## Hydra ## {#hydra}
 
-A `tree:Collection` is compatible with the [Hydra Collections specification](https://www.hydra-cg.com/spec/latest/core/#collections). However, instead of `hydra:view`, we use `tree:view` and do not link to a `hydra:PartialCollectionView` but to a `tree:Node`.
-A `hydra:Collection` can thus also be extended with a `tree:shape` and `tree:view`.
-When this is done, also `hydra:member` can be used instead of `tree:member`.
+A <code>tree:Collection</code> is compatible with the [Hydra Collections specification](https://www.hydra-cg.com/spec/latest/core/#collections). However, instead of <code>hydra:view</code>, we use <code>tree:view</code> and do not link to a <code>hydra:PartialCollectionView</code> but to a <code>tree:Node</code>.
+A <code>hydra:Collection</code> can thus also be extended with a <code>tree:shape</code> and <code>tree:view</code>.
+When this is done, also <code>hydra:member</code> can be used instead of <code>tree:member</code>.
 
-`hydra:totalItems` can be used to indicate the total amount of elements in the collection.
-Hydra paging controls such as `hydra:next` and `hydra:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property.
+<code>hydra:totalItems</code> can be used to indicate the total amount of elements in the collection.
+Hydra paging controls such as <code>hydra:next</code> and <code>hydra:previous</code> are semantically equivalent to a <code>tree:Relation</code> element that only contains a <code>tree:node</code> property.
 
 ## Activity Streams 2.0 ## {#activitystreams}
 
-A `tree:Collection` is also compatible with [[!activitystreams-core]]’s specification of [paged collections](https://www.w3.org/TR/activitystreams-core/#collections).
-Instead of `dcterms:isPartOf`, also `as:partOf` can be used to indicate that the current page is part of the full collection.
+A <code>tree:Collection</code> is also compatible with [[!activitystreams-core]]’s specification of [paged collections](https://www.w3.org/TR/activitystreams-core/#collections).
+Instead of <code>dcterms:isPartOf</code>, also <code>as:partOf</code> can be used to indicate that the current page is part of the full collection.
 While Hydra and TREE link to the members of the collection by using the specific collection as a subject, Activity Streams 2.0 (AS) indicates a member starting from the page URL.
-Therefore, when using AS collections, a client implementation should gather the members from the `tree:Node` or `as:CollectionPage` instead.
+Therefore, when using AS collections, a client implementation should gather the members from the <code>tree:Node</code> or <code>as:CollectionPage</code> instead.
 
-`as:totalItems` can be used to indicate the total amount of elements in the collection.
+<code>as:totalItems</code> can be used to indicate the total amount of elements in the collection.
 
-AS paging controls such as `as:next`and `as:previous` are semantically equivalent to a `tree:Relation` element that only contains a `tree:node` property.
+AS paging controls such as <code>as:next</code>and <code>as:previous</code> are semantically equivalent to a <code>tree:Relation</code> element that only contains a <code>tree:node</code> property.
 
 ## LDP Containers ## {#ldp}
 
-In [[!LDP]], the `tree:view` can be applied on top of the `ldp:Container` instance.
-Members can be found through `ldp:contains`, and/or through the indirect `ldp:membershipResource` and `ldp:hasMemberRelation` or `ldp:isMemberOfRelation` construct.
+In [[!LDP]], the <code>tree:view</code> can be applied on top of the <code>ldp:Container</code> instance.
+Members can be found through <code>ldp:contains</code>, and/or through the indirect <code>ldp:membershipResource</code> and <code>ldp:hasMemberRelation</code> or <code>ldp:isMemberOfRelation</code> construct.
 
 If this container is paged by the [[!ldp-paging]] (chapter 7) spec, then this MUST be ignored.
 
@@ -36,9 +36,9 @@ If there is an ordering, this MUST be ignored by TREE clients (the relations con
 ## Shape trees ## {#shapetrees}
 
 [The Shape Trees specification](https://shapetrees.org/TR/specification/) is specifically built to work within existing ecosystems.
-As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a `tree:Collection`.
-Shape Trees can help in the source selection of what specific `tree:Collection` to pick for your goal, and may add hierarchies to a set of `tree:Collection`s.
-A client MAY infer a `tree:shape` of the collection through the `st:validatedBy` property of the Shapes Tree.
+As it was conceived to interoperate with LDP, the term Container in the Shape Trees spec can also be interpreted as a <code>tree:Collection</code>.
+Shape Trees can help in the source selection of what specific <code>tree:Collection</code> to pick for your goal, and may add hierarchies to a set of <code>tree:Collection</code>s.
+A client MAY infer a <code>tree:shape</code> of the collection through the <code>st:validatedBy</code> property of the Shapes Tree.
 
 An example of a collection using Shape Tree terms. In this example a sensor with some observations is validated by using a [Shape Expressions](http://shex.io/shex-semantics/) (ShEx) file.
 

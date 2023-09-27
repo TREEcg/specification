@@ -1,16 +1,16 @@
 # Search forms # {#searching}
 
-Searching through a TREE will allow you to immediately jump to the right `tree:Node`.
+Searching through a TREE will allow you to immediately jump to the right <code>tree:Node</code>.
 TREE relies on the [Hydra search specification](http://www.hydra-cg.com/spec/latest/core/#hydra:search) for its search forms.
-It does however extend Hydra with specific search properties (`hydra:IriTemplate`) for different types of search forms, and searches starting from a `tree:ViewDescription`, to which the search form is linked with `tree:search`.
+It does however extend Hydra with specific search properties (<code>hydra:IriTemplate</code>) for different types of search forms, and searches starting from a <code>tree:ViewDescription</code>, to which the search form is linked with <code>tree:search</code>.
 The behaviour of the search form fully depends on the specific property, for which TREE introduces a couple of specific properties:
 
 ## Geospatial XYZ tiles search form ## {#xyztiles}
 
 Three properties allow to specify a geospatial XYZ tiles template (also known as slippy maps).
- 1. `tree:longitudeTile` describes the X value
- 2. `tree:latitudeTile` descrbes the Y value
- 3. `tree:zoom` describes the zoom level
+ 1. <code>tree:longitudeTile</code> describes the X value
+ 2. <code>tree:latitudeTile</code> descrbes the Y value
+ 3. <code>tree:zoom</code> describes the zoom level
 
 All properties expect positive integers.
 
@@ -53,9 +53,9 @@ This search form describes a specific search form that uses a quad tree. The zoo
 
 ## Searching through a list of objects ordered by time ## {#timesearch}
 
-Same as the previous example but with the predicate `tree:timeQuery` expecting an `xsd:dateTime`.
+Same as the previous example but with the predicate <code>tree:timeQuery</code> expecting an <code>xsd:dateTime</code>.
 This time however, when the page itself does not exist, a redirect is doing to happen to the page containing the timestamp.
-A `tree:path` can indicate the time predicate which is intended.
+A <code>tree:path</code> can indicate the time predicate which is intended.
 
 <div class="example">
     ```turtle
