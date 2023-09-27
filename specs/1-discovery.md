@@ -33,20 +33,20 @@ The class `tree:ViewDescription` indicates a specific TREE structure on a `tree:
 Through the property `tree:viewDescription` a `tree:Node` can link to an entity that describes the view, and can be reused in data portals as the `dcat:DataService`.
 
 <div class="example">
-```
-## What can be found in a tree:Node
-ex:N1 a tree:Node ;
-  tree:viewDescription ex:View1 .
-  
-ex:C1 a tree:Collection ;
-  tree:view ex:N1 .
+    ```turtle
+    ## What can be found in a tree:Node
+    ex:N1 a tree:Node ;
+      tree:viewDescription ex:View1 .
+      
+    ex:C1 a tree:Collection ;
+      tree:view ex:N1 .
 
-## What can be found on a data portal
-ex:C1 a dcat:Dataset .
-ex:View1 a tree:ViewDescription, dcat:DataService ;
-  dcat:endpointURL ex:N1 ; # The entry point that can be advertised in a data portal
-  dcat:servesDataset ex:C1 .
-```
+    ## What can be found on a data portal
+    ex:C1 a dcat:Dataset .
+    ex:View1 a tree:ViewDescription, dcat:DataService ;
+      dcat:endpointURL ex:N1 ; # The entry point that can be advertised in a data portal
+      dcat:servesDataset ex:C1 .
+    ```
 </div>
 
 When there is no `tree:viewDescription` property in this page, a client either already discovered the description of this view in an earlier `tree:Node`, either the current `tree:Node` is implicitly the ViewDescription. Therefore, when the property path `tree:view → tree:viewDescription` does not yield a result, the view properties MUST be extracted from the object of the `tree:view` triple.
