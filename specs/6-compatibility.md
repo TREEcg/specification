@@ -2,7 +2,7 @@
 
 ## DCAT ## {#dcat}
 
-[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a <code>dcat:endpointDescription</code> from the <code>dcat:DataService</code> to the entrypoint where the <code>tree:Collection</code>s and the <code>tree:ViewDescription</code>s are listed. Furthermore, there SHOULD be a <code>dct:conformsTo</code> this URI: <code>https://w3id.org/tree</code>.
+[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a <code>dcat:endpointDescription</code> from the <code>dcat:DataService</code> to the entrypoint where the <code>tree:Collection</code>s and the <code>tree:ViewDescription</code>s are listed. Furthermore, there SHOULD be a <code>dct:conformsTo</code> this URI: <code>https://w3id.org/tree/specification</code>.
 
 ## Hydra ## {#hydra}
 
