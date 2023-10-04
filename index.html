@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="3d49b5d89fcb9181bdcefe9f07d272970579b99b" name="document-revision">
+  <meta content="6fb800e4c9d2f7023992640ebabceb5a7d9e998d" name="document-revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -536,7 +536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-09-27">27 September 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-10-04">4 October 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1046,7 +1046,7 @@ When importing a file, no hypermedia relations will be followed from that import
    <p>On the resources to import, Memento <a data-link-type="biblio" href="#biblio-rfc7089" title="HTTP Framework for Time-Based Access to Resource States -- Memento">[RFC7089]</a> controls MAY be provided for historic versions.</p>
    <h2 class="heading settled" data-level="8" id="compatibility"><span class="secno">8. </span><span class="content">Compatibility</span><a class="self-link" href="#compatibility"></a></h2>
    <h3 class="heading settled" data-level="8.1" id="dcat"><span class="secno">8.1. </span><span class="content">DCAT</span><a class="self-link" href="#dcat"></a></h3>
-   <p><a data-link-type="biblio" href="#biblio-vocab-dcat-2" title="Data Catalog Vocabulary (DCAT) - Version 2">[VOCAB-DCAT-2]</a> is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a <code>dcat:endpointDescription</code> from the <code>dcat:DataService</code> to the entrypoint where the <code>tree:Collection</code>s and the <code>tree:ViewDescription</code>s are listed. Furthermore, there SHOULD be a <code>dct:conformsTo</code> this URI: <code>https://w3id.org/tree</code>.</p>
+   <p><a data-link-type="biblio" href="#biblio-vocab-dcat-2" title="Data Catalog Vocabulary (DCAT) - Version 2">[VOCAB-DCAT-2]</a> is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a <code>dcat:endpointDescription</code> from the <code>dcat:DataService</code> to the entrypoint where the <code>tree:Collection</code>s and the <code>tree:ViewDescription</code>s are listed. Furthermore, there SHOULD be a <code>dct:conformsTo</code> this URI: <code>https://w3id.org/tree/specification</code>.</p>
    <h3 class="heading settled" data-level="8.2" id="hydra"><span class="secno">8.2. </span><span class="content">Hydra</span><a class="self-link" href="#hydra"></a></h3>
    <p>A <code>tree:Collection</code> is compatible with the <a href="https://www.hydra-cg.com/spec/latest/core/#collections">Hydra Collections specification</a>. However, instead of <code>hydra:view</code>, we use <code>tree:view</code> and do not link to a <code>hydra:PartialCollectionView</code> but to a <code>tree:Node</code>.
 A <code>hydra:Collection</code> can thus also be extended with a <code>tree:shape</code> and <code>tree:view</code>.
