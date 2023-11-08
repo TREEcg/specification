@@ -105,10 +105,10 @@ A <code>tree:search</code> form is a IRI template, that when filled out with the
 # The member extraction algorithm # {#member-extraction-algorithm}
 
 The first focus node is the object of the <code>tree:member</code> triple.
- 1a. If a shape is set, [create a shape template](#shape-template-extraction) and execute the shape template extraction algorithm
- 1b. If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also [[!CBD]])
- 2. Extract all quads with the graph matching the focus node
- 3. When no quads were extracted from 1 and 2, a client MUST dereference the focus node and re-execute 1 and 2.
+ 1. If a shape was set, [create a shape template](#shape-template-extraction) and execute the shape template extraction algorithm
+ 2. If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also [[!CBD]])
+ 3. Extract all quads with the graph matching the focus node
+ 4. When no quads were extracted from 1 and 2, a client MUST dereference the focus node and re-execute 1 and 2.
 
 ## Shape Template extraction ## {#shape-template-extraction}
 
