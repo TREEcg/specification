@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="6fb800e4c9d2f7023992640ebabceb5a7d9e998d" name="document-revision">
+  <meta content="1571cb4e4294d7bb39b934996763aca2186aeb15" name="document-revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -536,7 +536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-10-04">4 October 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-11-08">8 November 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -785,10 +785,12 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p>A View is a specific set of interlinked <code>tree:Node</code>s, that together contain all members in a collection. A specific view will adhere to a certain growth or tree balancing strategy. In one view, completeness MUST be guaranteed.</p>
    <p>A <code>tree:search</code> form is a IRI template, that when filled out with the right parameters becomes a <code>tree:Node</code> IRI, or when dereferenced will redirect to a <code>tree:Node</code> from which all members in the collection that adhere to the described comparator can be found.</p>
    <h2 class="heading settled" data-level="3" id="member-extraction-algorithm"><span class="secno">3. </span><span class="content">The member extraction algorithm</span><a class="self-link" href="#member-extraction-algorithm"></a></h2>
-   <p>The first focus node is the object of the <code>tree:member</code> triple.
- 1a. If a shape is set, <a href="#shape-template-extraction">create a shape template</a> and execute the shape template extraction algorithm
- 1b. If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also <a data-link-type="biblio" href="#biblio-cbd" title="CBD - Concise Bounded Description">[CBD]</a>)</p>
-   <ol start="2">
+   <p>The first focus node is the object of the <code>tree:member</code> triple.</p>
+   <ol>
+    <li data-md>
+     <p>If a shape was set, <a href="#shape-template-extraction">create a shape template</a> and execute the shape template extraction algorithm</p>
+    <li data-md>
+     <p>If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also <a data-link-type="biblio" href="#biblio-cbd" title="CBD - Concise Bounded Description">[CBD]</a>)</p>
     <li data-md>
      <p>Extract all quads with the graph matching the focus node</p>
     <li data-md>
