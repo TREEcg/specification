@@ -10,7 +10,6 @@ Repository: https://github.com/treecg/specification
 Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
-Contributor: 
 Abstract:
     The TREE hypermedia specification enables data publishers and API developers to describe datasets as collections of entities, called “the members”.
     It then allows to create one or more views of this collection.
