@@ -11,7 +11,7 @@ Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
-    The TREE hypermedia specification enables data publishers and API developers to publish collections of entities (the members).
+    The TREE hypermedia specification enables data publishers and API developers to describe collections of entities (the members).
     It then allows to create one or more views of this collection.
     A view organizes the members into multiple pages or nodes, and these nodes are interlinked using relations and/or search forms.
     This way, a user agent that can interpret the TREE hypermedia controls can find the most efficient way to the members of interest to them.
