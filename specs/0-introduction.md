@@ -3,7 +3,7 @@
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vTTCjBkBum1J4xgbg0oZJaD_H05dpZxhL6jrp1yzqoIsYw5EOa-7D24No_rfEyTipq1rLb-_tPTEYV0/pub?w=1093&amp;h=546" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node."/>
 
 The TREE specification introduces these core concepts:
- * a <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code>. The specialization is that it is a collection of members that MAY adhere to a certain shape. It typically has these properties when described in a node:
+ * a <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code> ([[!DCAT]]). The specialization being that it is a DCAT dataset a collection of members. It typically has these properties when described in a node:
      - <code>tree:member</code> points at the first focus node from which to retrieve and extract all quads of a member.
      - <code>tree:view</code> points to a <code>tree:Node</code> from which all members can be reached.
      - <code>tree:shape</code> indicates the [[!SHACL]] shape to which each member in the collection adheres.
