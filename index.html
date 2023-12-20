@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="1571cb4e4294d7bb39b934996763aca2186aeb15" name="document-revision">
+  <meta content="b17c6d343cca049c038761fb0edfbbdb01b2df6f" name="document-revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -536,7 +536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-11-08">8 November 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-12-20">20 December 2023</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -553,15 +553,15 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/copyright-software" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>The TREE hypermedia specification enables data publishers and API developers to publish collections of entities (the members).
+   <p>The TREE hypermedia specification enables data publishers and API developers to describe datasets as collections of entities, called “the members”.
 
     It then allows to create one or more views of this collection.
-    A view organizes the members into multiple pages or nodes, and these nodes are interlinked using relations and/or search forms.
+    A view allows organizing the members into multiple pages or nodes, and these nodes are interlinked using relations and/or search forms.
     This way, a user agent that can interpret the TREE hypermedia controls can find the most efficient way to the members of interest to them.</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
@@ -670,7 +670,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p>The TREE specification introduces these core concepts:</p>
    <ul>
     <li data-md>
-     <p>a <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code>. The specialization is that it is a collection of members that MAY adhere to a certain shape. It typically has these properties when described in a node:</p>
+     <p>a <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code> (<a data-link-type="biblio" href="#biblio-vocab-dcat-3" title="Data Catalog Vocabulary (DCAT) - Version 3">[vocab-dcat-3]</a>). The specialization being that it is a DCAT dataset a collection of members. It typically has these properties when described in a node:</p>
      <ul>
       <li data-md>
        <p><code>tree:member</code> points at the first focus node from which to retrieve and extract all quads of a member.</p>
@@ -788,13 +788,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p>The first focus node is the object of the <code>tree:member</code> triple.</p>
    <ol>
     <li data-md>
-     <p>If a shape was set, <a href="#shape-template-extraction">create a shape template</a> and execute the shape template extraction algorithm</p>
+     <p>If a shape was set, <a href="#shape-template-extraction">create a shape template</a> and execute the shape template extraction algorithm, yet exclude all quads that have another member (from the current context or page) set as their named graph</p>
     <li data-md>
-     <p>If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also <a data-link-type="biblio" href="#biblio-cbd" title="CBD - Concise Bounded Description">[CBD]</a>)</p>
+     <p>If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also <a data-link-type="biblio" href="#biblio-cbd" title="CBD - Concise Bounded Description">[CBD]</a>), yet exclude all quads that have another member (from the current context or page) set as their named graph</p>
     <li data-md>
      <p>Extract all quads with the graph matching the focus node</p>
     <li data-md>
-     <p>When no quads were extracted from 1 and 2, a client MUST dereference the focus node and re-execute 1 and 2.</p>
+     <p>When no quads were extracted from 1 and 2, a client MUST dereference the focus node and re-execute 1 to 3.</p>
    </ol>
    <h3 class="heading settled" data-level="3.1" id="shape-template-extraction"><span class="secno">3.1. </span><span class="content">Shape Template extraction</span><a class="self-link" href="#shape-template-extraction"></a></h3>
    <p>The Shape Template is a structure that looks as follows:</p>
@@ -1296,6 +1296,8 @@ A client MAY infer a <code>tree:shape</code> of the collection through the <code
    <dd>Holger Knublauch; Dimitris Kontokostas. <a href="https://w3c.github.io/data-shapes/shacl/"><cite>Shapes Constraint Language (SHACL)</cite></a>. URL: <a href="https://w3c.github.io/data-shapes/shacl/">https://w3c.github.io/data-shapes/shacl/</a>
    <dt id="biblio-vocab-dcat-2">[VOCAB-DCAT-2]
    <dd>Riccardo Albertoni; et al. <a href="https://w3c.github.io/dxwg/dcat/"><cite>Data Catalog Vocabulary (DCAT) - Version 2</cite></a>. URL: <a href="https://w3c.github.io/dxwg/dcat/">https://w3c.github.io/dxwg/dcat/</a>
+   <dt id="biblio-vocab-dcat-3">[VOCAB-DCAT-3]
+   <dd>Simon Cox; et al. <a href="https://w3c.github.io/dxwg/dcat/"><cite>Data Catalog Vocabulary (DCAT) - Version 3</cite></a>. URL: <a href="https://w3c.github.io/dxwg/dcat/">https://w3c.github.io/dxwg/dcat/</a>
    <dt id="biblio-websockets">[WEBSOCKETS]
    <dd>Adam Rice. <a href="https://websockets.spec.whatwg.org/"><cite>WebSockets Standard</cite></a>. Living Standard. URL: <a href="https://websockets.spec.whatwg.org/">https://websockets.spec.whatwg.org/</a>
   </dl>
