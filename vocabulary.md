@@ -36,6 +36,7 @@ The <code>tree:Relation</code> has specific sub-classes that implement a more sp
      - <code>tree:LessThanRelation</code>
      - <code>tree:LessThanOrEqualToRelation</code>
      - <code>tree:EqualToRelation</code>
+     - <code>tree:NotEqualToRelation</code>
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
      - <code>tree:GeospatiallyContainsRelation</code> — (for semantics, see the [DE-9IM wikipedia page](https://en.wikipedia.org/wiki/DE-9IM))
 

@@ -94,6 +94,10 @@ tree:EqualToRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
                        rdfs:label "Equal To Relation"@en .
 
+tree:NotEqualToRelation a rdfs:Class ;
+                       rdfs:subClassOf tree:Relation ;
+                       rdfs:label "Not equal To Relation"@en .
+
 tree:GeospatiallyContainsRelation  a rdfs:Class ;
                                    rdfs:subClassOf tree:Relation ;
                                    rdfs:label "Geospatially Contains Relation"@en;
