@@ -52,6 +52,10 @@ When no language is set, all strings are compared.
 
 Note: If you want to have one resource containing both <code>e</code> and <code>é</code> as a prefix, you will have to create multiple relations to the same <code>tree:Node</code>.
 
+### Comparing named nodes ### {#named-nodes}
+
+When using comparator relations such as <code>tree:GreaterThanRelation</code>, named nodes must be compared as defined in the [ORDER BY section of the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
+
 ### Comparing geospatial features ### {#geospatial}
 
 The <code>tree:GeospatiallyContainsRelation</code> is the relation than can be used to express all further members will be contained within a geospatial region defined by the WKT String in the <code>tree:value</code>.
