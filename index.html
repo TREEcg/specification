@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="0b2e5ed60b03cd487feec1f97b00b3fdf4fec17a" name="document-revision">
+  <meta content="764a7658415a22fca74480b3a0df53e5d873c1b3" name="document-revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -536,7 +536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-12-21">21 December 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2024-02-07">7 February 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -553,7 +553,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2023 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2024 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -599,8 +599,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
        <a href="#relationsubclasses"><span class="secno">5.3</span> <span class="content">Specific relations</span></a>
        <ol class="toc">
         <li><a href="#strings"><span class="secno">5.3.1</span> <span class="content">Comparing strings</span></a>
-        <li><a href="#geospatial"><span class="secno">5.3.2</span> <span class="content">Comparing geospatial features</span></a>
-        <li><a href="#time"><span class="secno">5.3.3</span> <span class="content">Comparing time literals</span></a>
+        <li><a href="#named-nodes"><span class="secno">5.3.2</span> <span class="content">Comparing named nodes</span></a>
+        <li><a href="#geospatial"><span class="secno">5.3.3</span> <span class="content">Comparing geospatial features</span></a>
+        <li><a href="#time"><span class="secno">5.3.4</span> <span class="content">Comparing time literals</span></a>
        </ol>
      </ol>
     <li>
@@ -947,10 +948,12 @@ The strings MUST then be compared according to <em>case sensitive unicode orderi
    <p>When a <code>tree:path</code> is defined, mind that you also may have to check the language of the element using the property <code>shacl:inLanguage</code> More languages MAY be set.
 When no language is set, all strings are compared.</p>
    <p class="note" role="note"><span class="marker">Note:</span> If you want to have one resource containing both <code>e</code> and <code>é</code> as a prefix, you will have to create multiple relations to the same <code>tree:Node</code>.</p>
-   <h4 class="heading settled" data-level="5.3.2" id="geospatial"><span class="secno">5.3.2. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h4>
+   <h4 class="heading settled" data-level="5.3.2" id="named-nodes"><span class="secno">5.3.2. </span><span class="content">Comparing named nodes</span><a class="self-link" href="#named-nodes"></a></h4>
+   <p>When using comparator relations such as <code>tree:GreaterThanRelation</code>, named nodes must be compared as defined in the <a href="https://www.w3.org/TR/sparql11-query/#modOrderBy">ORDER BY section of the SPARQL specification</a>.</p>
+   <h4 class="heading settled" data-level="5.3.3" id="geospatial"><span class="secno">5.3.3. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h4>
    <p>The <code>tree:GeospatiallyContainsRelation</code> is the relation than can be used to express all further members will be contained within a geospatial region defined by the WKT String in the <code>tree:value</code>.</p>
    <p>When using <code>tree:GeospatiallyContainsRelation</code>, the <code>tree:path</code> MUST refer to a literal containing a WKT string, such as <code>geosparql:asWKT</code>.</p>
-   <h4 class="heading settled" data-level="5.3.3" id="time"><span class="secno">5.3.3. </span><span class="content">Comparing time literals</span><a class="self-link" href="#time"></a></h4>
+   <h4 class="heading settled" data-level="5.3.4" id="time"><span class="secno">5.3.4. </span><span class="content">Comparing time literals</span><a class="self-link" href="#time"></a></h4>
    <p>When using relations such as <code>tree:LessThanRelation</code> or <code>tree:GreaterThanRelation</code>, the time literals need to be compared according to these 3 possible data types: <code>xsd:date</code>, <code>xsd:dateTime</code> or <code>xsd:dateTimeStamp</code>.</p>
    <h2 class="heading settled" data-level="6" id="searching"><span class="secno">6. </span><span class="content">Search forms</span><a class="self-link" href="#searching"></a></h2>
    <p>Searching through a TREE will allow you to immediately jump to the right <code>tree:Node</code>.
