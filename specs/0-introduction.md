@@ -104,62 +104,7 @@ A <code>tree:search</code> form is a IRI template, that when filled out with the
 
 # The member extraction algorithm # {#member-extraction-algorithm}
 
-The first focus node is the object of the <code>tree:member</code> triple.
- 1. If a shape was set, [create a shape template](#shape-template-extraction) and execute the shape template extraction algorithm, yet exclude all quads that have another member (from the current context or page) set as their named graph
- 2. If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also [[!CBD]]), yet exclude all quads that have another member (from the current context or page) set as their named graph
- 3. Extract all quads with the graph matching the focus node
- 4. When no quads were extracted from 1 and 2, a client MUST dereference the focus node and re-execute 1 to 3.
-
-## Shape Template extraction ## {#shape-template-extraction}
-
-The Shape Template is a structure that looks as follows:
-
-<div class="example">
-    ```typescript
-    class ShapeTemplate {
-        closed: boolean;
-        requiredPaths: Path[];
-        optionalPaths: Path[];
-        nodelinks: NodeLink[];
-        atLeastOneLists: [ Shape[] ];
-    }
-    class NodeLink {
-        shape: ShapeTemplate;
-        path: Path;
-    }
-    ```
-</div>
-
-Paths in the shape templates are [SHACL Property Paths](https://www.w3.org/TR/shacl/#property-paths).
-
-A Shape Template has
- * <strong>Closed:</strong> A boolean telling whether it’s closed or not. If it’s open, a client MUST extract all quads, after a potential HTTP request to the focus node, with subject the focus node, and recursively include its blank nodes
- * <strong>Required paths:</strong> MUST trigger an HTTP request if the member does not have this path. All quads from paths, after a potential HTTP request, matching this required path MUST be added to the Member set.
- * <strong>Optional paths:</strong> All quads from paths, after a potential HTTP request, matching this path MUST be added to the Member set.
- * <strong>Node Links:</strong> A nodelink contains a reference to another Shape Template, as well as a path. All quads, after a potential HTTP request, matching this path MUST be added to the Member set. The targets MUST be processed again using the shape template extraction algorithm on that 
- * <strong>atLeastOneLists</strong>: Each atLeastOneList is an array of at least one shape with one or more required paths and atLeastOneLists that must be set. If none of the shapes match, it will trigger an HTTP request. Only the quads from paths matching valid shapes are included in the Member.
-
-Note: Certain quads are going to be matched by the algorithm multiple times. Each quad will of course be part of the member only once.
-
-This results in this algorithm:
- 1. If it is open, a client MUST extract all quads, after a potential HTTP request to the focus node, with subject the focus node, and recursively include its blank nodes
- 2. If the current focus node is a named node and it was not requested before:
-    - test if all required paths are set, if not do an HTTP request, if they are set, then,
-    - test if at least one of each list in the atLeastOneLists was set. If not, do an HTTP request.
- 3. Visit all paths (required, optional, nodelinks and recursively the shapes in the atLeastOneLists if the shape is valid) paths and add all quads necessary to reach the targets to the result
- 4. For the results of nodelinks, if the target is a named node, set it as a focus node and repeat this algorithm with that nodelink’s shape as a shape
-
-### Generating a shape template from SHACL ### {#shacl-to-shape-template}
-
-On a <code>tree:Collection</code>, a SHACL shape MAY be provided with the <code>tree:shape</code> property.
-In that case, the SHACL shape MUST be processed towards a Shape Template as follows:
-
- 1. Checks if the shape is deactivated (<code>:S sh:deactivated true</code>), if it is, don’t continue
- 2. Check if the shape is closed (<code>:S sh:closed true</code>), set the closed boolean to true.
- 3. All <code>sh:property</code> elements with an <code>sh:node</code> link are added to the shape’s NodeLinks array
- 4. Add all properties with <code>sh:minCount</code> > 0 to the Required Paths array, and all others to the optional paths.
- 5. Processes the [conditionals](https://www.w3.org/TR/shacl/#core-components-logical) <code>sh:xone</code>, <code>sh:or</code> and <code>sh:and</code> (but doesn’t process <code>sh:not</code>):
-    - <code>sh:and</code>: all properties on that shape template MUST be merged with the current shape template
-    - <code>sh:xone</code> and <code>sh:or</code>: in both cases, at least one item must match at least one quad for all required paths. If not, it will do an HTTP request to the current namednode.
+TREE uses the [shape templates algorithm](https://w3id.org/tree/specification/shape-templates) to define the set of quads that are part of their members.
+It uses the `sh:NodeShape` from the `tree:shape` property on the collection 
 
 Note: The way we process SHACL shapes into Shape Template is important to understand in order to know when an HTTP request will be triggered when designing SHACL shapes. A cardinality constraint not being exactly matched or a <code>sh:pattern</code> not being respected will not trigger an HTTP request, and instead just add the invalid quads to the Member. This is a design choice: we only define triggers for HTTP request from the SHACL shape to come to a complete set of quads describing the member the data publisher pointed at using <code>tree:member</code>.
