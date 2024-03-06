@@ -1,6 +1,6 @@
 <pre class='metadata'>
 Title: The Shape Templates algorithm
-Shortname: Shape Templates
+Shortname: ShapeTemplates
 Level: 1
 Status: w3c/CG-DRAFT
 Markup Shorthands: markdown yes
@@ -13,6 +13,7 @@ Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
     This algorithm defines what quads are part of an entity description.
     It uses the concepts of Concise Bounded Descriptions, adds well-defined support for named graphs, and introduces the concept of a shape template.
+    A shape template is a structure of an entity description that follows similar design principles as SHACL Node Shapes.
     The algorithm returns the quads that match, and also provides hooks for the client to fetch more quads elsewhere (i.e. by dereferencing the subject).
 </pre>
 
