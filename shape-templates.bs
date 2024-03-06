@@ -11,8 +11,9 @@ Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
-    This algorithm defines what triples are part of an entity description when mentioned that entity in a hypermedia API.
+    This algorithm defines what quads are part of an entity description.
     It uses the concepts of Concise Bounded Descriptions, adds well-defined support for named graphs, and introduces the concept of a shape template.
+    The algorithm returns the quads that match, and also provides hooks for the client to fetch more quads elsewhere (i.e. by dereferencing the subject).
 </pre>
 
 # The algorithm # {#algorithm}
@@ -20,8 +21,7 @@ Abstract:
 Input:
  * The subject IRI `M`. This is the first focus node.
  * An optional [shape template](#shape-template-extraction) and a Term for the shape to start from `S`
- * A list of other subject IRIs in the current page called the `ignoreList`
-
+ * A list of other subject IRIs to ignore, because we do not want to include quads from other entity descriptions.
 
 Process:
  1. When a shape template was set, execute the shape template extraction algorithm, yet exclude all quads that have another member (from the current context) set as their named graph

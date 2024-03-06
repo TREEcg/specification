@@ -104,7 +104,7 @@ A <code>tree:search</code> form is a IRI template, that when filled out with the
 
 # The member extraction algorithm # {#member-extraction-algorithm}
 
-TREE uses the [shape templates algorithm](https://w3id.org/tree/shape-templates) to define the set of quads that are part of their members.
+TREE uses the [shape templates algorithm](https://w3id.org/tree/specification/shape-templates) to define the set of quads that are part of their members.
 It uses the `sh:NodeShape` from the `tree:shape` property on the collection 
 
 Note: The way we process SHACL shapes into Shape Template is important to understand in order to know when an HTTP request will be triggered when designing SHACL shapes. A cardinality constraint not being exactly matched or a <code>sh:pattern</code> not being respected will not trigger an HTTP request, and instead just add the invalid quads to the Member. This is a design choice: we only define triggers for HTTP request from the SHACL shape to come to a complete set of quads describing the member the data publisher pointed at using <code>tree:member</code>.

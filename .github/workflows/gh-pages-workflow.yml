@@ -27,7 +27,7 @@ jobs:
           # with .html extension instead,
           # but if you want to customize it:
           DESTINATION: index.html
-          - uses: w3c/spec-prod@v2
+      - uses: w3c/spec-prod@v2
         with:
           TOOLCHAIN: bikeshed
 
