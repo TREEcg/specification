@@ -19,6 +19,10 @@ A <code>tree:import</code> MAY be defined in the <code>tree:Relation</code> inst
 
 Note: An example of a <code>tree:import</code> is given [in the repository](https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27).
 
+When dereferencing the object of a <code>tree:node</code> triple, the client MUST follow redirects. The URL to be used as the <code>tree:Node</code> URL is the last URL after redirects.
+
+Note: This enables rebalancing search trees.
+
 ## Fallbacks ## {#fallbacks}
 
 When there are no <code>tree:member</code>s and/or no <code>tree:Collection</code> defined, then still a <code>tree:Relation</code> can be defined. The <code>tree:path</code> in the <code>tree:Relation</code> then refers to a pattern that can start from every triple in the page.

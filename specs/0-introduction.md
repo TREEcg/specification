@@ -94,8 +94,6 @@ A <code>tree:Member</code> is a set of (at least one) quad(s) defined by the mem
 
 A <code>tree:Node</code> is a dereferenceable resource of <code>tree:Relation</code>s and a subset of (<code>⊆</code>) members of the collection. In a <code>tree:Node</code>, both the set of <code>tree:Relation</code>s as the subset of members MAY be empty. The same member MAY be contained in multiple nodes.
 
-Note: When dereferncing the same <code>tree:Node</code> the second resources MUST contain at least all relations present in the first resource. This means that fragments cannot change their identifier, their location in the tree. When a dynamic identifier is wanted (e.g. pointing to the latest resource), the server SHOULD answer with 302 Found, pointing to the concrete resource. All clients should only interpret relations starting from the resulting URL, after potential redirects.
-
 A <code>tree:Relation</code> is a function denoting a conditional link to another <code>tree:Node</code>.
 
 Note: The condition of multiple <code>tree:Relation</code>s to the same <code>tree:Node</code> MUST be combined with a logical AND.
