@@ -28,7 +28,7 @@ Process:
  1. When a shape template was set, execute the shape template extraction algorithm, yet exclude all quads that have another member (from the current context) set as their named graph
  2. If no shape template was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also [[!CBD]])
  3. Extract all quads with the graph name matching the focus node
- 4. When no quads were extracted from steps 1-3, a client MUST dereference the focus node and re-execute 1-3.
+ 4. When no quads were extracted from steps 1-3, a client MUST fetch more information about the focus node (i.e. by dereferencing it) and re-execute 1-3.
 
 ## Shape Template extraction ## {#shape-template-extraction}
 
