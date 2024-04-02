@@ -5,7 +5,7 @@
 The TREE specification introduces these core concepts:
  * a <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code> ([[!vocab-dcat-3]]). The specialization being that it is a DCAT dataset a collection of members. It typically has these properties when described in a node:
      - <code>tree:member</code> points at the first focus node from which to retrieve and extract all quads of a member.
-     - <code>tree:view</code> points to a <code>tree:Node</code> from which all members can be reached.
+     - <code>tree:view</code> points to the current <code>tree:Node</code> you’re visiting.
      - <code>tree:shape</code> indicates the [[!SHACL]] shape to which each member in the collection adheres.
      - <code>tree:viewDescription</code> links to a description of the view (a <code>tree:ViewDescription</code>). Multiple descriptions MAY be provided that MUST be combined.
  * a <code>tree:Node</code>: is a page on which relations to other pages are described through the <code>tree:relation</code> predicate, and/or through which a next <code>tree:Node</code> can be found by using the <code>tree:search</code> form.
@@ -35,7 +35,7 @@ The first step when creating a TREE hypermedia interface is defining a collectio
     ```
 </div>
 
-From the moment this collection of members grows too big for one page, a fragmentation needs to be created in which an initial set of member can be found on an entry node, and more members can be found by interpreting the TREE hypermedia controls. This is illustrated by the next example:
+From the moment this collection of members grows too large for one page, a fragmentation needs to be created in which an initial set of member can be found on an entry node, and more members can be found by interpreting the TREE hypermedia controls. This is illustrated by the next example:
 
 <div class="example">
     ```turtle
@@ -46,9 +46,8 @@ From the moment this collection of members grows too big for one page, a fragmen
                 tree:member ex:Subject1, ex:Subject2 .
 
     ex:Node1 a tree:Node ;
-            tree:relation ex:R1,ex:R2 ;
-            tree:viewDescription ex:ViewDescription1 .
-    
+            tree:relation ex:R1,ex:R2 .
+
     ex:R1 a tree:GreaterThanOrEqualToRelation ;
         tree:node ex:Node3 ; # This is the URL of another page
         tree:value 3;
@@ -92,15 +91,17 @@ A <code>tree:Collection</code> is a set of <code>tree:Member</code>s. The set of
 
 A <code>tree:Member</code> is a set of (at least one) quad(s) defined by the member extraction algorithm (next subsection).
 
-A <code>tree:Node</code> is a dereferenceable resource of <code>tree:Relation</code>s and a subset of (<code>⊆</code>) members of the collection. In a <code>tree:Node</code>, both the set of <code>tree:Relation</code>s as the subset of members MAY be empty. The same member MAY be contained in multiple nodes.
+A <code>tree:Node</code> is a dereferenceable resource containing <code>tree:Relation</code>s and a subset of (<code>⊆</code>) members of the collection. In a <code>tree:Node</code>, both the set of <code>tree:Relation</code>s as the subset of members MAY be empty. The same member MAY be contained in multiple nodes.
 
 A <code>tree:Relation</code> is a function denoting a conditional link to another <code>tree:Node</code>.
 
+A <code>tree:Node</code>, apart from the root node, has exactly one other <code>tree:Node</code> linking into it through one or more relations.
+
 Note: The condition of multiple <code>tree:Relation</code>s to the same <code>tree:Node</code> MUST be combined with a logical AND.
 
-A View is a specific set of interlinked <code>tree:Node</code>s, that together contain all members in a collection. A specific view will adhere to a certain growth or tree balancing strategy. In one view, completeness MUST be guaranteed.
+A View is a specific set of interlinked <code>tree:Node</code>s, that together contain all members in a collection. A specific view will adhere to a certain growth or tree balancing strategy. In one View, completeness MUST be guaranteed, unless the View has a retention policy which becomes possible in LDES.
 
-A <code>tree:search</code> form is a IRI template, that when filled out with the right parameters becomes a <code>tree:Node</code> IRI, or when dereferenced will redirect to a <code>tree:Node</code> from which all members in the collection that adhere to the described comparator can be found.
+A <code>tree:search</code> form is an IRI template, that when filled out with the right parameters becomes a <code>tree:Node</code> IRI, or when dereferenced will redirect to a <code>tree:Node</code> from which all members in the collection that adhere to the described comparator can be found.
 
 # The member extraction algorithm # {#member-extraction-algorithm}
 

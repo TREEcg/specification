@@ -1,6 +1,6 @@
 # Discovery and source selection# {#hypermedia}
 
-TREE tackles discovery on three levels: i) interface discovery, ii) view discovery, and iii) dataset discovery.
+TREE tackles discovery and source selection on three levels: i) interface discovery, ii) view discovery, and iii) dataset discovery.
 Interface discovery discovers what collection the current page is part of, and discovers what the next possible HTTP requests are through relations and search forms.
 One dataset can have multiple views that can be published across different servers, selecting one for a certain use case is part of the view discovery.
 Dataset discovery is then selecting a <code>tree:Collection</code> of interest.
@@ -13,18 +13,13 @@ A node from which all members of a collection can be discovered (an “entry nod
 
 When the current page is a <code>tree:Node</code>, there MUST be a property linking the current page URL to the URI of the <code>tree:Collection</code>. However, not from all <code>tree:Node</code>s all members can be reached, and therefore 2 other properties can be used: <code>void:subset</code>, or the inverse property, <code>dcterms:isPartOf</code>.
 
-Three properties MAY thus be used:
- 1. <code>ex:C1 tree:view <> .</code><br/>May be used *only* in the case when the entire <code>tree:Collection</code> can be found starting from the current node.
- 2. <code>ex:C1 void:subset <> .</code><br/>When the node is not a node from which all members can be found, but still is a subset of the collection that can be found.
- 3. <code><> dcterms:isPartOf ex:C1 .</code><br/>The inverse property of 2.
+<code>ex:C1 tree:view <> .</code> links the current page to the <code>tree:Collection</code>.
 
 We refer to next chapters for traversing across multiple relations, or for using search forms.
 
 ## View discovery ## {#multiple-views}
 
-Every node linked from <code>tree:view</code> MUST be an entry point to retrieve **all** members of the collection.
-Multiple <code>tree:view</code> links MAY be provided.
-If a TREE client wants to guarantee compleneteness, it picks one link and then traverses all relations.
+Todo: This will be reworked
 
 Note: How a client picks the right view is use case specific. The <code>tree:ViewDescription</code>’s properties can help in that regards.
 

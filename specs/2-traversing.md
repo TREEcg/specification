@@ -2,6 +2,8 @@
 
 The initial configuration of the <code>tree:Collection</code> and the description of the view is always provided when the view has been discovered, either in a separate document describing the view, either in the entry node itself. The configuration MUST be reused on any subsequent <code>tree:Node</code>.
 
+While discovering and traversing the interface, a client MUST take the descriptions on top of the Node, the View and the Collection with it.
+
 ## Traversing relations ## {#traversing}
 
 A <code>tree:Node</code> element MAY have one or more <code>tree:relation</code> properties. A relation is an entity of the type <code>tree:Relation</code>, and MAY have a more specific type. A <code>tree:Relation</code> MUST have one <code>tree:node</code> object of the type <code>tree:Node</code>. By default, all nodes need to be followed, unless the client is able to select this relation for pruning (see next section).
@@ -21,6 +23,8 @@ Note: An example of a <code>tree:import</code> is given [in the repository](http
 
 ## Fallbacks ## {#fallbacks}
 
+When there is no <code>tree:view</code> triple provided, a client MUST use the <code>tree:Collection</code> from the previous page and still continue extracting members, and extract further relations defined on the current page URL.
+
 When there are no <code>tree:member</code>s and/or no <code>tree:Collection</code> defined, then still a <code>tree:Relation</code> can be defined. The <code>tree:path</code> in the <code>tree:Relation</code> then refers to a pattern that can start from every triple in the page.
 
 When no <code>tree:path</code> is defined, the <code>tree:value</code> MUST be compared to all members’ triples that *can be compared to* the <code>tree:value</code> as defined by the type of the relation (or when no members or collection are defined, on every triple in the page).
@@ -29,7 +33,7 @@ When due to <code>rdfs:range</code> incompatibility, the object cannot be compar
 Note: This may enable server developers to indicate an index on all literals of the members (e.g., a prefix relation on title, description and body text) without having to indicate all of the alternative paths in the <code>tree:path</code>.
 
 The target object of a <code>tree:path</code> SHOULD be materialized in the current Node document, but when it is not, the object MAY be considered implicit on the condition both <code>tree:path</code> and <code>tree:member</code> are defined.
-In contrast to <code>shacl:path</code>, a <code>tree:path</code> MAY refer to an implicit property and may not be materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to infer the data, could try to fetch it through another <code>tree:Collection</code>, or retrieve it using URI dereferencing.
+In contrast to <code>sh:path</code>, a <code>tree:path</code> MAY refer to an implicit property and may not be materialized in the current response. This may break SPARQL processors that did not yet come across the object before in their query plan. However, the tree may still be useful for query processors that, for example, prioritize queries according to the user’s location, and first download nodes that are nearby the user. Therefore, the materialized location of the object is not needed. While not recommended, possible heuristics could try to infer the data, could try to fetch it through another <code>tree:Collection</code>, or retrieve it using URI dereferencing.
 
 ## Specific relations ## {#relationsubclasses}
 

@@ -91,7 +91,7 @@ See [](#relations)
 
 ### tree:view ### {#view}
 
-Links the collection to a <code>tree:Node</code> from which all members can be found. If only a part of the collection’s members can be found from that point on, only use <code>dcterms:isPartOf</code> or <code>void:subset</code>.
+Links the collection to the current <code>tree:Node</code>.
 
 **Domain**: <code>tree:Collection</code>
 
