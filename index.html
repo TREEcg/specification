@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="9f142c106d3926c864b7fcfa61cca91e432a40e3" name="document-revision">
+  <meta content="f8418d0c8a13c1ff11730ff9fc0cfd78ae083101" name="document-revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -843,6 +843,8 @@ The result of the evaluation of the <code>tree:path</code>, is the value that mu
    <p class="note" role="note"><span class="marker">Note:</span> When traversing, a client SHOULD keep a list of already visited pages, as despite this being the TREE spec, circular references and back-links are not explicitly prohibited.</p>
    <p>A <code>tree:import</code> MAY be defined in the <code>tree:Relation</code> instance. When there is a <code>tree:path</code> defined, and when the relation is flagged interesting to follow, the import link needs to be downloaded in order to find the necessary literals to be compared (it is thus already a <code>tree:ConditionalImport</code>.</p>
    <p class="note" role="note"><span class="marker">Note:</span> An example of a <code>tree:import</code> is given <a href="https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27">in the repository</a>.</p>
+   <p>When dereferencing the object of a <code>tree:node</code> triple, the client MUST follow redirects. The URL to be used as the <code>tree:Node</code> URL is the last URL after redirects.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> This enables rebalancing search trees.</p>
    <h3 class="heading settled" data-level="5.2" id="fallbacks"><span class="secno">5.2. </span><span class="content">Fallbacks</span><a class="self-link" href="#fallbacks"></a></h3>
    <p>When there are no <code>tree:member</code>s and/or no <code>tree:Collection</code> defined, then still a <code>tree:Relation</code> can be defined. The <code>tree:path</code> in the <code>tree:Relation</code> then refers to a pattern that can start from every triple in the page.</p>
    <p>When no <code>tree:path</code> is defined, the <code>tree:value</code> MUST be compared to all members’ triples that <em>can be compared to</em> the <code>tree:value</code> as defined by the type of the relation (or when no members or collection are defined, on every triple in the page).
