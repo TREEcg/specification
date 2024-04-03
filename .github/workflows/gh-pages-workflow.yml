@@ -1,4 +1,4 @@
-name: CI
+name: Main TREE CG Spec
 on:
   workflow_dispatch: {}
   pull_request: {}
