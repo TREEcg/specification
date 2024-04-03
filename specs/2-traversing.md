@@ -21,6 +21,10 @@ A <code>tree:import</code> MAY be defined in the <code>tree:Relation</code> inst
 
 Note: An example of a <code>tree:import</code> is given [in the repository](https://github.com/TREEcg/specification/blob/master/examples/geospatially-ordered-public-transport/first.ttl#L27).
 
+When dereferencing the object of a <code>tree:node</code> triple, the client MUST follow redirects. The URL to be used as the <code>tree:Node</code> URL is the last URL after redirects.
+
+Note: This enables rebalancing search trees.
+
 ## Fallbacks ## {#fallbacks}
 
 When there is no <code>tree:view</code> triple provided, a client MUST use the <code>tree:Collection</code> from the previous page and still continue extracting members, and extract further relations defined on the current page URL.
