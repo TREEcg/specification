@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="7bdd5b33e24da90509a93f03ca3e3dc56dd65082" name="document-revision">
+  <meta content="9f142c106d3926c864b7fcfa61cca91e432a40e3" name="document-revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -574,15 +574,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <ol class="toc" role="directory">
     <li><a href="#overview"><span class="secno">1</span> <span class="content">Overview</span></a>
     <li><a href="#formalizations"><span class="secno">2</span> <span class="content">Definitions</span></a>
-    <li>
-     <a href="#member-extraction-algorithm"><span class="secno">3</span> <span class="content">The member extraction algorithm</span></a>
-     <ol class="toc">
-      <li>
-       <a href="#shape-template-extraction"><span class="secno">3.1</span> <span class="content">Shape Template extraction</span></a>
-       <ol class="toc">
-        <li><a href="#shacl-to-shape-template"><span class="secno">3.1.1</span> <span class="content">Generating a shape template from SHACL</span></a>
-       </ol>
-     </ol>
+    <li><a href="#member-extraction-algorithm"><span class="secno">3</span> <span class="content">The member extraction algorithm</span></a>
     <li>
      <a href="#hypermedia"><span class="secno">4</span> <span class="content">Discovery and source selection</span></a>
      <ol class="toc">
@@ -786,87 +778,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p>A View is a specific set of interlinked <code>tree:Node</code>s, that together contain all members in a collection. A specific view will adhere to a certain growth or tree balancing strategy. In one view, completeness MUST be guaranteed.</p>
    <p>A <code>tree:search</code> form is a IRI template, that when filled out with the right parameters becomes a <code>tree:Node</code> IRI, or when dereferenced will redirect to a <code>tree:Node</code> from which all members in the collection that adhere to the described comparator can be found.</p>
    <h2 class="heading settled" data-level="3" id="member-extraction-algorithm"><span class="secno">3. </span><span class="content">The member extraction algorithm</span><a class="self-link" href="#member-extraction-algorithm"></a></h2>
-   <p>The first focus node is the object of the <code>tree:member</code> triple.</p>
-   <ol>
-    <li data-md>
-     <p>If a shape was set, <a href="#shape-template-extraction">create a shape template</a> and execute the shape template extraction algorithm, yet exclude all quads that have another member (from the current context or page) set as their named graph</p>
-    <li data-md>
-     <p>If no shape was set, extract all quads with subject the focus node, and recursively include its blank nodes (see also <a data-link-type="biblio" href="#biblio-cbd" title="CBD - Concise Bounded Description">[CBD]</a>), yet exclude all quads that have another member (from the current context or page) set as their named graph</p>
-    <li data-md>
-     <p>Extract all quads with the graph matching the focus node</p>
-    <li data-md>
-     <p>When no quads were extracted from 1 and 2, a client MUST dereference the focus node and re-execute 1 to 3.</p>
-   </ol>
-   <h3 class="heading settled" data-level="3.1" id="shape-template-extraction"><span class="secno">3.1. </span><span class="content">Shape Template extraction</span><a class="self-link" href="#shape-template-extraction"></a></h3>
-   <p>The Shape Template is a structure that looks as follows:</p>
-   <div class="example" id="example-d9c86c79">
-    <a class="self-link" href="#example-d9c86c79"></a> 
-<pre class="language-typescript highlight"><c- a>class</c-> ShapeTemplate <c- p>{</c->
-    closed<c- o>:</c-> <c- b>boolean</c-><c- p>;</c->
-    requiredPaths<c- o>:</c-> <c- b>Path</c-><c- p>[];</c->
-    optionalPaths<c- o>:</c-> <c- b>Path</c-><c- p>[];</c->
-    nodelinks<c- o>:</c-> <c- b>NodeLink</c-><c- p>[];</c->
-    atLeastOneLists<c- o>:</c-> <c- p>[</c-> Shape<c- p>[]</c-> <c- p>];</c->
-<c- p>}</c->
-<c- a>class</c-> NodeLink <c- p>{</c->
-    shape<c- o>:</c-> <c- b>ShapeTemplate</c-><c- p>;</c->
-    path<c- o>:</c-> <c- b>Path</c-><c- p>;</c->
-<c- p>}</c->
-</pre>
-   </div>
-   <p>Paths in the shape templates are <a href="https://www.w3.org/TR/shacl/#property-paths">SHACL Property Paths</a>.</p>
-   <p>A Shape Template has</p>
-   <ul>
-    <li data-md>
-     <p><strong>Closed:</strong> A boolean telling whether it’s closed or not. If it’s open, a client MUST extract all quads, after a potential HTTP request to the focus node, with subject the focus node, and recursively include its blank nodes</p>
-    <li data-md>
-     <p><strong>Required paths:</strong> MUST trigger an HTTP request if the member does not have this path. All quads from paths, after a potential HTTP request, matching this required path MUST be added to the Member set.</p>
-    <li data-md>
-     <p><strong>Optional paths:</strong> All quads from paths, after a potential HTTP request, matching this path MUST be added to the Member set.</p>
-    <li data-md>
-     <p><strong>Node Links:</strong> A nodelink contains a reference to another Shape Template, as well as a path. All quads, after a potential HTTP request, matching this path MUST be added to the Member set. The targets MUST be processed again using the shape template extraction algorithm on that</p>
-    <li data-md>
-     <p><strong>atLeastOneLists</strong>: Each atLeastOneList is an array of at least one shape with one or more required paths and atLeastOneLists that must be set. If none of the shapes match, it will trigger an HTTP request. Only the quads from paths matching valid shapes are included in the Member.</p>
-   </ul>
-   <p class="note" role="note"><span class="marker">Note:</span> Certain quads are going to be matched by the algorithm multiple times. Each quad will of course be part of the member only once.</p>
-   <p>This results in this algorithm:</p>
-   <ol>
-    <li data-md>
-     <p>If it is open, a client MUST extract all quads, after a potential HTTP request to the focus node, with subject the focus node, and recursively include its blank nodes</p>
-    <li data-md>
-     <p>If the current focus node is a named node and it was not requested before:</p>
-     <ul>
-      <li data-md>
-       <p>test if all required paths are set, if not do an HTTP request, if they are set, then,</p>
-      <li data-md>
-       <p>test if at least one of each list in the atLeastOneLists was set. If not, do an HTTP request.</p>
-     </ul>
-    <li data-md>
-     <p>Visit all paths (required, optional, nodelinks and recursively the shapes in the atLeastOneLists if the shape is valid) paths and add all quads necessary to reach the targets to the result</p>
-    <li data-md>
-     <p>For the results of nodelinks, if the target is a named node, set it as a focus node and repeat this algorithm with that nodelink’s shape as a shape</p>
-   </ol>
-   <h4 class="heading settled" data-level="3.1.1" id="shacl-to-shape-template"><span class="secno">3.1.1. </span><span class="content">Generating a shape template from SHACL</span><a class="self-link" href="#shacl-to-shape-template"></a></h4>
-   <p>On a <code>tree:Collection</code>, a SHACL shape MAY be provided with the <code>tree:shape</code> property.
-In that case, the SHACL shape MUST be processed towards a Shape Template as follows:</p>
-   <ol>
-    <li data-md>
-     <p>Checks if the shape is deactivated (<code>:S sh:deactivated true</code>), if it is, don’t continue</p>
-    <li data-md>
-     <p>Check if the shape is closed (<code>:S sh:closed true</code>), set the closed boolean to true.</p>
-    <li data-md>
-     <p>All <code>sh:property</code> elements with an <code>sh:node</code> link are added to the shape’s NodeLinks array</p>
-    <li data-md>
-     <p>Add all properties with <code>sh:minCount</code> > 0 to the Required Paths array, and all others to the optional paths.</p>
-    <li data-md>
-     <p>Processes the <a href="https://www.w3.org/TR/shacl/#core-components-logical">conditionals</a> <code>sh:xone</code>, <code>sh:or</code> and <code>sh:and</code> (but doesn’t process <code>sh:not</code>):</p>
-     <ul>
-      <li data-md>
-       <p><code>sh:and</code>: all properties on that shape template MUST be merged with the current shape template</p>
-      <li data-md>
-       <p><code>sh:xone</code> and <code>sh:or</code>: in both cases, at least one item must match at least one quad for all required paths. If not, it will do an HTTP request to the current namednode.</p>
-     </ul>
-   </ol>
+   <p>TREE uses the <a href="https://w3id.org/tree/specification/shape-templates">shape templates algorithm</a> to define the set of quads that are part of their members.
+It uses the `sh:NodeShape` from the `tree:shape` property on the collection</p>
    <p class="note" role="note"><span class="marker">Note:</span> The way we process SHACL shapes into Shape Template is important to understand in order to know when an HTTP request will be triggered when designing SHACL shapes. A cardinality constraint not being exactly matched or a <code>sh:pattern</code> not being respected will not trigger an HTTP request, and instead just add the invalid quads to the Member. This is a design choice: we only define triggers for HTTP request from the SHACL shape to come to a complete set of quads describing the member the data publisher pointed at using <code>tree:member</code>.</p>
    <h2 class="heading settled" data-level="4" id="hypermedia"><span class="secno">4. </span><span class="content">Discovery and source selection</span><a class="self-link" href="#hypermedia"></a></h2>
    <p>TREE tackles discovery on three levels: i) interface discovery, ii) view discovery, and iii) dataset discovery.
