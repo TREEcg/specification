@@ -147,7 +147,7 @@ tree:path a rdf:Property ;
 
 tree:view a rdf:Property ;
           rdfs:label "View"@en ;
-          rdfs:comment "Links the collection to a `tree:Node` from which all other members can be found."@en ;
+          rdfs:comment "Links the collection to the current page."@en ;
           rdfs:domain tree:Collection ;
           rdfs:range tree:Node .
 
