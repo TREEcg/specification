@@ -104,6 +104,12 @@ From the moment this collection of members grows too large for one page, a fragm
     4. By putting the triples in a named graph of the object of <code>tree:member</code>, all these triples will be matched. 
 </div>
 
+The specification in this document is the starting point for traversing collection views.
+There are two more reports published as part of this community group:
+ 1. The [shape topology algorithm](https://w3id.org/tree/specification/shape-topologies)
+ 2. [Discoverying tree:Collections and their views](https://w3id.org/tree/specification/discovery)
+
+
 # Definitions # {#formalizations}
 
 A <code>tree:Collection</code> is a set of <code>tree:Member</code>s. The set of members MAY be empty.
