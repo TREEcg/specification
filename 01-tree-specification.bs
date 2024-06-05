@@ -124,11 +124,11 @@ A <code>tree:search</code> form is an IRI template, that when filled out with th
 
 ## The member extraction algorithm ## {#member-extraction-algorithm}
 
-The set of quads the are part of the member, are defined by the [shape templates algorithm](https://w3id.org/tree/specification/shape-templates), provided as a separate report to this specification.
-It is a combination of Concise Bounded Descriptions, named graphs and Shape Templates.
+The set of quads the are part of the member, are defined by the [shape topology algorithm](https://w3id.org/tree/specification/shape-topologies), provided as a separate report to this specification.
+It is a combination of Concise Bounded Descriptions, named graphs and Shape Topologies.
 The latter uses the <code>sh:NodeShape</code> from the <code>tree:shape</code> property on the collections as an indication of the topology of the member graph.
 
-Note: The way we process SHACL shapes into Shape Template is important to understand in order to know when an HTTP request will be triggered when designing SHACL shapes. A cardinality constraint not being exactly matched or a <code>sh:pattern</code> not being respected will not trigger an HTTP request, and instead just add the invalid quads to the Member. This is a design choice: we only define triggers for HTTP request from the SHACL shape to come to a complete set of quads describing the member the data publisher pointed at using <code>tree:member</code>.
+Note: The way we process SHACL shapes into Shape Topology is important to understand in order to know when an HTTP request will be triggered when designing SHACL shapes. A cardinality constraint not being exactly matched or a <code>sh:pattern</code> not being respected will not trigger an HTTP request, and instead just add the invalid quads to the Member. This is a design choice: we only define triggers for HTTP request from the SHACL shape to come to a complete set of quads describing the member the data publisher pointed at using <code>tree:member</code>.
 
 # The tree:Relations # {#relations}
 
