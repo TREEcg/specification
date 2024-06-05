@@ -22,10 +22,10 @@ Abstract:
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vTTCjBkBum1J4xgbg0oZJaD_H05dpZxhL6jrp1yzqoIsYw5EOa-7D24No_rfEyTipq1rLb-_tPTEYV0/pub?w=1093&amp;h=546" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node.">
 
 The TREE specification introduces these core concepts:
- * a <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code> ([[!vocab-dcat-3]]). The specialization being that it is a DCAT dataset a collection of members. It typically has these properties when described in a node:
+ * a <code>tree:Collection</code> is a set of members. It typically has these properties when described in a node:
      - <code>tree:member</code> points at the first focus node from which to retrieve and extract all quads of a member.
-     - <code>tree:view</code> points to the current <code>tree:Node</code> you’re visiting.
-     - <code>tree:shape</code> indicates the [[!SHACL]] shape to which each member in the collection adheres.
+     - <code>tree:view</code> points to the <code>tree:Node</code> you’re currently visiting.
+     - <code>tree:shape</code> indicates the [[!SHACL]] shape (exactly one) to which each member in the collection adheres.
      - <code>tree:viewDescription</code> links to a description of the view (a <code>tree:ViewDescription</code>). Multiple descriptions MAY be provided that MUST be combined.
  * a <code>tree:Node</code>: is a page on which relations to other pages are described through the <code>tree:relation</code> predicate, and/or through which a next <code>tree:Node</code> can be found by using the <code>tree:search</code> form.
  * a <code>tree:Relation</code> is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a <code>tree:GreaterThanRelation</code>). A relation typically has these properties:
@@ -33,7 +33,7 @@ The TREE specification introduces these core concepts:
      - a <code>tree:path</code> indicating to which of the members' properties this relation applies
      - a <code>tree:value</code> indicating a value constraint on the members' values
      - a <code>tree:remainingItems</code> defining how many members can be reached when following this relation
- * a <code>tree:ViewDescription</code> is a subclass of <code>dcat:DataService</code> and serves a <code>tree:Collection</code>.
+ * a <code>tree:ViewDescription</code> can be used to have a general understanding of the current view:
      - a <code>tree:search</code> describes a search form that allows an agent to jump to a specific <code>tree:Node</code>.
 
 The first step when creating a TREE hypermedia interface is defining a collection of members:
