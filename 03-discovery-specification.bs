@@ -1,0 +1,87 @@
+<pre class='metadata'>
+Title: The TREE Discovery specification
+Shortname: TREEDiscovery
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+Group: TREE hypermedia community group
+URL: https://w3id.org/tree/specification/discovery
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+    This specification defines how a tree:Collection and their views can be found.
+    We define both how to describe your tree:Collection, as the algorithm to select the right tree:Collection from a data catalog.
+</pre>
+
+# The overview # {#overview}
+
+A <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code> ([[!vocab-dcat-3]]).
+The specialization being that it is a DCAT dataset with a collection of _members_.
+
+A <code>tree:ViewDescription</code> is a subClassOf <code>dcat:DataService</code> and serves a <code>tree:Collection</code>.
+
+A <code>tree:View</code> is a subClassOf <code>dcat:Distribution</code>.
+
+A TREE client MUST be provided with a URL to start from, which we call the entrypoint.
+This entrypoint MUST be one of the following:
+ 1. a `tree:RootNode`,
+ 2. a `tree:SearchTree`
+ 3. a `tree:Collection`, or
+ 4. a `dcat:Catalog`
+
+# Initializing a client with a url to a... # {#starting-from}
+
+## tree:RootNode ## {#rootnode}
+
+A node from which all members of a collection can be found is a `tree:RootNode`, which MAY be explicitely typed as such.
+When the URL given to the TREE client, after all redirects, is used in a triple <code>ex:C1 tree:view <> .</code>, a client MUST assume the URL after redirects is an identifier of a `tree:RootNode` of the collection `ex:C1`.
+
+## tree:SearchTree ## {#searchtree}
+
+A `tree:SearchTree` is a subClassOf `dcat:Distribution` and distributes one specific `tree:Collection`.
+When dereferencing a URL identifying a Search Tree, a server MUST respond with one of the following options:
+ 1. The `tree:RootNode` of the search tree is returned. On that page, the URI of the `tree:SearchTree` MUST be mentioned in one of the following ways:
+   * The `tree:RootNode` MAY describe it has a `tree:viewDescription` being the `tree:SearchTree`
+   * It MAY simply be double typed with the `tree:RootNode` (in which the former chapter is applicable)
+ 2. A DCAT-based overview of the distribution(s). In this case, the client MUST look for the URL it requested, and check whether there is a property `dcat:accessURL` 
+
+Through the direct property `tree:rootNode` (subPropertyOf `dcat:accessURL`) one can find the `tree:RootNode`, for which we can then continue with the example above.
+
+Catalog 
+
+
+## tree:Collection ## {#collection}
+
+In order to prioritize a specific view link, the relations and search forms in the entry nodes can be studied for their relation types, path or remaining items.
+The class <code>tree:ViewDescription</code> indicates a specific TREE structure on a <code>tree:Collection</code>.
+Through the property <code>tree:viewDescription</code> a <code>tree:Node</code> can link to an entity that describes the view, and can be reused in data portals as the <code>dcat:DataService</code>.
+
+<div class="example">
+    ```turtle
+    ## What can be found in a tree:Node
+    ex:N1 a tree:Node ;
+      tree:viewDescription ex:View1 .
+      
+    ex:C1 a tree:Collection ;
+      tree:view ex:N1 .
+
+    ## What can be found on a data portal
+    ex:C1 a dcat:Dataset .
+    ex:View1 a tree:ViewDescription, dcat:DataService ;
+      dcat:endpointURL ex:N1 ; # The entry point that can be advertised in a data portal
+      dcat:servesDataset ex:C1 .
+    ```
+</div>
+
+When there is no <code>tree:viewDescription</code> property in this page, a client either already discovered the description of this view in an earlier <code>tree:Node</code>, either the current <code>tree:Node</code> is implicitly the ViewDescription. Therefore, when the property path <code>tree:view → tree:viewDescription</code> does not yield a result, the view properties MUST be extracted from the object of the <code>tree:view</code> triple.
+A <code>tree:Node</code> can also be double typed as the <code>tree:ViewDescription</code>. A client must thus check for ViewDescriptions on both the current node without the <code>tree:viewDescription</code> qualification, as on the current node with the <code>tree:viewDescription</code> link.
+
+## dcat:Catalog ## {#collection}
+
+When multiple collections are found by a client, it can choose to prune the collections based on the <code>tree:shape</code> property.
+Therefore a data publisher SHOULD annotate a <code>tree:Collection</code> instance with a SHACL shape.
+The <code>tree:shape</code> points to a SHACL description of the shape (<code>sh:NodeShape</code>).
+
+Note: the shape can be a blank node, or a named node on which you should follow your nose when it is defined at a different HTTP URL.
