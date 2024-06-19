@@ -21,7 +21,7 @@ jobs:
 
           # if your doc isn’t in the root folder,
           # or Bikeshed otherwise can’t find it:
-          SOURCE: spec.bs
+          SOURCE: 01-tree-specification.bs
 
           # output filename defaults to your input
           # with .html extension instead,

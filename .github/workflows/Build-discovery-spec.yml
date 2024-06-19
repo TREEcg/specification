@@ -1,4 +1,4 @@
-name: Build Shape Topologies spec
+name: Build TREE discovery spec
 on:
   workflow_dispatch: {}
   pull_request: {}
@@ -21,9 +21,9 @@ jobs:
 
           # if your doc isn’t in the root folder,
           # or Bikeshed otherwise can’t find it:
-          SOURCE: 02-shape-topologies.bs
+          SOURCE: 03-discovery-specification.bs
 
           # output filename defaults to your input
           # with .html extension instead,
           # but if you want to customize it:
-          DESTINATION: shape-topologies.html
+          DESTINATION: discovery.html

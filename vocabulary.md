@@ -22,6 +22,10 @@ A collection has members that may adhere to a certain shape.
 
 A <code>tree:Node</code> is a node that may contain links to other dereferenceable resources that lead to a full overview of a <code>tree:Collection</code>.
 
+### tree:RootNode ### {#RootNode}
+
+### tree:SearchTree ### {#SearchTree}
+
 ### tree:Relation ### {#Relation}
 
 An entity that describes a relation between two <code>tree:Nodes</code>.
@@ -43,10 +47,6 @@ The <code>tree:Relation</code> has specific sub-classes that implement a more sp
 ### tree:ConditionalImport ### {#ConditionalImport}
 
 A class to import a file or a stream based on a <code>tree:path</code> of properties. This way it can import the necessary data for complying to the SHACL shape, or evaluating a relation type.
-
-### tree:ViewDescription ### {#ViewDescription}
-
-Describes a specific TREE structure on top of the <code>tree:Collection</code>.
 
 ## Properties ## {#properties}
 
@@ -151,8 +151,6 @@ A search form parameter: accompagnied by a <code>tree:path</code>, it indicates 
 
 ### tree:viewDescription ### {#viewDescription}
 
-Links together a tree:Node with its description of this TREE structure.
+Links together a tree:Node with a description that needs to be taken into account
 
 **Domain**: <code>tree:Node</code>
-
-**Range**: <code>tree:ViewDescription</code>
