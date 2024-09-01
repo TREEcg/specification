@@ -94,6 +94,6 @@ TODO
 
 ## Linked Data Event Streams ## {#context-ldes}
 
-[LDES](https://w3id.org/ldes/specification) is a way to evolve search trees in a consistent way. It defines every member as immutable, and a collection as append-only.
+LDES (https://w3id.org/ldes/specification) is a way to evolve search trees in a consistent way. It defines every member as immutable, and a collection as append-only.
 Therefore, one can make sure to only process each member once.
 Extra terms are added, such as the concept of an EventStream, retention policies and a timestampPath. 
