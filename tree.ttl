@@ -168,7 +168,6 @@ tree:member  a rdf:Property ;
 tree:search  a rdf:Property ;
              rdfs:label "Search"@en ;
              rdfs:comment "The Node can be searched for child nodes."@en ;
-             rdfs:domain tree:Node ;
              rdfs:range hydra:IriTemplate .
 
 tree:shape a rdf:Property ;

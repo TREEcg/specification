@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: The TREE Discovery specification
+Title: TREE Discovery and Context Information
 Shortname: TREEDiscovery
 Level: 1
 Status: w3c/CG-DRAFT
@@ -11,46 +11,42 @@ Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
-    This specification defines how a tree:Collection and their views can be found.
-    We define both how to describe your tree:Collection, as the algorithm to select the right tree:Collection from a data catalog.
+    This specification defines how a client can find specific search trees of interest, as well as list the context information.
 </pre>
 
 # The overview # {#overview}
 
 A <code>tree:Collection</code> is a subclass of <code>dcat:Dataset</code> ([[!vocab-dcat-3]]).
-The specialization being that it is a DCAT dataset with a collection of _members_.
+The specialization being that this particular dataset is a collection of _members_.
 
-A <code>tree:ViewDescription</code> is a subClassOf <code>dcat:DataService</code> and serves a <code>tree:Collection</code>.
+A <code>tree:SearchTree</code> is a subClassOf <code>dcat:Distribution</code>.
+The specialization being that it uses the main TREE specification to publish a search tree.
 
-A <code>tree:View</code> is a subClassOf <code>dcat:Distribution</code>.
+A node from which all other nodes can be found is a `tree:RootNode`, which MAY be explicitely typed as such.
 
-A TREE client MUST be provided with a URL to start from, which we call the entrypoint.
-This entrypoint MUST be one of the following:
- 1. a `tree:RootNode`,
- 2. a `tree:SearchTree`
- 3. a `tree:Collection`, or
- 4. a `dcat:Catalog`
+Note: The `tree:SearchTree` and the `tree:RootNode` MAY be identified by the same IRI when no disambiguation is needed.
 
-# Initializing a client with a url to a... # {#starting-from}
+A TREE client MUST be provided with a URL to start from, which we call the _entrypoint_.
 
-## tree:RootNode ## {#rootnode}
+# Initializing a client with a url # {#starting-from}
 
-A node from which all members of a collection can be found is a `tree:RootNode`, which MAY be explicitely typed as such.
-When the URL given to the TREE client, after all redirects, is used in a triple <code>ex:C1 tree:view <> .</code>, a client MUST assume the URL after redirects is an identifier of a `tree:RootNode` of the collection `ex:C1`.
+The goal of the client is to understand what `tree:Collection` it is using, and to find a `tree:RootNode` or search form to start the traversal phase from.
 
-## tree:SearchTree ## {#searchtree}
+```
+IN: E: a URL of the entrypoint
+OUT: N: tree:RootNode IRI and/or S: search form
+ ```
 
-A `tree:SearchTree` is a subClassOf `dcat:Distribution` and distributes one specific `tree:Collection`.
-When dereferencing a URL identifying a Search Tree, a server MUST respond with one of the following options:
- 1. The `tree:RootNode` of the search tree is returned. On that page, the URI of the `tree:SearchTree` MUST be mentioned in one of the following ways:
-   * The `tree:RootNode` MAY describe it has a `tree:viewDescription` being the `tree:SearchTree`
-   * It MAY simply be double typed with the `tree:RootNode` (in which the former chapter is applicable)
- 2. A DCAT-based overview of the distribution(s). In this case, the client MUST look for the URL it requested, and check whether there is a property `dcat:accessURL` 
+The client MUST dereference the URL, which will result in a set of quads.
+When the URL given to the TREE client, after all redirects, is used in a triple <code>ex:C tree:view <> .</code>, a client MUST assume the URL after redirects (`E'`) is an identifier of the intended `tree:RootNode` of the collection `ex:C`.
+The client MUST check for this `tree:view` property and return the result of the discovery algorithm with `<> → N`.
 
-Through the direct property `tree:rootNode` (subPropertyOf `dcat:accessURL`) one can find the `tree:RootNode`, for which we can then continue with the example above.
+If there is no such triple, then the client MUST check whether the URL before redirects (`E`)  has been used in one of the following patterns:
+ * `E tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N → N`.
+ * `E tree:rootNode ?N ; tree:search ?S .` then the algorithm MUST return `?N → N` and `?S → S`.
+ * `?DS dcat:servesDataset E ; dcat:endpointURL ?U` or `E dcat:endpointURL ?U`, then the algorithm MUST repeat the algorithm with `?U` as the entrypoint.
 
-Catalog 
-
+Note: When data about the dataset, data service or search tree is found, it is a good idea to also pass this on to the client.
 
 ## tree:Collection ## {#collection}
 
@@ -85,3 +81,19 @@ Therefore a data publisher SHOULD annotate a <code>tree:Collection</code> instan
 The <code>tree:shape</code> points to a SHACL description of the shape (<code>sh:NodeShape</code>).
 
 Note: the shape can be a blank node, or a named node on which you should follow your nose when it is defined at a different HTTP URL.
+
+# Context data # {#context}
+
+Context information is important to understand who the creator of a certain dataset is, when it was last changed, what other datasets it was derived from, etc.
+
+TODO
+
+## DCAT and dcterms ## {#context-dcat}
+
+## Provenance ## {#context-prov}
+
+## Linked Data Event Streams ## {#context-ldes}
+
+[LDES](https://w3id.org/ldes/specification) is a way to evolve search trees in a consistent way. It defines every member as immutable, and a collection as append-only.
+Therefore, one can make sure to only process each member once.
+Extra terms are added, such as the concept of an EventStream, retention policies and a timestampPath. 
