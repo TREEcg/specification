@@ -1,19 +1,3 @@
-# Definitions # {#formalizations}
-
-A <code>tree:Collection</code> is a set of <code>tree:Member</code>s. The set of members MAY be empty.
-
-A <code>tree:Member</code> is a set of (at least one) quad(s) defined by the member extraction algorithm (next subsection).
-
-A <code>tree:Node</code> is a dereferenceable resource containing <code>tree:Relation</code>s and a subset of (<code>⊆</code>) members of the collection. In a <code>tree:Node</code>, both the set of <code>tree:Relation</code>s as the subset of members MAY be empty. The same member MAY be contained in multiple nodes.
-
-A <code>tree:Relation</code> is a function denoting a conditional link to another <code>tree:Node</code>.
-
-A <code>tree:Node</code>, apart from the root node, has exactly one other <code>tree:Node</code> linking into it through one or more relations.
-
-A SearchTree is a specific set of interlinked <code>tree:Node</code>s, that together contain all members in a collection. A specific view will adhere to a certain growth or tree balancing strategy. In one SearchTree, completeness MUST be guaranteed, unless the SearchTree has a retention policy cfr. LDES.
-
-A <code>tree:search</code> form is an IRI template, that when filled out with the right parameters becomes a <code>tree:Node</code> IRI, or when dereferenced will redirect to a <code>tree:Node</code> from which all members in the collection that adhere to the described comparator can be found.
-
 # Vocabulary # {#vocabulary}
 
 **Namespace**: <code>https://w3id.org/tree#</code>
@@ -37,10 +21,6 @@ A collection has members that may adhere to a certain shape.
 ### tree:Node ### {#Node}
 
 A <code>tree:Node</code> is a node that may contain links to other dereferenceable resources that lead to a full overview of a <code>tree:Collection</code>.
-
-### tree:RootNode ### {#RootNode}
-
-### tree:SearchTree ### {#SearchTree}
 
 ### tree:Relation ### {#Relation}
 

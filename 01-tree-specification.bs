@@ -27,13 +27,12 @@ The TREE specification introduces these core concepts:
  * a <code>tree:Node</code>: is a page in the search tree
      - `tree:relation` points at relations to other node
      - a <code>tree:search</code> describes a search form that allows an agent to jump to a specific <code>tree:Node</code> in the (sub)tree from here.
-     - <code>tree:viewDescription</code> links a description of (such as a <code>tree:SearchTree</code>, a `dcat:Distribution`, a `dcat:DataService`)
+     - <code>tree:viewDescription</code> links to a description (MAY be partial and MAY be shared with other trees) of this view that is important to take into account for the current traversal algorithm (such as a `dcat:Distribution` or a `dcat:DataService`)
  * a <code>tree:Relation</code> is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a <code>tree:GreaterThanRelation</code>). A relation typically has these properties:
      - a <code>tree:node</code> the URL of the other node
      - a <code>tree:path</code> indicating to which of the members' properties this relation applies
      - a <code>tree:value</code> indicating a value constraint on the members' values
      - a <code>tree:remainingItems</code> defining how many members can be reached when following this relation
- * a <code>tree:SearchTree</code> is this collection of nodes. The SearchTree can be double typed with the root `tree:Node`, but can also be linked through the property `tree:viewDescription`.
 
 A simple collection can be created as illustrated in the following example:
 </div>
@@ -55,7 +54,7 @@ A simple collection can be created as illustrated in the following example:
 </div>
 
 From the moment this collection of members grows too large for one page, 
-a pagination needs to be created in which an initial set of members can be found through the rootnode, 
+a pagination needs to be created in which an initial set of members can be found through the first `tree:Node`, 
 and more members can be found by interpreting the TREE hypermedia controls. 
 This is illustrated in the next example:
 
@@ -75,7 +74,7 @@ This is illustrated in the next example:
         tree:value 3;
         tree:path ex:value .
 
-    ex:R1 a tree:LessThanRelation ; # This is very useful for a client that is looking for a value 10 or greater
+    ex:R1 a tree:LessThanRelation ; # This is useful for a client that is looking for a value 10 or greater
         tree:node ex:Node3 ;
         tree:value 10;
         tree:remainingItems 7 ;
@@ -97,6 +96,25 @@ This is illustrated in the next example:
     ```
 </div>
 
+# Definitions # {#formalizations}
+
+A <code>tree:Collection</code> is a set of <code>tree:Member</code>s.
+The set of members MAY be empty.
+
+A <code>tree:Member</code> is a set of (at least one) quad(s) defined by the member extraction algorithm (see further).
+
+A <code>tree:Node</code> is a dereferenceable resource containing <code>tree:Relation</code>s and a subset of (<code>⊆</code>) members of the collection. In a <code>tree:Node</code>, both the set of <code>tree:Relation</code>s as the subset of members MAY be empty. The same member MAY be contained in multiple nodes.
+
+A <code>tree:Relation</code> is a function denoting a conditional link to another <code>tree:Node</code>.
+
+A <code>tree:Node</code> is part of a search tree, and apart from the root node, it has exactly one other <code>tree:Node</code> of the search tree linking into it through one or more relations.
+
+A <code>tree:search</code> form is an IRI template, that when filled out with the right parameters becomes a <code>tree:Node</code> IRI, or when dereferenced will redirect to a <code>tree:Node</code> from which all members in the collection that adhere to the described comparator can be found.
+
+A search tree is a set of interlinked <code>tree:Node</code>s.
+It will adhere to a certain growth or tree balancing strategy. 
+In one tree, completeness MUST be guaranteed, unless indicated otherwise using a retention policy (as is possible in LDES).
+
 # Initialization # {#init}
 
 A client SHOULD be initiated using a URL. 
@@ -108,7 +126,7 @@ Note: Dereferencing in this specification also means parsing the RDF triples or 
 If there is no such triple, then the client MUST check whether the URL before redirects (`E`) has been used in a pattern `<E> tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N` as the rootnode and `E` as the collection.
 
 The client then MUST dereference the identified rootnode (if it did not do that already) and merge those quads with the already found quads.
-It now MUST look for a potential search forms that MAY be linked, either i) on top of the rootnode, either ii) on top of the entity linked through `tree:viewDescription`, or iii) on the `tree:SearchTree` using `tree:search`.
+It now MUST look for a potential search forms that MAY be linked, either i) on top of the rootnode, or ii) on top of the entity linked through `tree:viewDescription`, using `tree:search`.
 
 The resulting collection IRI `C`, the rootnode IRI `R`, list of already visited pages `H` (and optionally their time to live), current quads `Q` and search forms `S`.
 
@@ -228,7 +246,7 @@ All properties expect positive integers.
     ```turtle
     <https://tiles.openplanner.team/#LatestCollection> a tree:Collection ;
         dcterms:title "A prototype tree:Collection for Linked OpenStreetMap’s roads"@en .
-    <https://tiles.openplanner.team/planet/> a tree:SearchTree ;
+    <https://tiles.openplanner.team/planet/> a tree:Node ;
         
         tree:search [
             a hydra:IriTemplate ;
