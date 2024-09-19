@@ -151,7 +151,6 @@ The full algorithm is specificied in the [shape topologies](https://w3id.org/tre
 
 After dereferencing a `tree:Node`, a client MUST extract all (zero or more) `tree:Relation` descriptions from the page.
 This can be done by searching for `<> tree:relation ?R` triples.
-A client MAY assume completeness of relations mentioned on this page.
 
 A client MUST follow the object of the relation’s `?R tree:node ?object` triple, unless the client is able to prune the branch reachable from that node (see further).
 
@@ -176,7 +175,6 @@ Finally, for geospatial trees, `tree:GeospatiallyContainsRelation` exists.
 A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
 All relations to the same `tree:node` MUST be combined using a logical AND.
-The client SHOULD assume the subtree contains __all remaining members__ of the collection that match this comparator and the comparators that lead to the current node.
 
 One relation can be interpreted as a comparator as follows:
  1. The left-hand: what the members in the substree reachable from the linked node will contain w.r.t. the objects reachable from the `tree:path`.
@@ -199,14 +197,11 @@ One relation can be interpreted as a comparator as follows:
 ```
 </div>
 
-In the example above the substree reachable from `ex:Node2` will contain members that are both created later in time than the given timestamp _and_ will have the provided substring in the title.
+In the example above the subtree reachable from `ex:Node2` will contain members that are both created later in time than the given timestamp _and_ will have the provided substring in the title.
 The client SHOULD prune the subtree reachable from `ex:Node` if it is specifically not looking for members with the given substring, _or_ when it is not interested in members created later in time than the given timestamp.
 Alternatively, it MAY score the relation based on the likelihood of returning useful results and created a priority queue that is processed until a top K of results have been found. 
-It MAY also specifically choose to follow this link, and prune all others in the current node, if it is _only_ interested in members with the given substring _and_ created later in time than the given timestamp.
 
-If the client comes across a relation subclass it did not code against or did not formulate a condition against, it MUST ignore this relation when assessing whether pruning is possible, but it will not be able to assume completeness.
-I.e., in the example above, when the client is specifically not interested in members created later than the given creation time, but does not understand the SubstringRelation, the client MUST still prune the relation.
-If however it is only interested in members created later than the given creation time, it cannot prune all other relations.
+Note: If the client comes across a relation subclass it did not code against or did not formulate a condition against, it can ignore this relation when assessing whether pruning is possible. I.e., in the example above, when the client is specifically not interested in members created later than the given creation time, but does not understand the SubstringRelation, the client MUST still prune the relation.
 
 While each type of relation can decide on their own properties,
 relations will often use the `tree:path` to indicate the path from the member to the object on which the `tree:Relation` applies.
@@ -223,17 +218,18 @@ Note: A server MAY link the `tree:path` to a property that is not materialized i
 ## Comparing strings ## {#strings}
 
 String values have three specific type of relations: the `tree:PrefixRelation`, the `tree:SubstringRelation` and the `tree:SuffixRelation`.
-
-Issue: Proposal would be to include that the string comparison should be done using [unicode caseless canonical equivalence](https://icu4c-demos.unicode.org/icu-bin/scompare#a_Equiv_Caseless). However, the fact we would do this in a caseless manner is not consistent with the current spec further on case sensitive unicode ordering and the note on the multiple relations. 
+The string comparison happens using the unicode canonical equivalence.
 
 Issue: We experimented with server-chosen locales such that `ça suffit` can also be found when following a `tree:PrefixRelation` with a `tree:value "c"` (which at this moment is not supported). That would require an understanding of locales, and [browser/JavaScript support for locales is too low to be useful at this point](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
 
 Also the comparator relations such as `tree:GreaterThanRelation` can be used.
-The strings MUST then be compared according to *case sensitive unicode ordering*.
+The strings MUST then be compared using case sensitive unicode ordering.
 
 When a language is set on the `tree:value`, the relation only refers to these language strings. If no language is indicated, it refers to all (including those without).
 
-Note: If you want to have one resource containing both `e` and `é` as a prefix, you will have to create multiple relations to the same `tree:Node`.
+Particular to the `tree:SubstringRelation`, is that multiple `tree:value` properties can be set. This means the members properties will contain all of the given substrings.
+
+Issue: We need a flag for setting case insensitiveness: what will we use? In previous implementations `sh:flags "i"` was used.
 
 ## Comparing named nodes ## {#named-nodes}
 
@@ -249,12 +245,15 @@ When using `tree:GeospatiallyContainsRelation`, the `tree:path` MUST refer to a 
 ## Comparing time literals ## {#time}
 
 When using relations such as `tree:LessThanRelation` or `tree:GreaterThanRelation`, the time literals MUST to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
+It is highly recommended to server developers to provide a timezone in the `tree:value`, which can be done in these datatypes themself.
+
+When no timezone is specified, the comparison needs to take place on the worst-case bound. For example a date `2022-01-01` without timezone thus represents a period of time of 48 hours from  (`[`) `2021-12-31T12:00:00Z` until `2022-01-02T12:00:00Z` (`[`).
 
 # Search forms # {#searching}
 
-Searching through a TREE will allow you to immediately jump to the right `tree:Node`.
+Searching through a TREE will allow you to immediately jump to the right `tree:Node` in a subtree.
 TREE relies on the [Hydra search specification](http://www.hydra-cg.com/spec/latest/core/#hydra:search) for its search forms.
-It does however extend Hydra with specific search properties (`hydra:IriTemplate`) for different types of search forms, and searches starting from a `tree:ViewDescription`, to which the search form is linked with `tree:search`.
+It does however extend Hydra with specific search properties (`hydra:IriTemplate`) for different types of search forms, and searches starting from a specific `tree:Node`, to which the search form is linked with `tree:search`.
 The behaviour of the search form fully depends on the specific property, for which TREE introduces a couple of specific properties:
 
 ## Geospatial XYZ tiles search form ## {#xyztiles}
