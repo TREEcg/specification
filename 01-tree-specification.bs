@@ -174,12 +174,12 @@ Finally, for geospatial trees, `tree:GeospatiallyContainsRelation` exists.
 
 A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
-All relations to the same `tree:node` MUST be combined using a logical AND.
-
-One relation can be interpreted as a comparator as follows:
+A relation can be interpreted as a comparator as follows:
  1. The left-hand: what the members in the substree reachable from the linked node will contain w.r.t. the objects reachable from the `tree:path`.
  2. The operator: decided by the type of the relation and the datatype or node type of the `tree:value` triple’s object.
  3. The right-hand: the `tree:value` triple’s object.
+
+The client MUST combine all relations to the same `tree:node` using a logical AND.
 
 <div class="example">
 ```turtle
@@ -197,11 +197,13 @@ One relation can be interpreted as a comparator as follows:
 ```
 </div>
 
-In the example above the subtree reachable from `ex:Node2` will contain members that are both created later in time than the given timestamp _and_ will have the provided substring in the title.
+In the example above the subtree reachable from `ex:Node2` will contain all remaining members that are both created later in time than the given timestamp _and_ will have the provided substring in the title.
+The client MAY thus choose to prune all links to other nodes if this is the only thing it is interested in.
 The client SHOULD prune the subtree reachable from `ex:Node` if it is specifically not looking for members with the given substring, _or_ when it is not interested in members created later in time than the given timestamp.
-Alternatively, it MAY score the relation based on the likelihood of returning useful results and created a priority queue that is processed until a top K of results have been found. 
+Alternatively, it MAY score the relation based on the likelihood of returning useful results and created a priority queue that is processed until a top K of results have been found.
 
-Note: If the client comes across a relation subclass it did not code against or did not formulate a condition against, it can ignore this relation when assessing whether pruning is possible. I.e., in the example above, when the client is specifically not interested in members created later than the given creation time, but does not understand the SubstringRelation, the client MUST still prune the relation.
+Note: If the client comes across a relation subclass it did not code against or did not formulate a condition against, it can ignore this relation when assessing whether pruning is possible.
+I.e., in the example above, when the client is specifically not interested in members created later than the given creation time, but does not understand the SubstringRelation, the client MUST still prune the relation.
 
 While each type of relation can decide on their own properties,
 relations will often use the `tree:path` to indicate the path from the member to the object on which the `tree:Relation` applies.
