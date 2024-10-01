@@ -39,7 +39,7 @@ If that did not return any result, then the client MUST check whether the URL be
  2. `E` is a `dcat:Dataset`: then the client needs to [select the right distribution or dataservice from a catalog](#dcat-dataset)
  3. `E` is a `ldes:EventStream`: then the client MAY take into account [LDES specific properties](#ldes)
  4. `E` is a `dcat:Distribution`: then the client needs to [process it accordingly](#dcat-distribution)
- 5  `E` is a `dcat:DataService`: then the client needs to [process it accordingly](#dcat-dataservice)
+ 5.  `E` is a `dcat:DataService`: then the client needs to [process it accordingly](#dcat-dataservice)
  6. `E` is a catalog or is not explicitly mentioned: then it needs to select a dataset based on [shape information](#tree-collection-shapes) and [DCAT Catalog information](#dcat-catalog)
 
 ## Selecting a collection via shapes ## {#tree-collection-shapes}
