@@ -164,31 +164,33 @@ When dereferencing the object of a `tree:node` triple, the client MUST follow re
 
 Note: Allowing redirects allows servers to rebalance their search trees over time.
 
-A client MAY assume completeness of members intended by the search tree when it derefenced all node links.
+A client can assume completeness of members intended by the search tree when it derefenced all node links.
 
 # Pruning branches # {#relationsubclasses}
 
-In search trees, a `tree:Relation` will likely be typed using one of its subclasses.
-For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation` exist.
-For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation` exist.
-Finally, for geospatial trees, `tree:GeospatiallyContainsRelation` exists. 
+In search trees, a `tree:Relation` will likely be typed using one of its subclasses:
+ * For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation` exist.
+ * For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation` exist.
+ * Finally, for geospatial trees, `tree:GeospatiallyContainsRelation` exists. 
 
 A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
 A relation can be interpreted as a comparator as follows:
- 1. The left-hand: what the members in the substree reachable from the linked node will contain w.r.t. the objects reachable from the `tree:path`.
+ 1. The left-hand: what the members in the subtree reachable from the linked node will contain w.r.t. the objects reachable from the `tree:path`.
  2. The operator: decided by the type of the relation and the datatype or node type of the `tree:value` triple’s object.
  3. The right-hand: the `tree:value` triple’s object.
 
 The client MUST combine all relations to the same `tree:node` using a logical AND.
 
+The members that the client is able to find in a subtree will be complete relative to the position in the search tree.
+
 <div class="example">
 ```turtle
 <> tree:relation [
-	    a tree:GreaterThanRelation ;
-        tree:node ex:Node2 ;
-        tree:path dct:created ;
-        tree:value "2024-12-16T12:00:00Z"^^xsd:dateTime
+	    a tree:GreaterThanRelation ; # the type of the relation deciding the operator
+        tree:node ex:Node2 ; # for the left-hand: all members from here
+        tree:path dct:created ; # for the left-hand: the path pointing at the term(s) in the member
+        tree:value "2024-12-16T12:00:00Z"^^xsd:dateTime # the right-hand
 	],[
 		a tree:SubstringRelation ;
 		tree:node ex:Node2 ;
@@ -198,13 +200,13 @@ The client MUST combine all relations to the same `tree:node` using a logical AN
 ```
 </div>
 
-In the example above the subtree reachable from `ex:Node2` will contain all remaining members that are both created later in time than the given timestamp _and_ will have the provided substring in the title.
-The client MAY thus choose to prune all links to other nodes if this is the only thing it is interested in.
-The client SHOULD prune the subtree reachable from `ex:Node` if it is specifically not looking for members with the given substring, _or_ when it is not interested in members created later in time than the given timestamp.
-Alternatively, it MAY score the relation based on the likelihood of returning useful results and created a priority queue that is processed until a top K of results have been found.
-
-Note: If the client comes across a relation subclass it did not code against or did not formulate a condition against, it can ignore this relation when assessing whether pruning is possible.
-I.e., in the example above, when the client is specifically not interested in members created later than the given creation time, but does not understand the SubstringRelation, the client MUST still prune the relation.
+<div class="informative">
+In the example above the subtree reachable from `ex:Node2` will contain all remaining members that are both created later in time than the given timestamp *and* will have the provided substring in the title.
+The client can choose to prune all links to other nodes if this is the only thing it is interested in.
+Alternatively, the client can choose prune the subtree reachable from `ex:Node2` if it is specifically not looking for members with the given substring, *or* when it is not interested in members created later in time than the given timestamp.
+Alternatively, it can also score the relation based on the likelihood of returning useful results and created a priority queue that is processed until a top K of results have been found.
+Mind that when the client is specifically not interested in members created later than the given creation time, but does not understand the SubstringRelation, the client can still prune the relation.
+</div>
 
 While each type of relation can decide on their own properties,
 relations will often use the `tree:path` to indicate the path from the member to the object on which the `tree:Relation` applies.
@@ -216,7 +218,7 @@ When multiple results from the path are found, they need to be interpreted as a 
 A client, in case it wants to process relations that use the `tree:path` property, MUST implement a matching algorithm to check whether the relation is relevant.
 I.e., a `tree:path` on `(rdfs:label [sh:alternativePath rdfs:comment ] )` will be useful when the client is tasked to filter on `rdfs:comment`.
 
-Note: A server MAY link the `tree:path` to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.
+Note: A server is allowed to refer the `tree:path` to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.
 
 ## Comparing strings ## {#strings}
 
