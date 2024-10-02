@@ -11,8 +11,9 @@ Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
-    TREE hypermedia describes the pagination of a collection of entity descriptions.
-    It allows clients to follow their nose through a search tree based information structure.
+    The TREE specifications allows clients to traverse Web APIs that are structured according to a search tree.
+	It introduces a collection of members distributed across pages called Nodes.
+	The nodes are interlinked using qualified relations and search forms.
 </pre>
 
 # Overview # {#overview}
