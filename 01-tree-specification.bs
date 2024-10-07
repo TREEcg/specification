@@ -137,7 +137,7 @@ Note: Having an identifier for the collection has become mandatory: without it y
 # The member extraction algorithm # {#member-extraction-algorithm}
 
 The member extraction algorithm allows a data publisher to define their members in different ways:
-    1. As in the examples above: all quads with the object of the `tree:member` quads as a subject (and recursively the quads of their blank nodes) are by default included (see also [[!CBD]]), except when they would explicitely not be included in case 3, when the shape would be closed.
+    1. As in the examples above: all quads with the object of the `tree:member` quads as a subject (and recursively the quads of their blank nodes) are by default included (see also [[!CBD]]), except when they would explicitly not be included in case 3, when the shape would be closed.
     2. Out of band / in band:
         - when no quads of a member have been found, the member will be dereferenced. This allows to publish the member on a separate page.
         - part of the member can be maintained elsewhere when a shape is defined (see 3)
@@ -145,8 +145,8 @@ The member extraction algorithm allows a data publisher to define their members 
     4. By putting the triples in a named graph of the object of `tree:member`, all these triples will be matched. 
 
 Depending on the goals of the client, it MAY implement the member extraction algorithm to fetch all triples about the entity as intended by the server.
-The method used withun TREE is combination of Concise Bounded Descriptions [[!CBD]], named graphs and the topology of a shape (deducted from the `tree:shape`).
-The full algorithm is specificied in the [shape topologies](https://w3id.org/tree/specification/shape-topologies) report.
+The method used within TREE is combination of Concise Bounded Descriptions [[!CBD]], named graphs and the topology of a shape (deducted from the `tree:shape`).
+The full algorithm is specified in the [shape topologies](https://w3id.org/tree/specification/shape-topologies) report.
 
 # Traversing the search tree # {#traversing}
 
@@ -265,7 +265,7 @@ The behaviour of the search form fully depends on the specific property, for whi
 
 Three properties allow to specify a geospatial XYZ tiles template (also known as slippy maps).
  1. `tree:longitudeTile` describes the X value
- 2. `tree:latitudeTile` descrbes the Y value
+ 2. `tree:latitudeTile` describes the Y value
  3. `tree:zoom` describes the zoom level
 
 All properties expect positive integers.

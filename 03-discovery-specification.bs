@@ -53,7 +53,7 @@ Issue: Will we document the precise algorithm to use? Should we extend shapes wi
 ## Selecting a collection via a catalog ## {#dcat-catalog}
 
 A DCAT Catalog is an overview of datasets, data services and distributions.
-As TREE clients first need to select a dataset, and then a search tree to use, it aligns wll with how DCAT-AP works.
+As TREE clients first need to select a dataset, and then a search tree to use, it aligns with how DCAT-AP works.
 DCAT discovery extends upon the previous section in which a collection or dataset can be selected based on the `tree:shape` property.
 
 For now, we will assume the DCAT information is available in subject pages.
