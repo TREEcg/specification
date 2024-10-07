@@ -105,7 +105,7 @@ E a ldes:EventSource ;
 
 Issue: This is yet to be done
 
-Context information enabled a cliento understand who the creator of a certain dataset is, when it was last changed, what other datasets it was derived from, etc.
+Context information enables a client to understand who the creator of a certain dataset is, when it was last changed, what other datasets it was derived from, etc.
 
 ## DCAT and dcterms ## {#context-dcat}
 
