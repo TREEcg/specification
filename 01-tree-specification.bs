@@ -21,19 +21,19 @@ Abstract:
 <img src="TREE-overview.svg" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node.">
 <div class="informative">
 The TREE specification introduces these core concepts:
- * a `tree:Collection` is a set of members. It typically has these properties when described in a node:
+ * `tree:Collection` is a set of members. It typically has these properties when described in a node:
      - `tree:member` points at the first focus node from which to retrieve and extract all quads of a member
      - `tree:view` points to the `tree:Node` you are currently visiting
      - `tree:shape` indicates the [[!SHACL]] shape (exactly one) to which each member in the collection adheres
- * a `tree:Node`: is a page in the search tree
+ * `tree:Node` is a page in the search tree
      - `tree:relation` points at relations to other node
-     - a `tree:search` describes a search form that allows an agent to jump to a specific `tree:Node` in the (sub)tree from this node
+     - `tree:search` describes a search form that allows an agent to jump to a specific `tree:Node` in the (sub)tree from this node
      - `tree:viewDescription` points to an entity with a reusable piece of information relevant to the full search tree. Multiple descriptions MUST be combined.
- * a `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
-     - a `tree:node` the URL of the other node
-     - a `tree:path` indicating to which of the members' properties this relation applies
-     - a `tree:value` indicating a value constraint on the members' values
-     - a `tree:remainingItems` defining how many members can be reached when following this relation
+ * `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
+     - `tree:node` is the URL of the other node
+     - `tree:path` indicates to which of the members' properties this relation applies
+     - `tree:value` indicates a value constraint on the members' values
+     - `tree:remainingItems` defines how many members can be reached when following this relation
 
 A simple collection can be created as illustrated in the following example:
 </div>
