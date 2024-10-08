@@ -11,9 +11,10 @@ Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
-    The TREE specifications allows clients to traverse Web APIs that are structured according to a search tree.
-	It introduces a collection of members distributed across pages called Nodes.
-	The nodes are interlinked using qualified relations and search forms.
+    The TREE specification provides instructions for clients to interpret and navigate Web APIs structured as search trees.
+	It defines how members (sets of quads) in a dataset can be distributed across multiple pages interlinked through relationships.
+	The specification introduces key concepts such as `tree:Collection` (a set of members), `tree:Node` (the pages in the search tree), and `tree:Relation` (links between nodes).
+	By interpreting such qualified relations and search forms, TREE enables clients to efficiently retrieve their members of interest.
 </pre>
 
 # Overview # {#overview}
@@ -26,8 +27,8 @@ The TREE specification introduces these core concepts:
      - `tree:view` points to the `tree:Node` you are currently visiting
      - `tree:shape` indicates the [[!SHACL]] shape (exactly one) to which each member in the collection adheres
  * `tree:Node` is a page in the search tree
-     - `tree:relation` points at relations to other node
-     - `tree:search` describes a search form that allows an agent to jump to a specific `tree:Node` in the (sub)tree from this node
+     - `tree:relation` points at relations to other nodes
+     - `tree:search` describes a search form that allows an agent to jump from this node to a specific `tree:Node` in the (sub)tree
      - `tree:viewDescription` points to an entity with a reusable piece of information relevant to the full search tree. Multiple descriptions MUST be combined.
  * `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
      - `tree:node` is the URL of the other node
