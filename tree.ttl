@@ -23,15 +23,13 @@
 tree: a foaf:Document ;
       foaf:primaryTopic tree:Ontology;
       cc:license <http://creativecommons.org/licenses/by/4.0/>;
-      dct:creator <https://pietercolpaert.be/#me>, <http://www.rubensworks.net/#me>.
+      dct:creator <https://pietercolpaert.be/#me> .
 
 <https://pietercolpaert.be/#me> foaf:name "Pieter Colpaert"; foaf:mbox "pieter.colpaert@ugent.be".
 
-<http://www.rubensworks.net/#me> foaf:name "Ruben Taelman" .
-
 tree:Ontology a owl:Ontology ;
               rdfs:label "TREE"@en;
-              rdfs:comment "A hypermedia specification for fragmenting collections."@en.
+              rdfs:comment "A hypermedia specification for fragmenting collections of members."@en.
 
 ######## Classes
 
@@ -40,14 +38,18 @@ tree:Collection a rdfs:Class ;
                 rdfs:label "Collection"@en;
                 rdfs:comment "A tree:Collection is a collection containing members. The members may be spread across multiple tree:Nodes."@en .
 
-tree:ViewDescription a rdfs:Class ;
-                     rdfs:subClassOf dcat:DataService ;
-                     rdfs:label "View Description"@en ;
-                     rdfs:comment "Describes a specific TREE structure on top of the tree:Collection"@en .
+tree:SearchTree a rdfs:Class ;
+                rdfs:subClassOf dcat:Distribution ;
+                rdfs:label "Search Tree"@en;
+                rdfs:comment "A tree:SearchTree publishes the members of a collection."@en .
 
 tree:Node a rdfs:Class ;
           rdfs:label "Node"@en;
           rdfs:comment "A tree:Node is a node that may contain relations to other nodes."@en .
+
+tree:RootNode a rdfs:Class ;
+          rdfs:label "Root Node"@en;
+          rdfs:comment "A tree:RootNode is the access point into a search tree."@en .
 
 tree:Relation a rdfs:Class ;
               rdfs:label "Relation"@en ;
@@ -96,7 +98,7 @@ tree:EqualToRelation a rdfs:Class ;
 
 tree:NotEqualToRelation a rdfs:Class ;
                        rdfs:subClassOf tree:Relation ;
-                       rdfs:label "Not equal To Relation"@en .
+                       rdfs:label "Not Equal To Relation"@en .
 
 tree:GeospatiallyContainsRelation  a rdfs:Class ;
                                    rdfs:subClassOf tree:Relation ;
@@ -112,9 +114,9 @@ tree:InBetweenRelation a rdfs:Class ;
 
 tree:viewDescription a rdf:Property ;
                      rdfs:label "View Description";
-                     rdfs:comment "Links together a tree:Node with its description of this TREE structure"@en;
-                     rdfs:domain tree:Node ;
-                     rdfs:range tree:ViewDescription .
+                     rdfs:comment "Links together a tree:Node with a description of this search tree through the search tree itself or through a data service"@en;
+                     rdfs:domain tree:Node .
+                     #rdfs:range owl:oneOf ( tree:SearchTree dcat:DataService ) . # Just leaving the range open for now
 
 tree:relation a rdf:Property ;
               rdfs:label "Relation"@en;
@@ -133,6 +135,13 @@ tree:node a rdf:Property ;
           rdfs:comment "The URL to follow when this Node cannot be pruned"@en;
           rdfs:domain tree:Relation;
           rdfs:range tree:Node.
+
+tree:rootNode a rdf:Property ;
+          rdfs:subPropertyOf dcat:accessURL ;
+          rdfs:label "Has Root Node"@en;
+          rdfs:comment "A view has a root node that can be used to start traversing the search tree"@en;
+          rdfs:domain tree:View ;
+          rdfs:range tree:RootNode .
 
 tree:value a rdf:Property ;
            rdfs:label "Value"@en ;
@@ -159,7 +168,6 @@ tree:member  a rdf:Property ;
 tree:search  a rdf:Property ;
              rdfs:label "Search"@en ;
              rdfs:comment "The Node can be searched for child nodes."@en ;
-             rdfs:domain tree:Node ;
              rdfs:range hydra:IriTemplate .
 
 tree:shape a rdf:Property ;

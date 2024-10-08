@@ -1,9 +1,5 @@
 # Compatibility # {#compatibility}
 
-## DCAT ## {#dcat}
-
-[[!VOCAB-DCAT-2]] is the standard for Open Data Portals by W3C. In order to find TREE compliant datasets in data portals, there SHOULD be a <code>dcat:endpointDescription</code> from the <code>dcat:DataService</code> to the entrypoint where the <code>tree:Collection</code>s and the <code>tree:ViewDescription</code>s are listed. Furthermore, there SHOULD be a <code>dct:conformsTo</code> this URI: <code>https://w3id.org/tree/specification</code>.
-
 ## Hydra ## {#hydra}
 
 A <code>tree:Collection</code> is compatible with the [Hydra Collections specification](https://www.hydra-cg.com/spec/latest/core/#collections). However, instead of <code>hydra:view</code>, we use <code>tree:view</code> and do not link to a <code>hydra:PartialCollectionView</code> but to a <code>tree:Node</code>.

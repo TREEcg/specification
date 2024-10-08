@@ -44,10 +44,6 @@ The <code>tree:Relation</code> has specific sub-classes that implement a more sp
 
 A class to import a file or a stream based on a <code>tree:path</code> of properties. This way it can import the necessary data for complying to the SHACL shape, or evaluating a relation type.
 
-### tree:ViewDescription ### {#ViewDescription}
-
-Describes a specific TREE structure on top of the <code>tree:Collection</code>.
-
 ## Properties ## {#properties}
 
 ### tree:relation ### {#relation}
@@ -151,8 +147,6 @@ A search form parameter: accompagnied by a <code>tree:path</code>, it indicates 
 
 ### tree:viewDescription ### {#viewDescription}
 
-Links together a tree:Node with its description of this TREE structure.
+Links together any HTTP response with a view description on which things like retention policies, contact information of a server, etc. can be found.
 
 **Domain**: <code>tree:Node</code>
-
-**Range**: <code>tree:ViewDescription</code>

@@ -1,0 +1,334 @@
+<pre class='metadata'>
+Title: The TREE hypermedia specification
+Shortname: TREE
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+Group: TREE hypermedia community group
+URL: https://w3id.org/tree/specification
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+    The TREE specification provides instructions for clients to interpret and navigate Web APIs structured as search trees.
+	It defines how members (sets of quads) in a dataset can be distributed across multiple pages interlinked through relationships.
+	The specification introduces key concepts such as `tree:Collection` (a set of members), `tree:Node` (the pages in the search tree), and `tree:Relation` (links between nodes).
+	By interpreting such qualified relations and search forms, TREE enables clients to efficiently retrieve their members of interest.
+</pre>
+
+# Overview # {#overview}
+
+<img src="TREE-overview.svg" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node.">
+<div class="informative">
+The TREE specification introduces these core concepts:
+ * `tree:Collection` is a set of members. It typically has these properties when described in a node:
+     - `tree:member` points at the first focus node from which to retrieve and extract all quads of a member
+     - `tree:view` points to the `tree:Node` you are currently visiting
+     - `tree:shape` indicates the [[!SHACL]] shape (exactly one) to which each member in the collection adheres
+ * `tree:Node` is a page in the search tree
+     - `tree:relation` points at relations to other nodes
+     - `tree:search` describes a search form that allows an agent to jump from this node to a specific `tree:Node` in the (sub)tree
+     - `tree:viewDescription` points to an entity with a reusable piece of information relevant to the full search tree. Multiple descriptions MUST be combined.
+ * `tree:Relation` is a relation from one node to another. An extension of this class indicates a specific type of relation (e.g., a `tree:GreaterThanRelation`). A relation typically has these properties:
+     - `tree:node` is the URL of the other node
+     - `tree:path` indicates to which of the members' properties this relation applies
+     - `tree:value` indicates a value constraint on the members' values
+     - `tree:remainingItems` defines how many members can be reached when following this relation
+
+A simple collection can be created as illustrated in the following example:
+</div>
+
+<div class="example">
+    ```turtle
+    ex:Collection1 a tree:Collection;
+                rdfs:label "A Collection of subjects"@en;
+                tree:member ex:Subject1, ex:Subject2 .
+
+    ex:Subject1 a ex:Subject ;
+                rdfs:label "Subject 1" ;
+                ex:value 1 .
+
+    ex:Subject2 a ex:Subject ;
+                rdfs:label "Subject 2" ;
+                ex:value 2 .
+    ```
+</div>
+
+From the moment this collection of members grows too large for one page, 
+a pagination needs to be created in which an initial set of members can be found through the first `tree:Node`, 
+and more members can be found by interpreting the TREE hypermedia controls. 
+This is illustrated in the next example:
+
+<div class="example">
+    ```turtle
+    > HTTP GET https://example.org/Node1
+
+    ex:Collection1 a tree:Collection;
+                tree:view ex:Node1 ;
+                tree:member ex:Subject1, ex:Subject2 .
+
+    ex:Node1 a tree:Node ;
+            tree:relation ex:R1,ex:R2 .
+
+    ex:R1 a tree:GreaterThanOrEqualToRelation ;
+        tree:node ex:Node3 ; # This is the URL of another page
+        tree:value 3;
+        tree:path ex:value .
+
+    ex:R1 a tree:LessThanRelation ; # This is useful for a client that is looking for a value 10 or greater
+        tree:node ex:Node3 ;
+        tree:value 10;
+        tree:remainingItems 7 ;
+        tree:path ex:value .
+
+    ex:R2 a tree:GreaterThanOrEqualToRelation ;
+        tree:node ex:Node4 ;
+        tree:value 10;
+        tree:remainingItems 10 ;
+        tree:path ex:value .
+
+    ex:Subject1 a ex:Subject ;
+                rdfs:label "Subject 1" ;
+                ex:value 1 .
+
+    ex:Subject2 a ex:Subject ;
+                rdfs:label "Subject 2" ;
+                ex:value 2 .
+    ```
+</div>
+
+# Definitions # {#formalizations}
+
+A `tree:Collection` is a set of `tree:Member`s.
+The set of members MAY be empty.
+
+A `tree:Member` is a set of (at least one) quad(s) defined by the member extraction algorithm (see further).
+
+A `tree:Node` is a dereferenceable resource containing `tree:Relation`s and a subset of (`⊆`) members of the collection. In a `tree:Node`, both the set of `tree:Relation`s as the subset of members MAY be empty. The same member MAY be contained in multiple nodes.
+
+A `tree:Relation` is a function denoting a conditional link to another `tree:Node`.
+
+A `tree:Node` is part of a search tree, and apart from the root node, it has exactly one other `tree:Node` of the search tree linking into it through one or more relations.
+
+A `tree:search` form is an IRI template, that when filled out with the right parameters becomes a `tree:Node` IRI, or when dereferenced will redirect to a `tree:Node` from which all members in the collection that adhere to the described comparator can be found.
+
+A search tree is the -- in this document -- implicit concept of a set of interlinked `tree:Node`s publishing a `tree:Collection`.
+It will adhere to a certain growth or tree balancing strategy. 
+In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is possible in LDES using a retention policy).
+
+# Initialization # {#init}
+
+A client SHOULD be initiated using a URL.
+The client MUST dereference the URL, which will result in a set of [[!rdf-concepts]] triples or quads.
+When the URL after all redirects, is used in a triple `?c tree:view <> .`, a client MUST assume the URL after redirects is an identifier of the intended root node of the collection in `?c`.
+
+Note: Dereferencing in this specification also means parsing the RDF triples or quads from the HTTP response. TREE does not limit the content-types that can be used to represent RDF triples. Client developers should do a best-effort for their community.
+
+If there is no such triple, then the client MUST check whether the URL before redirects (`E`) has been used in a pattern `<E> tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N` as the rootnode and `E` as the collection.
+
+The client then MUST dereference the identified rootnode (if it did not do that already) and merge those quads with the already found quads.
+It now MUST look for a potential search forms that MAY be linked, either i) on top of the rootnode, or ii) on top of the entity linked through `tree:viewDescription`, using `tree:search`.
+
+In case it is not done using an unambiguous URL, clients MAY implement the report on [Discovery and Context Information (work in progress)](https://w3id.org/tree/specification/discovery).
+This report also explains how clients MAY implement support for extracting context information such as provenance, contact points, etc.
+
+Note: Having an identifier for the collection has become mandatory: without it you can otherwise not define completeness.
+
+# The member extraction algorithm # {#member-extraction-algorithm}
+
+The member extraction algorithm allows a data publisher to define their members in different ways:
+    1. As in the examples above: all quads with the object of the `tree:member` quads as a subject (and recursively the quads of their blank nodes) are by default included (see also [[!CBD]]), except when they would explicitly not be included in case 3, when the shape would be closed.
+    2. Out of band / in band:
+        - when no quads of a member have been found, the member will be dereferenced. This allows to publish the member on a separate page.
+        - part of the member can be maintained elsewhere when a shape is defined (see 3)
+    3. By defining a more complex shape with `tree:shape`, also nested entities can be included in the member
+    4. By putting the triples in a named graph of the object of `tree:member`, all these triples will be matched. 
+
+Depending on the goals of the client, it MAY implement the member extraction algorithm to fetch all triples about the entity as intended by the server.
+The method used within TREE is combination of Concise Bounded Descriptions [[!CBD]], named graphs and the topology of a shape (deducted from the `tree:shape`).
+The full algorithm is specified in the [shape topologies](https://w3id.org/tree/specification/shape-topologies) report.
+
+# Traversing the search tree # {#traversing}
+
+After dereferencing a `tree:Node`, a client MUST extract all (zero or more) `tree:Relation` descriptions from the page.
+This can be done by searching for `<> tree:relation ?R` triples.
+
+A client MUST follow the object of the relation’s `?R tree:node ?object` triple, unless the client is able to prune the branch reachable from that node (see further).
+
+A client MAY also extract the `tree:Relation`’s `tree:remainingItems` if it exists.
+If it does, it will be an integer indicating the remaining items to be found after dereferencing the node.
+
+When traversing, a client SHOULD detect faulty search trees by keeping a list of already visited pages.
+
+When dereferencing the object of a `tree:node` triple, the client MUST follow redirects.
+
+Note: Allowing redirects allows servers to rebalance their search trees over time.
+
+A client can assume completeness of members intended by the search tree when it derefenced all node links.
+
+# Pruning branches # {#relationsubclasses}
+
+In search trees, a `tree:Relation` will likely be typed using one of its subclasses:
+ * For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation` exist.
+ * For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation` exist.
+ * Finally, for geospatial trees, `tree:GeospatiallyContainsRelation` exists. 
+
+A client decides, based on their own tasks, what type of relations are important to implement.
+Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
+A relation can be interpreted as a comparator as follows:
+ 1. The left-hand: what the members in the subtree reachable from the linked node will contain w.r.t. the objects reachable from the `tree:path`.
+ 2. The operator: decided by the type of the relation and the datatype or node type of the `tree:value` triple’s object.
+ 3. The right-hand: the `tree:value` triple’s object.
+
+The client MUST combine all relations to the same `tree:node` using a logical AND.
+
+The members that the client is able to find in a subtree will be complete relative to the position in the search tree.
+
+<div class="example">
+```turtle
+<> tree:relation [
+	    a tree:GreaterThanRelation ; # the type of the relation deciding the operator
+        tree:node ex:Node2 ; # for the left-hand: all members from here
+        tree:path dct:created ; # for the left-hand: the path pointing at the term(s) in the member
+        tree:value "2024-12-16T12:00:00Z"^^xsd:dateTime # the right-hand
+	],[
+		a tree:SubstringRelation ;
+		tree:node ex:Node2 ;
+		tree:path dct:title ;
+		tree:value "osa"
+	] .
+```
+</div>
+
+<div class="informative">
+In the example above the subtree reachable from `ex:Node2` will contain all remaining members that are both created later in time than the given timestamp *and* will have the provided substring in the title.
+The client can choose to prune all links to other nodes if this is the only thing it is interested in.
+Alternatively, the client can choose prune the subtree reachable from `ex:Node2` if it is specifically not looking for members with the given substring, *or* when it is not interested in members created later in time than the given timestamp.
+Alternatively, it can also score the relation based on the likelihood of returning useful results and created a priority queue that is processed until a top K of results have been found.
+Mind that when the client is specifically not interested in members created later than the given creation time, but does not understand the SubstringRelation, the client can still prune the relation.
+</div>
+
+While each type of relation can decide on their own properties,
+relations will often use the `tree:path` to indicate the path from the member to the object on which the `tree:Relation` applies.
+For the different ways to express or handle a `tree:path`, we refer to [2.3.1 in the shacl specification](https://www.w3.org/TR/shacl/#x2.3.1-shacl-property-paths).
+All possible combinations of e.g., `sh:alternativePath` or `sh:inversePath` in the SHACL spec can be used.
+The resulting values of the evaluation of the `tree:path`, are the values that must be compared to the `tree:value` object.
+When multiple results from the path are found, they need to be interpreted as a logical OR: at least one of these values will fulfill the comparator.
+
+A client, in case it wants to process relations that use the `tree:path` property, MUST implement a matching algorithm to check whether the relation is relevant.
+I.e., a `tree:path` on `(rdfs:label [sh:alternativePath rdfs:comment ] )` will be useful when the client is tasked to filter on `rdfs:comment`.
+
+Note: A server is allowed to refer the `tree:path` to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.
+
+## Comparing strings ## {#strings}
+
+String values have three specific type of relations: the `tree:PrefixRelation`, the `tree:SubstringRelation` and the `tree:SuffixRelation`.
+The string comparison happens using the unicode canonical equivalence.
+
+Issue: We experimented with server-chosen locales such that `ça suffit` can also be found when following a `tree:PrefixRelation` with a `tree:value "c"` (which at this moment is not supported). That would require an understanding of locales, and [browser/JavaScript support for locales is too low to be useful at this point](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
+
+Also the comparator relations such as `tree:GreaterThanRelation` can be used.
+The strings MUST then be compared using case sensitive unicode ordering.
+
+When a language is set on the `tree:value`, the relation only refers to these language strings. If no language is indicated, it refers to all (including those without).
+
+Particular to the `tree:SubstringRelation`, is that multiple `tree:value` properties can be set. This means the members properties will contain all of the given substrings.
+
+Issue: We need a flag for setting case insensitiveness: what will we use? In previous implementations `sh:flags "i"` was used.
+
+## Comparing named nodes ## {#named-nodes}
+
+When using comparator relations such as `tree:GreaterThanRelation`, named nodes MUST be compared as defined in the [ORDER BY section of the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
+
+## Comparing geospatial features ## {#geospatial}
+
+The `tree:GeospatiallyContainsRelation` is the relation that can be used to express all further members will be contained within a geospatial region defined by the WKT String in the `tree:value`.
+The client MUST consider the relation when it overlaps with the region of interest.
+
+When using `tree:GeospatiallyContainsRelation`, the `tree:path` MUST refer to a literal containing a WKT string, such as `geosparql:asWKT`.
+
+## Comparing time literals ## {#time}
+
+When using relations such as `tree:LessThanRelation` or `tree:GreaterThanRelation`, the time literals MUST to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
+It is highly recommended to server developers to provide a timezone in the `tree:value`, which can be done in these datatypes themself.
+
+When no timezone is specified, the comparison needs to take place on the worst-case bound. For example a date `2022-01-01` without timezone thus represents a period of time of 48 hours from  (`[`) `2021-12-31T12:00:00Z` until `2022-01-02T12:00:00Z` (`[`).
+
+# Search forms # {#searching}
+
+Searching through a TREE will allow you to immediately jump to the right `tree:Node` in a subtree.
+TREE relies on the [Hydra search specification](http://www.hydra-cg.com/spec/latest/core/#hydra:search) for its search forms.
+It does however extend Hydra with specific search properties (`hydra:IriTemplate`) for different types of search forms, and searches starting from a specific `tree:Node`, to which the search form is linked with `tree:search`.
+The behaviour of the search form fully depends on the specific property, for which TREE introduces a couple of specific properties:
+
+## Geospatial XYZ tiles search form ## {#xyztiles}
+
+Three properties allow to specify a geospatial XYZ tiles template (also known as slippy maps).
+ 1. `tree:longitudeTile` describes the X value
+ 2. `tree:latitudeTile` describes the Y value
+ 3. `tree:zoom` describes the zoom level
+
+All properties expect positive integers.
+
+<div class="example">
+    ```turtle
+    <https://tiles.openplanner.team/#LatestCollection> a tree:Collection ;
+        dcterms:title "A prototype tree:Collection for Linked OpenStreetMap’s roads"@en .
+    <https://tiles.openplanner.team/planet/> a tree:Node ;
+        
+        tree:search [
+            a hydra:IriTemplate ;
+            hydra:template "https://tiles.openplanner.team/planet/20201103-095900/{z}/{x}/{y}" ;
+            hydra:variableRepresentation hydra:BasicRepresentation ;
+            hydra:mapping [
+                a hydra:IriTemplateMapping ;
+                hydra:variable "x";
+                hydra:property tree:longitudeTile;
+                hydra:required true
+            ],[
+                a hydra:IriTemplateMapping ;
+                hydra:variable "y";
+                hydra:property tree:latitudeTile;
+                hydra:required true
+            ],[
+                a hydra:IriTemplateMapping ;
+                hydra:variable "z";
+                hydra:property tree:zoom;
+                hydra:required true
+            ]
+        ] .
+    ```
+</div>
+
+This search form describes a specific search form that uses a quad tree. The zoom level describes the depth, the longitudeTile and latitudeTile describe the x and y index of the pagination. (e.g., on zoom level 0, there’s 1 tile, on zoom level 1, there are 4 tiles, etc.).
+
+## Searching through a list of objects ordered by time ## {#timesearch}
+
+Same as the previous example but with the predicate `tree:timeQuery` expecting an `xsd:dateTime`.
+This time however, when the page itself does not exist, a redirect is doing to happen to the page containing the timestamp.
+A `tree:path` can indicate the time predicate which is intended.
+
+<div class="example">
+    ```turtle
+    <https://example.org/#Collection> a tree:Collection ;
+        dcterms:title "An example collection with a time search view"@en ;
+        tree:view <https://example.org/Node1> .
+
+    <https://example.org/Node1> a tree:Node ;
+        tree:search [
+            a hydra:IriTemplate ;
+            hydra:template "https://example.org/{generatedAt}" ;
+            hydra:variableRepresentation hydra:BasicRepresentation ;
+            hydra:mapping [
+                a hydra:IriTemplateMapping ;
+                hydra:variable "generatedAt";
+                tree:path prov:generatedAtTime;
+                hydra:property tree:timeQuery;
+                hydra:required true
+            ]
+        ] .
+    ```
+</div>
+
+<pre class=include>path: vocabulary.md</pre>

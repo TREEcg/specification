@@ -1,0 +1,124 @@
+<pre class='metadata'>
+Title: TREE Discovery and Context Information
+Shortname: TREEDiscovery
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+Group: TREE hypermedia community group
+URL: https://w3id.org/tree/specification/discovery
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+    This specification defines how a client selects a specific dataset and search tree, as well as extracts relevant context information.
+</pre>
+
+# Definitions # {#overview}
+
+A `tree:Collection` is a subclass of `dcat:Dataset` ([[!vocab-dcat-3]]).
+The specialization being that this particular dataset is a collection of _members_.
+
+A `tree:SearchTree` is a subClassOf `dcat:Distribution`.
+The specialization being that it uses the main TREE specification to publish a search tree.
+
+A node from which all other nodes can be found is a `tree:RootNode`.
+
+Note: The `tree:SearchTree` and the `tree:RootNode` MAY be identified by the same IRI when no disambiguation is needed.
+
+A TREE client MUST be provided with a URL to start from, which we call the _entrypoint_.
+
+# Initializing a client with a url # {#starting-from}
+
+The goal of the client is to understand what `tree:Collection` it is using, and to find a `tree:RootNode` to start the traversal phase from.
+This discovery specification extends the initialization step in the TREE specification, for the cases in which multiple options are possible.
+
+The client MUST dereference the URL, which will result in a set of quads. The client now MUST first perform the init step from the main specification.
+If that did not return any result, then the client MUST check whether the URL before redirects (`E`)  has been used in one of the following discovery patterns described in the subsections:
+ 1. `E` is a `tree:Collection`: then the client needs to [select the right search tree](#tree-search-trees)
+ 2. `E` is a `dcat:Dataset`: then the client needs to [select the right distribution or dataservice from a catalog](#dcat-dataset)
+ 3. `E` is a `ldes:EventStream`: then the client MAY take into account [LDES specific properties](#ldes)
+ 4. `E` is a `dcat:Distribution`: then the client needs to [process it accordingly](#dcat-distribution)
+ 5. `E` is a `dcat:DataService`: then the client needs to [process it accordingly](#dcat-dataservice)
+ 6. `E` is a catalog or is not explicitly mentioned: then it needs to select a dataset based on [shape information](#tree-collection-shapes) and [DCAT Catalog information](#dcat-catalog)
+
+## Selecting a collection via shapes ## {#tree-collection-shapes}
+
+When multiple collections are found by a client, it can choose to prune the collections based on the `tree:shape` property.
+The `tree:shape` property will refer to a first `sh:NodeShape`.
+The collection MAY be pruned in case there is no overlap with the properties the client needs.
+
+Issue: Will we document the precise algorithm to use? Should we extend shapes with cardinality approximations as well?
+
+## Selecting a collection via a catalog ## {#dcat-catalog}
+
+A DCAT Catalog is an overview of datasets, data services and distributions.
+As TREE clients first need to select a dataset, and then a search tree to use, it aligns with how DCAT-AP works.
+DCAT discovery extends upon the previous section in which a collection or dataset can be selected based on the `tree:shape` property.
+
+For now, we will assume the DCAT information is available in subject pages.
+
+Issue: Do we need more text on how to handle different types of DCAT interfaces?
+
+The dataset descriptions can be used for filtering the datasets available in a catalog to a list of datasets that can be useful for the client.
+Such properties may include the spatial extent, the time extent, or how it is possibly a part of another `dcat:Dataset`.
+
+Issue: How precise do we need to be in this specification?
+
+When the `dcat:Dataset` is a `tree:Collection`, the DCAT catalog is going to contain a `dct:type` property with `https://w3id.org/tree#Collection` or `https://w3id.org/ldes#EventStream` as the object.
+
+## Choosing from multiple SearchTrees with TREE ## {#tree-search-trees}
+
+Issue: This is yet to be done
+
+## Selecting a search tree via a DCAT dataset ## {#dcat-dataset}
+
+The are two ways in which you can find a search tree from a dataset: via the distributions and via the data services. Both need to be tested.
+Selecting a distribution or data service when multiple are available needs to be done based on [the search tree description](tree-search-trees).
+If nothing is available, all need to be tested by processing them as exemplifie din the next subsections.
+
+### Selecting a search tree via DCAT Distribution ### {#dcat-distribution}
+
+`E dcat:distribution ?D . ?D dcat:downloadURL  ?N .` then ?N is a rootnode of E.
+
+Issue: This is yet to be done
+
+### Selecting a search tree from a DCAT data service ### {#dcat-dataservice}
+
+ * `?DS dcat:servesDataset E ; dcat:endpointURL ?U` or `E dcat:endpointURL ?U`, then the algorithm MUST repeat the algorithm with `?U` as the entrypoint.
+
+Issue: This is yet to be done
+
+## Linked Data Event Streams ## {#ldes}
+
+In case the client is not made for query answering, but only for setting up a replication and synchronization system, then there is a special type that can be used to indicate the search tree is made for this purpose: the `ldes:EventSource`.
+Clients that want to prioritize taking a _full_ copy MAY give full priority to this server hint.
+
+<div class="example">
+```turtle
+E a ldes:EventSource ;
+  tree:rootNode|dcat:downloadURL </node1> .
+```
+</div>
+
+# Extracting content information # {#context}
+
+Issue: This is yet to be done
+
+Context information enables a client to understand who the creator of a certain dataset is, when it was last changed, what other datasets it was derived from, etc.
+
+## DCAT and dcterms ## {#context-dcat}
+
+Issue: This is yet to be done
+
+## Provenance ## {#context-prov}
+
+Issue: This is yet to be done
+
+## Linked Data Event Streams ## {#context-ldes}
+
+Issue: This is yet to be done
+
+LDES (https://w3id.org/ldes/specification) is a way to evolve search trees in a consistent way. It defines every member as immutable, and a collection as append-only.
+Therefore, one can make sure to only process each member once.
+Extra terms are added, such as the concept of an EventStream, retention policies and a timestampPath. 
