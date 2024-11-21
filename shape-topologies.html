@@ -3,12 +3,14 @@
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>The Shape Topologies algorithm</title>
-  <meta content="w3c/CG-DRAFT" name="w3c-status">
+  <meta content="CG-DRAFT" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
+  <meta content="Bikeshed version 742f3d674, updated Mon Nov 4 14:56:54 2024 -0800" name="generator">
   <link href="https://w3id.org/tree/specification/shape-topologies" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="d527cf688f3626fb173b87bfc602f7c1500fcfeb" name="document-revision">
+  <meta content="93a149df8ff58b09988d4366a3af25cbb15fc6e7" name="revision">
+  <meta content="dark light" name="color-scheme">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -80,7 +82,6 @@ pre .property::before, pre .property::after {
 }
 </style>
 <style>/* Boilerplate: style-colors */
-
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
 :root {
     color-scheme: light dark;
@@ -350,7 +351,6 @@ a[href].issue-return {
 }
 </style>
 <style>/* Boilerplate: style-selflinks */
-
 :root {
     --selflink-text: white;
     --selflink-bg: gray;
@@ -410,7 +410,6 @@ a.self-link::before            { content: "¶"; }
 dfn > a.self-link::before      { content: "#"; }
 </style>
 <style>/* Boilerplate: style-syntax-highlighting */
-
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
 
@@ -467,7 +466,6 @@ c-[vc] { color: #0077aa } /* Name.Variable.Class */
 c-[vg] { color: #0077aa } /* Name.Variable.Global */
 c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
-
 
 @media (prefers-color-scheme: dark) {
     .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
@@ -536,7 +534,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The Shape Topologies algorithm</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2024-10-08">8 October 2024</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2024-11-21">21 November 2024</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -559,10 +557,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
    <p>This algorithm defines what quads are part of an entity description.
-
-    It uses the concepts of Concise Bounded Descriptions, adds well-defined support for named graphs, and introduces the concept of a shape topology.
-    A shape topology is a structure of an entity description that follows similar design principles as SHACL Node Shapes.
-    The algorithm returns the quads that match, and also provides hooks for the client to fetch more quads elsewhere (i.e. by dereferencing the subject).</p>
+It uses the concepts of Concise Bounded Descriptions, adds well-defined support for named graphs, and introduces the concept of a shape topology.
+A shape topology is a structure of an entity description that follows similar design principles as SHACL Node Shapes.
+The algorithm returns the quads that match, and also provides hooks for the client to fetch more quads elsewhere (i.e. by dereferencing the subject).</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -713,7 +710,7 @@ In that case, the SHACL shape MUST be processed towards a Shape topology as foll
     like this: </p>
    <p class="note" role="note">Note, this is an informative note.</p>
   </div>
-<script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
+  <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
