@@ -4,7 +4,6 @@ Shortname: TREEDiscovery
 Level: 1
 Status: w3c/CG-DRAFT
 Markup Shorthands: markdown yes
-Group: TREE hypermedia community group
 URL: https://w3id.org/tree/specification/discovery
 Repository: https://github.com/treecg/specification
 Mailing List: public-treecg@w3.org

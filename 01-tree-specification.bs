@@ -4,7 +4,6 @@ Shortname: TREE
 Level: 1
 Status: w3c/CG-DRAFT
 Markup Shorthands: markdown yes
-Group: TREE hypermedia community group
 URL: https://w3id.org/tree/specification
 Repository: https://github.com/treecg/specification
 Mailing List: public-treecg@w3.org
@@ -19,7 +18,7 @@ Abstract:
 
 # Overview # {#overview}
 
-<img src="TREE-overview.svg" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node.">
+<img height="500px" src="TREE-overview.svg" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node.">
 <div class="informative">
 The TREE specification introduces these core concepts:
  * `tree:Collection` is a set of members. It typically has these properties when described in a node:
@@ -188,16 +187,16 @@ The members that the client is able to find in a subtree will be complete relati
 <div class="example">
 ```turtle
 <> tree:relation [
-		a tree:GreaterThanRelation ; # the type of the relation deciding the operator
-        	tree:node ex:Node2 ; # for the left-hand: all members from here
-        	tree:path dct:created ; # for the left-hand: the path pointing at the term(s) in the member
-        	tree:value "2024-12-16T12:00:00Z"^^xsd:dateTime # the right-hand
-	],[
-		a tree:SubstringRelation ;
-		tree:node ex:Node2 ;
-		tree:path dct:title ;
-		tree:value "osa"
-	] .
+        a tree:GreaterThanRelation ; # the type of the relation deciding the operator
+        tree:node ex:Node2 ; # for the left-hand: all members from here
+        tree:path dct:created ; # for the left-hand: the path pointing at the term(s) in the member
+        tree:value "2024-12-16T12:00:00Z"^^xsd:dateTime # the right-hand
+    ],[
+        a tree:SubstringRelation ;
+        tree:node ex:Node2 ;
+        tree:path dct:title ;
+        tree:value "osa"
+    ] .
 ```
 </div>
 
