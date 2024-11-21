@@ -69,20 +69,20 @@ This is illustrated in the next example:
                 tree:member ex:Subject1, ex:Subject2 .
 
     ex:Node1 a tree:Node ;
-            tree:relation ex:R1,ex:R2 .
+            tree:relation ex:R1,ex:R2, ex:R3 .
 
     ex:R1 a tree:GreaterThanOrEqualToRelation ;
         tree:node ex:Node3 ; # This is the URL of another page
         tree:value 3;
         tree:path ex:value .
 
-    ex:R1 a tree:LessThanRelation ; # This is useful for a client that is looking for a value 10 or greater
+    ex:R2 a tree:LessThanRelation ; # This is useful for a client that is looking for a value 10 or greater
         tree:node ex:Node3 ;
         tree:value 10;
         tree:remainingItems 7 ;
         tree:path ex:value .
 
-    ex:R2 a tree:GreaterThanOrEqualToRelation ;
+    ex:R3 a tree:GreaterThanOrEqualToRelation ;
         tree:node ex:Node4 ;
         tree:value 10;
         tree:remainingItems 10 ;
@@ -188,10 +188,10 @@ The members that the client is able to find in a subtree will be complete relati
 <div class="example">
 ```turtle
 <> tree:relation [
-	    a tree:GreaterThanRelation ; # the type of the relation deciding the operator
-        tree:node ex:Node2 ; # for the left-hand: all members from here
-        tree:path dct:created ; # for the left-hand: the path pointing at the term(s) in the member
-        tree:value "2024-12-16T12:00:00Z"^^xsd:dateTime # the right-hand
+		a tree:GreaterThanRelation ; # the type of the relation deciding the operator
+        	tree:node ex:Node2 ; # for the left-hand: all members from here
+        	tree:path dct:created ; # for the left-hand: the path pointing at the term(s) in the member
+        	tree:value "2024-12-16T12:00:00Z"^^xsd:dateTime # the right-hand
 	],[
 		a tree:SubstringRelation ;
 		tree:node ex:Node2 ;
