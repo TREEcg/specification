@@ -18,7 +18,7 @@ Abstract:
 
 # Overview # {#overview}
 
-<img height="500px" src="TREE-overview.svg" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node.">
+<img height="500" src="TREE-overview.svg" alt="An overview of the TREE specification with the TREE collection, a reference to the first focus node of its members, and the relations to other nodes from the current node.">
 <div class="informative">
 The TREE specification introduces these core concepts:
  * `tree:Collection` is a set of members. It typically has these properties when described in a node:
