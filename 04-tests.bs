@@ -1,0 +1,61 @@
+<pre class='metadata'>
+Title: TREE client tests
+Shortname: tests
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+URL: https://w3id.org/tree/specification/tests
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+	A set of tests for testing compliance of clients to the TREE specification.
+</pre>
+
+# Tests # {#overview}
+
+## 01. Initialization ## {#01}
+
+This test is about a function `initialization(url)`. The function will return a the collection and the URL of the root node.
+
+We’ll test this with various URLs containing different contents.
+
+### 01.1 The URL to a rootnode without redirects ### {#01.1}
+
+File url `test01.1.ttl`
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test01.1.ttl> .
+```
+
+Returns:
+ * Collection: <Collection>
+ * Root node: <test01.1.ttl>
+
+### 01.2 The URL to a collection without redirects ### {#01.2}
+
+File url `test01.2.ttl#collection`
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<test01.2.ttl#collection> tree:view <test01.2.ttl> .
+```
+
+Returns:
+ * Collection: <test01.2.ttl#collection>
+ * Root node: <test01.2.ttl>
+
+### 01.3 The URL to a rootnode before redirects ### {#01.1}
+
+File url `test01.3` should redirect to `test01.3.ttl`
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test01.3.ttl> .
+```
+
+Returns:
+ * Collection: <Collection>
+ * Root node: <test01.3.ttl>
