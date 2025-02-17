@@ -1,4 +1,4 @@
-name: Build TREE discovery spec
+name: Build TREE tests spec
 on:
   workflow_dispatch: {}
   pull_request: {}
