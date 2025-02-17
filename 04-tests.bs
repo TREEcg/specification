@@ -31,8 +31,8 @@ File url `test01.1.ttl`
 ```
 
 Returns:
- * Collection: <Collection>
- * Root node: <test01.1.ttl>
+ * Collection: `<Collection>`
+ * Root node: `<test01.1.ttl>`
 
 ### 01.2 The URL to a collection without redirects ### {#01.2}
 
@@ -44,10 +44,10 @@ File url `test01.2.ttl#collection`
 ```
 
 Returns:
- * Collection: <test01.2.ttl#collection>
- * Root node: <test01.2.ttl>
+ * Collection: `<test01.2.ttl#collection>`
+ * Root node: `<test01.2.ttl>`
 
-### 01.3 The URL to a rootnode before redirects ### {#01.1}
+### 01.3 The URL to a rootnode before redirects ### {#01.3}
 
 File url `test01.3` should redirect to `test01.3.ttl`
 
@@ -57,5 +57,5 @@ File url `test01.3` should redirect to `test01.3.ttl`
 ```
 
 Returns:
- * Collection: <Collection>
- * Root node: <test01.3.ttl>
+ * Collection: `<Collection>`
+ * Root node: `<test01.3.ttl>`
