@@ -15,47 +15,114 @@ Abstract:
 
 # Tests # {#overview}
 
-## 01. Initialization ## {#01}
+## 1. Initialization ## {#1}
+
+Purpose: Ensuring that it is unambiguous yet user friendly way of knowing the identifier of the collection, as well as the current page of the collection’s view.
 
 This test is about a function `initialization(url)`. The function will return a the collection and the URL of the root node.
 
 We’ll test this with various URLs containing different contents.
 
-### 01.1 The URL to a rootnode without redirects ### {#01.1}
+### 1.1 The URL to a rootnode without redirects ### {#1.1}
 
-File url `test01.1.ttl`
+File url `test1.1.ttl`
 
 ```turtle
 @prefix tree: <https://w3id.org/tree#> .
-<Collection> tree:view <test01.1.ttl> .
+<Collection> tree:view <test1.1.ttl> .
 ```
 
 Returns:
  * Collection: `<Collection>`
- * Root node: `<test01.1.ttl>`
+ * Root node: `<test1.1.ttl>`
 
-### 01.2 The URL to a collection without redirects ### {#01.2}
+### 1.2 The URL to a collection without redirects ### {#1.2}
 
-File url `test01.2.ttl#collection`
+File url `test1.2.ttl#collection`
 
 ```turtle
 @prefix tree: <https://w3id.org/tree#> .
-<test01.2.ttl#collection> tree:view <test01.2.ttl> .
+<test1.2.ttl#collection> tree:view <test1.2.ttl> .
 ```
 
 Returns:
- * Collection: `<test01.2.ttl#collection>`
- * Root node: `<test01.2.ttl>`
+ * Collection: `<test1.2.ttl#collection>`
+ * Root node: `<test1.2.ttl>`
 
-### 01.3 The URL to a rootnode before redirects ### {#01.3}
+### 1.3 The URL to a rootnode before redirects ### {#1.3}
 
-File url `test01.3` should redirect to `test01.3.ttl`
+File url `test1.3` should redirect to `test1.3.ttl`
 
 ```turtle
 @prefix tree: <https://w3id.org/tree#> .
-<Collection> tree:view <test01.3.ttl> .
+<Collection> tree:view <test1.3.ttl> .
 ```
 
 Returns:
  * Collection: `<Collection>`
- * Root node: `<test01.3.ttl>`
+ * Root node: `<test1.3.ttl>`
+
+TODO: Search forms
+
+## 2. Members ## {#2}
+
+Goal: Once we have the container URL, we must ensure we know what the members of the collection mentioned in this page are.
+
+### 2.1 Finding member IRIs ### {#2.1}
+
+File url `<test2.1.ttl>`
+
+Operation: Finding the set of members in `<test2.1.ttl>`.
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test2.1.ttl> ;
+	tree:member <A>, <B>, _:b0 .
+```
+
+Returns:
+ * 2 member identifiers `<A>`, `<B>` and a blank node member.
+
+### 2.2 Empty page ### {#2.2}
+
+File url `<test2.2.ttl>`
+
+Operation: Finding the set of members in `<test2.2.ttl>`.
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test2.2.ttl> .
+```
+
+Returns: an empty set.
+
+## 3. Extracting members ## {#3}
+
+Goal: Checking whether your implementation will extract the right set of quads
+
+
+### 3.1 Star pattern ### {#3.1}
+
+File url `<test3.1.ttl>`
+
+Operation: Finding all quads that belong to `<A>`.
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+@prefix ex: <https://example.org/>.
+<Collection> tree:view <test3.1.ttl> ;
+	tree:member <A> .
+<A> ex:p ex:o .
+```
+
+Returns: an array with 1 quad `<A> ex:p ex:o`.
+
+TODO: take more tests from the extract cbd shape repository
+
+## 4. Pruning relations ## {#4}
+
+TODO: These test cases will get more complex
+
+## 5. Using search forms ## {#5}
+
+TODO: Search forms
