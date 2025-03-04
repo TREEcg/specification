@@ -1,0 +1,76 @@
+<pre class='metadata'>
+Title: TREE Profile specification
+Shortname: TREEProfile
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+URL: https://w3id.org/tree/specification/profile
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+    This specification defines a profile to allow clients to parse in a streaming fashion and extract TREE members as a replacement of the more computationally intensive Member Extraction Algorithm.
+</pre>
+
+
+## Introduction ## {#introduction}
+
+This specification introduces [profiles](https://profilenegotiation.github.io/I-D-Accept--Schema/I-D-accept-schema) for serializations such as n-triples, turtle and TRiG to first contain a group for the hypermedia, and then contain groups for the members.
+The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up parsing of individual members and process them in a streaming fashion.
+
+The TREE profile promises to a TREE client that:
+ * All triples related to the hypermedia are going to be grouped together at the beginning of the document.
+ * Every subsequent group is going to contain all quads of a specific member, starting with the `tree:member` triple, and ending with an end of file or another `tree:member` triple, starting a new member.
+
+## Discovering the profile through the content-type header ## {#profile}
+
+Servers add `;profile="https://w3id.org/tree/profile"` to the content-type headers on top of their Turtle, N-Triples, TRiG or N-Quads responses, such as `Content-Type: text/turtle;profile="https://w3id.org/tree/profile`.
+
+For the highest performance, pick `Content-Type: application/n-quads;profile="https://w3id.org/tree/profile"`.
+
+## An example ## {#example}
+
+```turtle
+@prefix ex: <https://example.org/> .
+@prefix tree: <https://w3id.org/tree/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+# The document starts with hypermedia controls
+<> tree:relation [
+    a tree:GreaterThanOrEqualToRelation ;
+    tree:node <?greaterThanOrEqualTo=10>;
+    tree:value 10;
+    tree:remainingItems 10 ;
+    tree:path ex:value
+] .
+
+ex:Collection1 a tree:Collection;
+            tree:view <> ;
+            rdfs:label "A Collection of 2 subjects"@en;
+# `tree:member` indicates the hypermedia group is done, and the first member begins
+            tree:member ex:Subject1 .
+
+ex:Subject1 a ex:Subject ;
+            rdfs:label "Subject 1" ;
+			ex:value 2 ;
+            ex:linkedTo [ a ex:Subject ] .
+
+# Start of the second member
+ex:Collection1 tree:member ex:Subject2 .
+ex:Subject2 a ex:Subject ;
+            rdfs:label "Subject 2" ;
+			ex:value 9 ;
+            ex:linkedTo ex:Subject1 .
+# EOF flags the end of the second member
+```
+
+## Implementing a TREE profile client ## {#implementing}
+
+When the `content-type` response header indicates the TREE profile as specified above, the client MAY use this extraction as a replacement to the member extraction algorithm in the TREE specification.
+
+The client in this case MUST use a parser that retains triple order as in the original document.
+
+The quads parsed until the first `tree:member` triple will contain the hypermedia quads.
+
+Every time a `tree:member` triple is encountered, the subsequent quads until the next `tree:member` triple or the end of the file (EOF) are part of that member.
