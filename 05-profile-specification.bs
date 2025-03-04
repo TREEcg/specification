@@ -14,7 +14,7 @@ Abstract:
 </pre>
 
 
-## Introduction ## {#introduction}
+# Introduction # {#introduction}
 
 This specification introduces [profiles](https://profilenegotiation.github.io/I-D-Accept--Schema/I-D-accept-schema) for serializations such as n-triples, turtle and TRiG to first contain a group for the hypermedia, and then contain groups for the members.
 The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up parsing of individual members and process them in a streaming fashion.
@@ -23,13 +23,13 @@ The TREE profile promises to a TREE client that:
  * All triples related to the hypermedia are going to be grouped together at the beginning of the document.
  * Every subsequent group is going to contain all quads of a specific member, starting with the `tree:member` triple, and ending with an end of file or another `tree:member` triple, starting a new member.
 
-## Discovering the profile through the content-type header ## {#profile}
+# Discovering the profile through the content-type header # {#profile} 
 
 Servers add `;profile="https://w3id.org/tree/profile"` to the content-type headers on top of their Turtle, N-Triples, TRiG or N-Quads responses, such as `Content-Type: text/turtle;profile="https://w3id.org/tree/profile`.
 
 For the highest performance, pick `Content-Type: application/n-quads;profile="https://w3id.org/tree/profile"`.
 
-## An example ## {#example}
+# An example # {#example} 
 
 ```turtle
 @prefix ex: <https://example.org/> .
@@ -65,7 +65,7 @@ ex:Subject2 a ex:Subject ;
 # EOF flags the end of the second member
 ```
 
-## Implementing a TREE profile client ## {#implementing}
+# Implementing a TREE profile client # {#implementing} 
 
 When the `content-type` response header indicates the TREE profile as specified above, the client MAY use this extraction as a replacement to the member extraction algorithm in the TREE specification.
 
