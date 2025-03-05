@@ -1,0 +1,128 @@
+<pre class='metadata'>
+Title: TREE client tests
+Shortname: tests
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+URL: https://w3id.org/tree/specification/tests
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+	A set of tests for testing compliance of clients to the TREE specification.
+</pre>
+
+# Tests # {#overview}
+
+## Initialization ## {#1}
+
+Purpose: Ensuring that it is unambiguous yet user friendly way of knowing the identifier of the collection, as well as the current page of the collection’s view.
+
+This test is about a function `initialization(url)`. The function will return a the collection and the URL of the root node.
+
+We’ll test this with various URLs containing different contents.
+
+### The URL to a rootnode without redirects ### {#1.1}
+
+File url `test1.1.ttl`
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test1.1.ttl> .
+```
+
+Returns:
+ * Collection: `<Collection>`
+ * Root node: `<test1.1.ttl>`
+
+### The URL to a collection without redirects ### {#1.2}
+
+File url `test1.2.ttl#collection`
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<test1.2.ttl#collection> tree:view <test1.2.ttl> .
+```
+
+Returns:
+ * Collection: `<test1.2.ttl#collection>`
+ * Root node: `<test1.2.ttl>`
+
+### The URL to a rootnode before redirects ### {#1.3}
+
+File url `test1.3` should redirect to `test1.3.ttl`
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test1.3.ttl> .
+```
+
+Returns:
+ * Collection: `<Collection>`
+ * Root node: `<test1.3.ttl>`
+
+TODO: Search forms
+
+## Members ## {#2}
+
+Goal: Once we have the container URL, we must ensure we know what the members of the collection mentioned in this page are.
+
+### Finding member IRIs ### {#2.1}
+
+File url `<test2.1.ttl>`
+
+Operation: Finding the set of members in `<test2.1.ttl>`.
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test2.1.ttl> ;
+	tree:member <A>, <B>, _:b0 .
+```
+
+Returns:
+ * 2 member identifiers `<A>`, `<B>` and a blank node member.
+
+### Empty page ### {#2.2}
+
+File url `<test2.2.ttl>`
+
+Operation: Finding the set of members in `<test2.2.ttl>`.
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+<Collection> tree:view <test2.2.ttl> .
+```
+
+Returns: an empty set.
+
+## Extracting members ## {#3}
+
+Goal: Checking whether your implementation will extract the right set of quads
+
+
+### Star pattern ### {#3.1}
+
+File url `<test3.1.ttl>`
+
+Operation: Finding all quads that belong to `<A>`.
+
+```turtle
+@prefix tree: <https://w3id.org/tree#> .
+@prefix ex: <https://example.org/>.
+<Collection> tree:view <test3.1.ttl> ;
+	tree:member <A> .
+<A> ex:p ex:o .
+```
+
+Returns: an array with 1 quad `<A> ex:p ex:o`.
+
+TODO: take more tests from the extract cbd shape repository
+
+## Pruning relations ## {#4}
+
+TODO: These test cases will get more complex
+
+## Using search forms ## {#5}
+
+TODO: Search forms
