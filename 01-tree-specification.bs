@@ -169,16 +169,18 @@ A client can assume completeness of members intended by the search tree when it 
 # Pruning branches # {#relationsubclasses}
 
 In search trees, a `tree:Relation` will likely be typed using one of its subclasses:
- * For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation` exist.
- * For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation` exist.
- * Finally, for geospatial trees, `tree:GeospatiallyContainsRelation` exists. 
+ * For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation`.
+ * For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation`.
+ * Finally, for geospatial trees, `tree:GeospatiallyContainsRelation`. 
 
 A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
-A relation can be interpreted as a comparator as follows:
- 1. The left-hand: what the members in the subtree reachable from the linked node will contain w.r.t. the objects reachable from the `tree:path`.
- 2. The operator: decided by the type of the relation and the datatype or node type of the `tree:value` triple’s object.
- 3. The right-hand: the `tree:value` triple’s object.
+A relation can be interpreted as a boolean equation as follow:
+ 1. The left-hand: The term(s) of the members that is the target of the relations identified by the predicate `tree:path`.
+ 2. The operator: The type of the relation such as `tree:GreaterThanRelation` and `tree:SuffixRelation` identify by the `rdf:type` of the relation.
+ 3. The right-hand: The reference value used to compare the term(s) of the members, as identified by `tree:value`.
+
+Thus, it can be stated that for every member in the tree:node, each term declared by the tree:path adheres to the comparison defined by the comparator in relation to the tree:value.
 
 The client MUST combine all relations to the same `tree:node` using a logical AND.
 
@@ -220,39 +222,31 @@ I.e., a `tree:path` on `(rdfs:label [sh:alternativePath rdfs:comment ] )` will b
 
 Note: A server is allowed to refer the `tree:path` to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.
 
-## Comparing strings ## {#strings}
+## Comparing strings, named node and time literals ## {#sparqlComparators}
 
-String values have three specific type of relations: the `tree:PrefixRelation`, the `tree:SubstringRelation` and the `tree:SuffixRelation`.
+When using comparator relations such as `tree:GreaterThanRelation` and `tree:PrefixRelation` the values MUST be compared as defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions).
+See the [`tree:Relation`](#Relation) section.
+
+### Extention and Recommandation
+
+#### Comparing time literals #### {#time}
+Implementation MUST support `xsd:dateTimeStamp`.
+`xsd:dateTimeStamp` MUST be treated as `xsd:dateTime` with a timezone.
+It is highly recommended to server developers to provide a timezone in the `tree:value`, which can be done in these datatypes themself.
+
+When no timezone is specified, the comparison MUST take place on the worst-case bound. 
+For example a date `2022-01-01` without timezone thus represents a period of time of 48 hours from  (`[`) `2021-12-31T12:00:00Z` until `2022-01-02T12:00:00Z` (`[`).
+
+#### Comparing strings #### {#strings}
+
 The string comparison happens using the unicode canonical equivalence.
-
-Issue: We experimented with server-chosen locales such that `ça suffit` can also be found when following a `tree:PrefixRelation` with a `tree:value "c"` (which at this moment is not supported). That would require an understanding of locales, and [browser/JavaScript support for locales is too low to be useful at this point](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
-
-Also the comparator relations such as `tree:GreaterThanRelation` can be used.
-The strings MUST then be compared using case sensitive unicode ordering.
-
-When a language is set on the `tree:value`, the relation only refers to these language strings. If no language is indicated, it refers to all (including those without).
-
-Particular to the `tree:SubstringRelation`, is that multiple `tree:value` properties can be set. This means the members properties will contain all of the given substrings.
-
-Issue: We need a flag for setting case insensitiveness: what will we use? In previous implementations `sh:flags "i"` was used.
-
-## Comparing named nodes ## {#named-nodes}
-
-When using comparator relations such as `tree:GreaterThanRelation`, named nodes MUST be compared as defined in the [ORDER BY section of the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
 
 ## Comparing geospatial features ## {#geospatial}
 
-The `tree:GeospatiallyContainsRelation` is the relation that can be used to express all further members will be contained within a geospatial region defined by the WKT String in the `tree:value`.
-The client MUST consider the relation when it overlaps with the region of interest.
+The `tree:GeospatiallyContainsRelation` is a relation following the defintion of [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family)
+The client MUST consider the relation when it overlaps with the region of interest defined by the `tree:value` clause.
 
 When using `tree:GeospatiallyContainsRelation`, the `tree:path` MUST refer to a literal containing a WKT string, such as `geosparql:asWKT`.
-
-## Comparing time literals ## {#time}
-
-When using relations such as `tree:LessThanRelation` or `tree:GreaterThanRelation`, the time literals MUST to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
-It is highly recommended to server developers to provide a timezone in the `tree:value`, which can be done in these datatypes themself.
-
-When no timezone is specified, the comparison needs to take place on the worst-case bound. For example a date `2022-01-01` without timezone thus represents a period of time of 48 hours from  (`[`) `2021-12-31T12:00:00Z` until `2022-01-02T12:00:00Z` (`[`).
 
 # Search forms # {#searching}
 
