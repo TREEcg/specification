@@ -180,7 +180,7 @@ A relation can be interpreted as a boolean equation as follow:
  2. The operator: The type of the relation such as `tree:GreaterThanRelation` and `tree:SuffixRelation` identify by the `rdf:type` of the relation.
  3. The right-hand: The reference value used to compare the term(s) of the members, as identified by `tree:value`.
 
-Thus, it can be stated that for every member in the tree:node, each term declared by the tree:path adheres to the comparison defined by the comparator in relation to the tree:value.
+Thus, it can be stated that for every member in a `tree:node`, each term of the member declared by `tree:path` adheres to the comparison defined by the `rdf:type` of the relation and `tree:value`.
 
 The client MUST combine all relations to the same `tree:node` using a logical AND.
 
