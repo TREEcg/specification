@@ -24,21 +24,28 @@ A <code>tree:Node</code> is a node that may contain links to other dereferenceab
 
 ### tree:Relation ### {#Relation}
 
+
 An entity that describes a relation between two <code>tree:Nodes</code>.
 
-The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>):
+The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values.
+These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>).
+<code>tree:Relation</code>  can be express in term of[SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions):
  - String, Date or Number comparison:
-     - <code>tree:PrefixRelation</code> — All elements in the related node have this prefix
-     - <code>tree:SubstringRelation</code> — All elements in the related node have this substring
-     - <code>tree:SuffixRelation</code> — All members of this related node end with this suffix
-     - <code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration
+     - <code>tree:PrefixRelation</code> — All elements in the related node have this prefix.
+        Must conform to the [STRSTARTS](https://www.w3.org/TR/sparql11-query/#func-strstarts) SPARQL function.
+     - <code>tree:SubstringRelation</code> — All elements in the related node have this substring.
+        Must conform to the [SUBSTR](https://www.w3.org/TR/sparql11-query/#func-substr) SPARQL function.
+     - <code>tree:SuffixRelation</code> — All members of this related node end with this suffix.
+        Must conform to the [STRENDS](https://www.w3.org/TR/sparql11-query/#func-strends) SPARQL function.
+     - <code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value.
+        Must conform to the SPARQL [Operator Mapping](https://www.w3.org/TR/sparql11-query/#OperatorMapping).
      - <code>tree:GreaterThanOrEqualToRelation</code> — similar to ↑
      - <code>tree:LessThanRelation</code>
      - <code>tree:LessThanOrEqualToRelation</code>
      - <code>tree:EqualToRelation</code>
      - <code>tree:NotEqualToRelation</code>
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
-     - <code>tree:GeospatiallyContainsRelation</code> — (for semantics, see the [DE-9IM wikipedia page](https://en.wikipedia.org/wiki/DE-9IM))
+     - <code>tree:GeospatiallyContainsRelation</code> — Must conform to [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_b199579b-ac9d-4a2c-9df8-82325eba9660).
 
 ### tree:ConditionalImport ### {#ConditionalImport}
 
