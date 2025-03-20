@@ -171,7 +171,7 @@ A client can assume completeness of members intended by the search tree when it 
 In search trees, a `tree:Relation` will likely be typed using one of its subclasses:
  * For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation`.
  * For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation`.
- * Finally, for geospatial trees, `tree:GeospatiallyContainsRelation`. 
+ * For geospatial trees, `tree:GeospatiallyContainsRelation`. 
 
 A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
