@@ -239,7 +239,7 @@ For example a date `2022-01-01` without timezone thus represents a period of tim
 
 #### Comparing strings #### {#strings}
 
-The string comparison happens using the unicode canonical equivalence.
+The string comparison must be performed using the unicode canonical equivalence.
 
 ## Comparing geospatial features ## {#geospatial}
 
