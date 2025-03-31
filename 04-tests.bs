@@ -25,7 +25,9 @@ We’ll test this with various URLs containing different contents.
 
 ### The URL to a rootnode without redirects ### {#1.1}
 
-File url `test1.1.ttl`
+**Test:** Initializing with the URL to a rootnode without redirects returns the Collection URL and Root node URL
+
+File URL `test1.1.ttl`
 
 ```turtle
 @prefix tree: <https://w3id.org/tree#> .
