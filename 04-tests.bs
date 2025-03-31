@@ -19,7 +19,7 @@ Abstract:
 
 Purpose: Ensuring that there is an unambiguous yet user friendly way of knowing the identifier of the collection, as well as the current page of the collection’s view.
 
-This test is about a function `initialization(url)`. The function will return a the collection and the URL of the root node.
+This test is about a function `initialization(url)`. The function will return the URL of the collection and the URL of the root node.
 
 We’ll test this with various URLs containing different contents.
 
