@@ -24,7 +24,6 @@ A <code>tree:Node</code> is a node that may contain links to other dereferenceab
 
 ### tree:Relation ### {#Relation}
 
-
 An entity that describes a relation between two <code>tree:Nodes</code>.
 
 The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values.
