@@ -226,20 +226,16 @@ Note: A server is allowed to refer the `tree:path` to a property that is not mat
 
 When using comparator relations such as `tree:GreaterThanRelation` and `tree:PrefixRelation` the values MUST be compared as defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions).
 See the [`tree:Relation`](#Relation) section.
+See the sections below for recommendations and extensions to SPARQL behavior.  
 
-### Extention and Recommandation
+### Recommendation for Time Literal Definition ### {#time}  
 
-#### Comparing time literals #### {#time}
-Implementation MUST support `xsd:dateTimeStamp`.
-`xsd:dateTimeStamp` MUST be treated as `xsd:dateTime` with a timezone.
-It is highly recommended to server developers to provide a timezone in the `tree:value`, which can be done in these datatypes themself.
+It is highly recommended that server developers provide a timezone in `tree:value`. 
 
-When no timezone is specified, the comparison MUST take place on the worst-case bound. 
-For example a date `2022-01-01` without timezone thus represents a period of time of 48 hours from  (`[`) `2021-12-31T12:00:00Z` until `2022-01-02T12:00:00Z` (`[`).
+### String Comparison Extension ### {#strings}  
 
-#### Comparing strings #### {#strings}
+String comparisons MUST be performed using Unicode canonical equivalence.  
 
-The string comparison must be performed using the unicode canonical equivalence.
 
 ## Comparing geospatial features ## {#geospatial}
 
