@@ -176,11 +176,11 @@ In search trees, a `tree:Relation` will likely be typed using one of its subclas
 A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
 A relation can be interpreted as a boolean equation as follow:
- 1. The left-hand: The term(s) of the members that is the target of the relations identified by the predicate `tree:path`.
- 2. The operator: The type of the relation such as `tree:GreaterThanRelation` and `tree:SuffixRelation` identify by the `rdf:type` of the relation.
- 3. The right-hand: The reference value used to compare the term(s) of the members, as identified by `tree:value`.
+1. **Left-hand side**: The set of terms from the members that are the targets of the relations identified by the predicate `tree:path`.
+2. **Operator**: The type of relation, such as `tree:GreaterThanRelation` or `tree:SuffixRelation`, identified by the `rdf:type` of the relation.
+3. **Right-hand side**: The reference value used to compare against the set of terms from point 1, identified by `tree:value`.
 
-Thus, it can be stated that for every member materialized at the resource exposed by the IRI denoted by the `tree:node`, each term of the member declared by `tree:path` adheres to the comparison defined by the `rdf:type` of the relation and `tree:value`.
+Thus, for every member materialized at the resource identified by the IRI of a `tree:Node`, each term of the member specified by `tree:path` (point 1) must satisfy the comparison defined by the `rdf:type` of the relation (point 2) and the reference value given in `tree:value` (point 3).
 
 The client MUST combine all relations to the same `tree:node` using a logical AND.
 
