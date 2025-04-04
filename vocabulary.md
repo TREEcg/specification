@@ -46,7 +46,7 @@ These types are described in the ontology (all classes are <code>rdf:subClassOf<
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
      - <code>tree:GeospatiallyContainsRelation</code> — Must conform to [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family).
 
-For more detailed behavior related to specific types, see [Traversing the search tree](#traversing).
+For more detailed behavior related to specific types, see the section [Traversing the search tree](#traversing).
 
 ### tree:ConditionalImport ### {#ConditionalImport}
 
