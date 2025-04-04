@@ -47,6 +47,8 @@ These types are described in the ontology (all classes are <code>rdf:subClassOf<
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
      - <code>tree:GeospatiallyContainsRelation</code> — Must conform to [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family).
 
+For more detailed behavior related to specific types, see [Traversing the search tree](#traversing).
+
 ### tree:ConditionalImport ### {#ConditionalImport}
 
 A class to import a file or a stream based on a <code>tree:path</code> of properties. This way it can import the necessary data for complying to the SHACL shape, or evaluating a relation type.
