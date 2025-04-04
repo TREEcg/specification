@@ -180,7 +180,7 @@ A relation can be interpreted as a boolean equation as follow:
 2. **Operator**: The type of relation, identified by its `rdf:type`, such as `tree:GreaterThanRelation` or `tree:SuffixRelation`.  
 3. **Right-hand side**: The reference value identified by `tree:value`, used for comparison with the values associated with the set of terms defined in point 1.  
 
-Thus, for every member materialized at the resource identified by the IRI of a `tree:Node`, each term of the member specified by `tree:path` (point 1) must satisfy the comparison defined by the `rdf:type` of the relation (point 2) and the reference value given in `tree:value` (point 3).  
+Thus, for every member materialized at the resource identified by the IRI of a `tree:Node`, each term of the member specified by `tree:path` (point 1) MUST satisfy the comparison defined by the `rdf:type` of the relation (point 2) and the reference value given in `tree:value` (point 3).  
 
 The client MUST combine all relations to the same `tree:Node` using a logical AND.
 

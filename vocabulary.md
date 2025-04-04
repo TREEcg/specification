@@ -16,11 +16,11 @@ Prefixes:
 
 ### tree:Collection ### {#collection}
 
-A collection has members that may adhere to a certain shape.
+A collection has members that MAY adhere to a certain shape.
 
 ### tree:Node ### {#Node}
 
-A <code>tree:Node</code> is a node that may contain links to other dereferenceable resources that lead to a full overview of a <code>tree:Collection</code>.
+A <code>tree:Node</code> is a node that MAY contain links to other dereferenceable resources that lead to a full overview of a <code>tree:Collection</code>.
 
 ### tree:Relation ### {#Relation}
 
@@ -31,20 +31,20 @@ These types are described in the ontology (all classes are <code>rdf:subClassOf<
 <code>tree:Relation</code>  can be express in term of[SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions):
  - String, Date or Number comparison:
      - <code>tree:PrefixRelation</code> — All elements in the related node have this prefix.
-        Must conform to the [STRSTARTS](https://www.w3.org/TR/sparql11-query/#func-strstarts) SPARQL function.
+        MUST conform to the [STRSTARTS](https://www.w3.org/TR/sparql11-query/#func-strstarts) SPARQL function.
      - <code>tree:SubstringRelation</code> — All elements in the related node have this substring.
-        Must conform to the [SUBSTR](https://www.w3.org/TR/sparql11-query/#func-substr) SPARQL function.
+        MUST conform to the [SUBSTR](https://www.w3.org/TR/sparql11-query/#func-substr) SPARQL function.
      - <code>tree:SuffixRelation</code> — All members of this related node end with this suffix.
-        Must conform to the [STRENDS](https://www.w3.org/TR/sparql11-query/#func-strends) SPARQL function.
+        MUST conform to the [STRENDS](https://www.w3.org/TR/sparql11-query/#func-strends) SPARQL function.
      - <code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value.
-        Must conform to the SPARQL [Operator Mapping](https://www.w3.org/TR/sparql11-query/#OperatorMapping).
+        MUST conform to the SPARQL [Operator Mapping](https://www.w3.org/TR/sparql11-query/#OperatorMapping).
      - <code>tree:GreaterThanOrEqualToRelation</code> — similar to ↑
      - <code>tree:LessThanRelation</code>
      - <code>tree:LessThanOrEqualToRelation</code>
      - <code>tree:EqualToRelation</code>
      - <code>tree:NotEqualToRelation</code>
  - Geo-spatial comparison (requires the node values to be WKT-strings): 
-     - <code>tree:GeospatiallyContainsRelation</code> — Must conform to [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family).
+     - <code>tree:GeospatiallyContainsRelation</code> — MUST conform to [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family).
 
 For more detailed behavior related to specific types, see the section [Traversing the search tree](#traversing).
 
