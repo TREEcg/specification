@@ -8,7 +8,7 @@
   <meta content="Bikeshed version b25686b9f, updated Fri Mar 14 14:15:20 2025 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="40ffa4516d83c9f600298fbfe50d5f3c533bda7c" name="revision">
+  <meta content="01c8e44101034b04a99a6f5eea7080cdb789a59a" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -534,7 +534,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-03-20">20 March 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-04-11">11 April 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -545,7 +545,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <dd><span><a href="mailto:public-treecg@w3.org?subject=%5BTREE%5D%20YOUR%20TOPIC%20HERE">public-treecg@w3.org</a> with subject line “<kbd>[TREE] <i data-lt>… message topic …</i></kbd>” (<a href="https://lists.w3.org/Archives/Public/public-treecg/" rel="discussion">archives</a>)</span>
       <dt>Issue Tracking:
       <dd><a href="https://github.com/treecg/specification/issues/">GitHub</a>
-      <dd><a href="#issues-index">Inline In Spec</a>
       <dt class="editor">Editor:
       <dd class="editor p-author h-card vcard"><a class="p-name fn u-url url" href="https://pietercolpaert.be">Pieter Colpaert</a>
      </dl>
@@ -578,10 +577,13 @@ By interpreting such qualified relations and search forms, TREE enables clients 
     <li>
      <a href="#relationsubclasses"><span class="secno">6</span> <span class="content">Pruning branches</span></a>
      <ol class="toc">
-      <li><a href="#strings"><span class="secno">6.1</span> <span class="content">Comparing strings</span></a>
-      <li><a href="#named-nodes"><span class="secno">6.2</span> <span class="content">Comparing named nodes</span></a>
-      <li><a href="#geospatial"><span class="secno">6.3</span> <span class="content">Comparing geospatial features</span></a>
-      <li><a href="#time"><span class="secno">6.4</span> <span class="content">Comparing time literals</span></a>
+      <li>
+       <a href="#sparqlComparators"><span class="secno">6.1</span> <span class="content">Comparing strings, named node and time literals</span></a>
+       <ol class="toc">
+        <li><a href="#time"><span class="secno">6.1.1</span> <span class="content">Recommendation for Time Literal Definition</span></a>
+        <li><a href="#strings"><span class="secno">6.1.2</span> <span class="content">String Comparison Extension</span></a>
+       </ol>
+      <li><a href="#geospatial"><span class="secno">6.2</span> <span class="content">Comparing geospatial features</span></a>
      </ol>
     <li>
      <a href="#searching"><span class="secno">7</span> <span class="content">Search forms</span></a>
@@ -631,7 +633,6 @@ By interpreting such qualified relations and search forms, TREE enables clients 
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
      </ol>
-    <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
   </nav>
   <main>
@@ -788,24 +789,25 @@ If it does, it will be an integer indicating the remaining items to be found aft
    <p>In search trees, a <code>tree:Relation</code> will likely be typed using one of its subclasses:</p>
    <ul>
     <li data-md>
-     <p>For partial string matching, <code>tree:PrefixRelation</code>, <code>tree:SubstringRelation</code>, and <code>tree:SuffixRelation</code> exist.</p>
+     <p>For partial string matching, <code>tree:PrefixRelation</code>, <code>tree:SubstringRelation</code>, and <code>tree:SuffixRelation</code>.</p>
     <li data-md>
-     <p>For comparing various datatypes, <code>tree:GreaterThanRelation</code>, <code>tree:GreaterThanOrEqualToRelation</code>, <code>tree:LessThanRelation</code>, <code>tree:LessThanOrEqualToRelation</code>, <code>tree:EqualToRelation</code>, and <code>tree:NotEqualToRelation</code> exist.</p>
+     <p>For comparing various datatypes, <code>tree:GreaterThanRelation</code>, <code>tree:GreaterThanOrEqualToRelation</code>, <code>tree:LessThanRelation</code>, <code>tree:LessThanOrEqualToRelation</code>, <code>tree:EqualToRelation</code>, and <code>tree:NotEqualToRelation</code>.</p>
     <li data-md>
-     <p>Finally, for geospatial trees, <code>tree:GeospatiallyContainsRelation</code> exists.</p>
+     <p>For geospatial trees, <code>tree:GeospatiallyContainsRelation</code>.</p>
    </ul>
    <p>A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the <code>tree:node</code> link can be pruned.
-A relation can be interpreted as a comparator as follows:</p>
+A relation can be interpreted as a boolean equation as follow:</p>
    <ol>
     <li data-md>
-     <p>The left-hand: what the members in the subtree reachable from the linked node will contain w.r.t. the objects reachable from the <code>tree:path</code>.</p>
+     <p><strong>Left-hand side</strong>: The set of terms identified by the predicate <code>tree:path</code> from members that are targets of the relations.</p>
     <li data-md>
-     <p>The operator: decided by the type of the relation and the datatype or node type of the <code>tree:value</code> triple’s object.</p>
+     <p><strong>Operator</strong>: The type of relation, identified by its <code>rdf:type</code>, such as <code>tree:GreaterThanRelation</code> or <code>tree:SuffixRelation</code>.</p>
     <li data-md>
-     <p>The right-hand: the <code>tree:value</code> triple’s object.</p>
+     <p><strong>Right-hand side</strong>: The reference value identified by <code>tree:value</code>, used for comparison with the values associated with the set of terms defined in point 1.</p>
    </ol>
-   <p>The client MUST combine all relations to the same <code>tree:node</code> using a logical AND.</p>
+   <p>Thus, for every member materialized at the resource identified by the IRI of a <code>tree:Node</code>, each term of the member specified by <code>tree:path</code> (point 1) MUST satisfy the comparison defined by the <code>rdf:type</code> of the relation (point 2) and the reference value given in <code>tree:value</code> (point 3).</p>
+   <p>The client MUST combine all relations to the same <code>tree:Node</code> using a logical AND.</p>
    <p>The members that the client is able to find in a subtree will be complete relative to the position in the search tree.</p>
    <div class="example" id="example-2f0c95e2">
     <a class="self-link" href="#example-2f0c95e2"></a> 
@@ -836,25 +838,17 @@ When multiple results from the path are found, they need to be interpreted as a 
    <p>A client, in case it wants to process relations that use the <code>tree:path</code> property, MUST implement a matching algorithm to check whether the relation is relevant.
 I.e., a <code>tree:path</code> on <code>(rdfs:label [sh:alternativePath rdfs:comment ] )</code> will be useful when the client is tasked to filter on <code>rdfs:comment</code>.</p>
    <p class="note" role="note"><span class="marker">Note:</span> A server is allowed to refer the <code>tree:path</code> to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.</p>
-   <h3 class="heading settled" data-level="6.1" id="strings"><span class="secno">6.1. </span><span class="content">Comparing strings</span><a class="self-link" href="#strings"></a></h3>
-   <p>String values have three specific type of relations: the <code>tree:PrefixRelation</code>, the <code>tree:SubstringRelation</code> and the <code>tree:SuffixRelation</code>.
-The string comparison happens using the unicode canonical equivalence.</p>
-   <p class="issue" id="issue-09e3f7fb"><a class="self-link" href="#issue-09e3f7fb"></a> We experimented with server-chosen locales such that <code>ça suffit</code> can also be found when following a <code>tree:PrefixRelation</code> with a <code>tree:value "c"</code> (which at this moment is not supported). That would require an understanding of locales, and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation">browser/JavaScript support for locales is too low to be useful at this point</a>.</p>
-   <p>Also the comparator relations such as <code>tree:GreaterThanRelation</code> can be used.
-The strings MUST then be compared using case sensitive unicode ordering.</p>
-   <p>When a language is set on the <code>tree:value</code>, the relation only refers to these language strings. If no language is indicated, it refers to all (including those without).</p>
-   <p>Particular to the <code>tree:SubstringRelation</code>, is that multiple <code>tree:value</code> properties can be set. This means the members properties will contain all of the given substrings.</p>
-   <p class="issue" id="issue-8c0f0826"><a class="self-link" href="#issue-8c0f0826"></a> We need a flag for setting case insensitiveness: what will we use? In previous implementations <code>sh:flags "i"</code> was used.</p>
-   <h3 class="heading settled" data-level="6.2" id="named-nodes"><span class="secno">6.2. </span><span class="content">Comparing named nodes</span><a class="self-link" href="#named-nodes"></a></h3>
-   <p>When using comparator relations such as <code>tree:GreaterThanRelation</code>, named nodes MUST be compared as defined in the <a href="https://www.w3.org/TR/sparql11-query/#modOrderBy">ORDER BY section of the SPARQL specification</a>.</p>
-   <h3 class="heading settled" data-level="6.3" id="geospatial"><span class="secno">6.3. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h3>
-   <p>The <code>tree:GeospatiallyContainsRelation</code> is the relation that can be used to express all further members will be contained within a geospatial region defined by the WKT String in the <code>tree:value</code>.
-The client MUST consider the relation when it overlaps with the region of interest.</p>
+   <h3 class="heading settled" data-level="6.1" id="sparqlComparators"><span class="secno">6.1. </span><span class="content">Comparing strings, named node and time literals</span><a class="self-link" href="#sparqlComparators"></a></h3>
+   <p>When using comparator relations such as <code>tree:GreaterThanRelation</code> and <code>tree:PrefixRelation</code> the values MUST be compared as defined in the <a href="https://www.w3.org/TR/sparql11-query/#expressions">SPARQL algebra functions</a>.
+See the <a href="#Relation"><code>tree:Relation</code></a> section.
+See the sections below for recommendations and extensions to SPARQL behavior.</p>
+   <h4 class="heading settled" data-level="6.1.1" id="time"><span class="secno">6.1.1. </span><span class="content">Recommendation for Time Literal Definition</span><a class="self-link" href="#time"></a></h4>
+   <p>It is highly recommended that server developers provide a timezone in <code>tree:value</code>.</p>
+   <h4 class="heading settled" data-level="6.1.2" id="strings"><span class="secno">6.1.2. </span><span class="content">String Comparison Extension</span><a class="self-link" href="#strings"></a></h4>
+   <p>String comparisons MUST be performed using Unicode canonical equivalence.</p>
+   <h3 class="heading settled" data-level="6.2" id="geospatial"><span class="secno">6.2. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h3>
+   <p>The <code>tree:GeospatiallyContainsRelation</code> is a relation following the defintion of <a href="https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family">geof:sfContains</a> The client MUST consider the relation when it overlaps with the region of interest defined by the <code>tree:value</code> clause.</p>
    <p>When using <code>tree:GeospatiallyContainsRelation</code>, the <code>tree:path</code> MUST refer to a literal containing a WKT string, such as <code>geosparql:asWKT</code>.</p>
-   <h3 class="heading settled" data-level="6.4" id="time"><span class="secno">6.4. </span><span class="content">Comparing time literals</span><a class="self-link" href="#time"></a></h3>
-   <p>When using relations such as <code>tree:LessThanRelation</code> or <code>tree:GreaterThanRelation</code>, the time literals MUST to be compared according to these 3 possible data types: <code>xsd:date</code>, <code>xsd:dateTime</code> or <code>xsd:dateTimeStamp</code>.
-It is highly recommended to server developers to provide a timezone in the <code>tree:value</code>, which can be done in these datatypes themself.</p>
-   <p>When no timezone is specified, the comparison needs to take place on the worst-case bound. For example a date <code>2022-01-01</code> without timezone thus represents a period of time of 48 hours from  (<code>[</code>) <code>2021-12-31T12:00:00Z</code> until <code>2022-01-02T12:00:00Z</code> (<code>[</code>).</p>
    <h2 class="heading settled" data-level="7" id="searching"><span class="secno">7. </span><span class="content">Search forms</span><a class="self-link" href="#searching"></a></h2>
    <p>Searching through a TREE will allow you to immediately jump to the right <code>tree:Node</code> in a subtree.
 TREE relies on the <a href="http://www.hydra-cg.com/spec/latest/core/#hydra:search">Hydra search specification</a> for its search forms.
@@ -937,24 +931,29 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
 </pre>
    <h3 class="heading settled" data-level="8.1" id="classes"><span class="secno">8.1. </span><span class="content">Classes</span><a class="self-link" href="#classes"></a></h3>
    <h4 class="heading settled" data-level="8.1.1" id="collection"><span class="secno">8.1.1. </span><span class="content">tree:Collection</span><a class="self-link" href="#collection"></a></h4>
-   <p>A collection has members that may adhere to a certain shape.</p>
+   <p>A collection has members that MAY adhere to a certain shape.</p>
    <h4 class="heading settled" data-level="8.1.2" id="Node"><span class="secno">8.1.2. </span><span class="content">tree:Node</span><a class="self-link" href="#Node"></a></h4>
-   <p>A <code>tree:Node</code> is a node that may contain links to other dereferenceable resources that lead to a full overview of a <code>tree:Collection</code>.</p>
+   <p>A <code>tree:Node</code> is a node that MAY contain links to other dereferenceable resources that lead to a full overview of a <code>tree:Collection</code>.</p>
    <h4 class="heading settled" data-level="8.1.3" id="Relation"><span class="secno">8.1.3. </span><span class="content">tree:Relation</span><a class="self-link" href="#Relation"></a></h4>
    <p>An entity that describes a relation between two <code>tree:Nodes</code>.</p>
-   <p>The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values. These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>):</p>
+   <p>The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values.
+These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>). <code>tree:Relation</code> can be express in term of<a href="https://www.w3.org/TR/sparql11-query/#expressions">SPARQL algebra functions</a>:</p>
    <ul>
     <li data-md>
      <p>String, Date or Number comparison:</p>
      <ul>
       <li data-md>
-       <p><code>tree:PrefixRelation</code> — All elements in the related node have this prefix</p>
+       <p><code>tree:PrefixRelation</code> — All elements in the related node have this prefix.
+MUST conform to the <a href="https://www.w3.org/TR/sparql11-query/#func-strstarts">STRSTARTS</a> SPARQL function.</p>
       <li data-md>
-       <p><code>tree:SubstringRelation</code> — All elements in the related node have this substring</p>
+       <p><code>tree:SubstringRelation</code> — All elements in the related node have this substring.
+MUST conform to the <a href="https://www.w3.org/TR/sparql11-query/#func-substr">SUBSTR</a> SPARQL function.</p>
       <li data-md>
-       <p><code>tree:SuffixRelation</code> — All members of this related node end with this suffix</p>
+       <p><code>tree:SuffixRelation</code> — All members of this related node end with this suffix.
+MUST conform to the <a href="https://www.w3.org/TR/sparql11-query/#func-strends">STRENDS</a> SPARQL function.</p>
       <li data-md>
-       <p><code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value. For string comparison, this relation can refer to a comparison configuration</p>
+       <p><code>tree:GreaterThanRelation</code> — the related Node’s members are greater than the value.
+MUST conform to the SPARQL <a href="https://www.w3.org/TR/sparql11-query/#OperatorMapping">Operator Mapping</a>.</p>
       <li data-md>
        <p><code>tree:GreaterThanOrEqualToRelation</code> — similar to ↑</p>
       <li data-md>
@@ -970,9 +969,10 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
      <p>Geo-spatial comparison (requires the node values to be WKT-strings):</p>
      <ul>
       <li data-md>
-       <p><code>tree:GeospatiallyContainsRelation</code> — (for semantics, see the <a href="https://en.wikipedia.org/wiki/DE-9IM">DE-9IM wikipedia page</a>)</p>
+       <p><code>tree:GeospatiallyContainsRelation</code> — MUST conform to <a href="https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family">geof:sfContains</a>.</p>
      </ul>
    </ul>
+   <p>For more detailed behavior related to specific types, see the section <a href="#traversing">Traversing the search tree</a>.</p>
    <h4 class="heading settled" data-level="8.1.4" id="ConditionalImport"><span class="secno">8.1.4. </span><span class="content">tree:ConditionalImport</span><a class="self-link" href="#ConditionalImport"></a></h4>
    <p>A class to import a file or a stream based on a <code>tree:path</code> of properties. This way it can import the necessary data for complying to the SHACL shape, or evaluating a relation type.</p>
    <h3 class="heading settled" data-level="8.2" id="properties"><span class="secno">8.2. </span><span class="content">Properties</span><a class="self-link" href="#properties"></a></h3>
@@ -1069,8 +1069,3 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <dt id="biblio-shacl">[SHACL]
    <dd>Holger Knublauch; Dimitris Kontokostas. <a href="https://w3c.github.io/data-shapes/shacl/"><cite>Shapes Constraint Language (SHACL)</cite></a>. URL: <a href="https://w3c.github.io/data-shapes/shacl/">https://w3c.github.io/data-shapes/shacl/</a>
   </dl>
-  <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
-  <div style="counter-reset:issue">
-   <div class="issue"> We experimented with server-chosen locales such that <code>ça suffit</code> can also be found when following a <code>tree:PrefixRelation</code> with a <code>tree:value "c"</code> (which at this moment is not supported). That would require an understanding of locales, and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation">browser/JavaScript support for locales is too low to be useful at this point</a>. <a class="issue-return" href="#issue-09e3f7fb" title="Jump to section">↵</a></div>
-   <div class="issue"> We need a flag for setting case insensitiveness: what will we use? In previous implementations <code>sh:flags "i"</code> was used. <a class="issue-return" href="#issue-8c0f0826" title="Jump to section">↵</a></div>
-  </div>
