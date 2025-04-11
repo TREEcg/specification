@@ -23,7 +23,7 @@ Abstract:
 The TREE specification introduces these core concepts:
  * `tree:Collection` is a set of members. It typically has these properties when described in a node:
      - `tree:member` points at the root focus node for each member from which to retrieve and extract all quads of that member
-     - `tree:view` points to the `tree:Node` you are currently visiting, or points to one specific root node from an overview
+     - `tree:view` points to the `tree:Node` you are currently visiting, or points to one specific root node from another resource that is not a `tree:Node`.
      - `tree:shape` indicates the [[!SHACL]] shape (exactly one) to which each member in the collection adheres
  * `tree:Node` is a page in the search tree
      - `tree:relation` points at relations to other nodes
