@@ -17,9 +17,19 @@ In case of questions, feel free to contact the current chair [Pieter Colpaert](h
 
 ## Developing
 
-Build the spec using [bikeshed](https://tabatkins.github.io/bikeshed/):
+The specs are built using [Bikeshed](https://tabatkins.github.io/bikeshed/).
+The following commands build each specification in development mode:
+
+To build the TREE specification:
 ```bash
-bikeshed watch spec.bs
+bikeshed watch ./01-tree-specification.bs
+```
+To build the Shape Topologies specification:
+```bash
+bikeshed watch ./02-shape-topologies.bs
+```
+To build the Discovery specification:
+```bash
+bikeshed watch ./03-discovery-specification.bs
 ```
 The spec will be built [automatically](.github/workflows/) when pushing to the master branch.
-
