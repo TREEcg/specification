@@ -23,7 +23,7 @@ Abstract:
 The TREE specification introduces these core concepts:
  * `tree:Collection` is a set of members. It typically has these properties when described in a node:
      - `tree:member` points at the root focus node for each member from which to retrieve and extract all quads of that member
-     - `tree:view` points to the `tree:Node` you are currently visiting
+     - `tree:view` points to the `tree:Node` you are currently visiting, or points to one specific root node in the HTTP response after dereferencing the `tree:Collection` identifier.
      - `tree:shape` indicates the [[!SHACL]] shape (exactly one) to which each member in the collection adheres
  * `tree:Node` is a page in the search tree
      - `tree:relation` points at relations to other nodes
@@ -124,10 +124,10 @@ When the URL after all redirects, is used in a triple `?c tree:view <> .`, a cli
 
 Note: Dereferencing in this specification also means parsing the RDF triples or quads from the HTTP response. TREE does not limit the content-types that can be used to represent RDF triples. Client developers should do a best-effort for their community.
 
-If there is no such triple, then the client MUST check whether the URL before redirects (`E`) has been used in a pattern `<E> tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N` as the rootnode and `E` as the collection.
+If there is no such triple, then the client MUST check whether the URL before redirects (`E`) has been used in a pattern `<E> tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N` as the root node and `E` as the collection.
 
-The client then MUST dereference the identified rootnode (if it did not do that already) and merge those quads with the already found quads.
-It now MUST look for a potential search forms that MAY be linked, either i) on top of the rootnode, or ii) on top of the entity linked through `tree:viewDescription`, using `tree:search`.
+The client then MUST dereference the identified root node (if it did not do that already) and merge those quads with the already found quads.
+It now MUST look for a potential search forms that MAY be linked, either i) on top of the root node, or ii) on top of the entity linked through `tree:viewDescription`, using `tree:search`.
 
 In case it is not done using an unambiguous URL, clients MAY implement the report on [Discovery and Context Information (work in progress)](https://w3id.org/tree/specification/discovery).
 This report also explains how clients MAY implement support for extracting context information such as provenance, contact points, etc.
