@@ -8,7 +8,7 @@
   <meta content="Bikeshed version b25686b9f, updated Fri Mar 14 14:15:20 2025 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="01c8e44101034b04a99a6f5eea7080cdb789a59a" name="revision">
+  <meta content="f0b0625a3332b40ba8f48d8c8d26432015ad7938" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -534,7 +534,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-04-11">11 April 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-04-12">12 April 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -647,7 +647,7 @@ By interpreting such qualified relations and search forms, TREE enables clients 
        <li data-md>
         <p><code>tree:member</code> points at the root focus node for each member from which to retrieve and extract all quads of that member</p>
        <li data-md>
-        <p><code>tree:view</code> points to the <code>tree:Node</code> you are currently visiting</p>
+        <p><code>tree:view</code> points to the <code>tree:Node</code> you are currently visiting, or points to one specific root node in the HTTP response after dereferencing the <code>tree:Collection</code> identifier.</p>
        <li data-md>
         <p><code>tree:shape</code> indicates the <a data-link-type="biblio" href="#biblio-shacl" title="Shapes Constraint Language (SHACL)">[SHACL]</a> shape (exactly one) to which each member in the collection adheres</p>
       </ul>
@@ -748,9 +748,9 @@ In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is 
 The client MUST dereference the URL, which will result in a set of <a data-link-type="biblio" href="#biblio-rdf-concepts" title="Resource Description Framework (RDF): Concepts and Abstract Syntax">[rdf-concepts]</a> triples or quads.
 When the URL after all redirects, is used in a triple <code>?c tree:view &lt;> .</code>, a client MUST assume the URL after redirects is an identifier of the intended root node of the collection in <code>?c</code>.</p>
    <p class="note" role="note"><span class="marker">Note:</span> Dereferencing in this specification also means parsing the RDF triples or quads from the HTTP response. TREE does not limit the content-types that can be used to represent RDF triples. Client developers should do a best-effort for their community.</p>
-   <p>If there is no such triple, then the client MUST check whether the URL before redirects (<code>E</code>) has been used in a pattern <code>&lt;E> tree:view ?N.</code> where there’s exactly one <code>?N</code>, then the algorithm MUST return <code>?N</code> as the rootnode and <code>E</code> as the collection.</p>
-   <p>The client then MUST dereference the identified rootnode (if it did not do that already) and merge those quads with the already found quads.
-It now MUST look for a potential search forms that MAY be linked, either i) on top of the rootnode, or ii) on top of the entity linked through <code>tree:viewDescription</code>, using <code>tree:search</code>.</p>
+   <p>If there is no such triple, then the client MUST check whether the URL before redirects (<code>E</code>) has been used in a pattern <code>&lt;E> tree:view ?N.</code> where there’s exactly one <code>?N</code>, then the algorithm MUST return <code>?N</code> as the root node and <code>E</code> as the collection.</p>
+   <p>The client then MUST dereference the identified root node (if it did not do that already) and merge those quads with the already found quads.
+It now MUST look for a potential search forms that MAY be linked, either i) on top of the root node, or ii) on top of the entity linked through <code>tree:viewDescription</code>, using <code>tree:search</code>.</p>
    <p>In case it is not done using an unambiguous URL, clients MAY implement the report on <a href="https://w3id.org/tree/specification/discovery">Discovery and Context Information (work in progress)</a>.
 This report also explains how clients MAY implement support for extracting context information such as provenance, contact points, etc.</p>
    <p class="note" role="note"><span class="marker">Note:</span> Having an identifier for the collection has become mandatory: without it you can otherwise not define completeness.</p>
