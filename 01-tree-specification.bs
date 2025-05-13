@@ -22,8 +22,8 @@ Abstract:
 <div class="informative">
 The TREE specification introduces these core concepts:
  * `tree:Collection` is a set of members. It typically has these properties when described in a node:
-     - `tree:member` points at the first focus node from which to retrieve and extract all quads of a member
-     - `tree:view` points to the `tree:Node` you are currently visiting
+     - `tree:member` points at the root focus node for each member from which to retrieve and extract all quads of that member
+     - `tree:view` points to the `tree:Node` you are currently visiting, or points to one specific root node in the HTTP response after dereferencing the `tree:Collection` identifier.
      - `tree:shape` indicates the [[!SHACL]] shape (exactly one) to which each member in the collection adheres
  * `tree:Node` is a page in the search tree
      - `tree:relation` points at relations to other nodes
@@ -124,10 +124,10 @@ When the URL after all redirects, is used in a triple `?c tree:view <> .`, a cli
 
 Note: Dereferencing in this specification also means parsing the RDF triples or quads from the HTTP response. TREE does not limit the content-types that can be used to represent RDF triples. Client developers should do a best-effort for their community.
 
-If there is no such triple, then the client MUST check whether the URL before redirects (`E`) has been used in a pattern `<E> tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N` as the rootnode and `E` as the collection.
+If there is no such triple, then the client MUST check whether the URL before redirects (`E`) has been used in a pattern `<E> tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N` as the root node and `E` as the collection.
 
-The client then MUST dereference the identified rootnode (if it did not do that already) and merge those quads with the already found quads.
-It now MUST look for a potential search forms that MAY be linked, either i) on top of the rootnode, or ii) on top of the entity linked through `tree:viewDescription`, using `tree:search`.
+The client then MUST dereference the identified root node (if it did not do that already) and merge those quads with the already found quads.
+It now MUST look for a potential search forms that MAY be linked, either i) on top of the root node, or ii) on top of the entity linked through `tree:viewDescription`, using `tree:search`.
 
 In case it is not done using an unambiguous URL, clients MAY implement the report on [Discovery and Context Information (work in progress)](https://w3id.org/tree/specification/discovery).
 This report also explains how clients MAY implement support for extracting context information such as provenance, contact points, etc.
@@ -169,18 +169,20 @@ A client can assume completeness of members intended by the search tree when it 
 # Pruning branches # {#relationsubclasses}
 
 In search trees, a `tree:Relation` will likely be typed using one of its subclasses:
- * For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation` exist.
- * For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation` exist.
- * Finally, for geospatial trees, `tree:GeospatiallyContainsRelation` exists. 
+ * For partial string matching, `tree:PrefixRelation`, `tree:SubstringRelation`, and `tree:SuffixRelation`.
+ * For comparing various datatypes, `tree:GreaterThanRelation`, `tree:GreaterThanOrEqualToRelation`, `tree:LessThanRelation`, `tree:LessThanOrEqualToRelation`, `tree:EqualToRelation`, and `tree:NotEqualToRelation`.
+ * For geospatial trees, `tree:GeospatiallyContainsRelation`. 
 
 A client decides, based on their own tasks, what type of relations are important to implement.
 Each relation is a comparator function that helps deciding whether or not the subtree reachable from the `tree:node` link can be pruned.
-A relation can be interpreted as a comparator as follows:
- 1. The left-hand: what the members in the subtree reachable from the linked node will contain w.r.t. the objects reachable from the `tree:path`.
- 2. The operator: decided by the type of the relation and the datatype or node type of the `tree:value` triple’s object.
- 3. The right-hand: the `tree:value` triple’s object.
+A relation can be interpreted as a boolean equation as follow:
+1. **Left-hand side**: The set of terms identified by the predicate `tree:path` from members that are targets of the relations.  
+2. **Operator**: The type of relation, identified by its `rdf:type`, such as `tree:GreaterThanRelation` or `tree:SuffixRelation`.  
+3. **Right-hand side**: The reference value identified by `tree:value`, used for comparison with the values associated with the set of terms defined in point 1.  
 
-The client MUST combine all relations to the same `tree:node` using a logical AND.
+Thus, for every member materialized at the resource identified by the IRI of a `tree:Node`, each term of the member specified by `tree:path` (point 1) MUST satisfy the comparison defined by the `rdf:type` of the relation (point 2) and the reference value given in `tree:value` (point 3).  
+
+The client MUST combine all relations to the same `tree:Node` using a logical AND.
 
 The members that the client is able to find in a subtree will be complete relative to the position in the search tree.
 
@@ -220,39 +222,27 @@ I.e., a `tree:path` on `(rdfs:label [sh:alternativePath rdfs:comment ] )` will b
 
 Note: A server is allowed to refer the `tree:path` to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.
 
-## Comparing strings ## {#strings}
+## Comparing strings, named node and time literals ## {#sparqlComparators}
 
-String values have three specific type of relations: the `tree:PrefixRelation`, the `tree:SubstringRelation` and the `tree:SuffixRelation`.
-The string comparison happens using the unicode canonical equivalence.
+When using comparator relations such as `tree:GreaterThanRelation` and `tree:PrefixRelation` the values MUST be compared as defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions).
+See the [`tree:Relation`](#Relation) section.
+See the sections below for recommendations and extensions to SPARQL behavior.  
 
-Issue: We experimented with server-chosen locales such that `ça suffit` can also be found when following a `tree:PrefixRelation` with a `tree:value "c"` (which at this moment is not supported). That would require an understanding of locales, and [browser/JavaScript support for locales is too low to be useful at this point](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation).
+### Recommendation for Time Literal Definition ### {#time}  
 
-Also the comparator relations such as `tree:GreaterThanRelation` can be used.
-The strings MUST then be compared using case sensitive unicode ordering.
+It is highly recommended that server developers provide a timezone in `tree:value`. 
 
-When a language is set on the `tree:value`, the relation only refers to these language strings. If no language is indicated, it refers to all (including those without).
+### String Comparison Extension ### {#strings}  
 
-Particular to the `tree:SubstringRelation`, is that multiple `tree:value` properties can be set. This means the members properties will contain all of the given substrings.
+String comparisons MUST be performed using Unicode canonical equivalence.  
 
-Issue: We need a flag for setting case insensitiveness: what will we use? In previous implementations `sh:flags "i"` was used.
-
-## Comparing named nodes ## {#named-nodes}
-
-When using comparator relations such as `tree:GreaterThanRelation`, named nodes MUST be compared as defined in the [ORDER BY section of the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
 
 ## Comparing geospatial features ## {#geospatial}
 
-The `tree:GeospatiallyContainsRelation` is the relation that can be used to express all further members will be contained within a geospatial region defined by the WKT String in the `tree:value`.
-The client MUST consider the relation when it overlaps with the region of interest.
+The `tree:GeospatiallyContainsRelation` is a relation following the defintion of [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family)
+The client MUST consider the relation when it overlaps with the region of interest defined by the `tree:value` clause.
 
 When using `tree:GeospatiallyContainsRelation`, the `tree:path` MUST refer to a literal containing a WKT string, such as `geosparql:asWKT`.
-
-## Comparing time literals ## {#time}
-
-When using relations such as `tree:LessThanRelation` or `tree:GreaterThanRelation`, the time literals MUST to be compared according to these 3 possible data types: `xsd:date`, `xsd:dateTime` or `xsd:dateTimeStamp`.
-It is highly recommended to server developers to provide a timezone in the `tree:value`, which can be done in these datatypes themself.
-
-When no timezone is specified, the comparison needs to take place on the worst-case bound. For example a date `2022-01-01` without timezone thus represents a period of time of 48 hours from  (`[`) `2021-12-31T12:00:00Z` until `2022-01-02T12:00:00Z` (`[`).
 
 # Search forms # {#searching}
 
