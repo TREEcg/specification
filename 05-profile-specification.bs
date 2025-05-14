@@ -20,7 +20,9 @@ This specification introduces [profiles](https://profilenegotiation.github.io/I-
 The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up extracting members and process them in a streaming fashion.
 The TREE profile does this by promising to a TREE client that the triples about the members are going to be bundled together.
 
-# Discovering the profile through the content-type header # {#profile} 
+# Discovering the profile through the content-type header # {#profile}
+
+A client 
 
 Servers add `;profile="https://w3id.org/tree/profile"` to the content-type headers on top of their Turtle, N-Triples, TRiG or N-Quads responses, such as `Content-Type: text/turtle;profile="https://w3id.org/tree/profile`.
 
@@ -64,11 +66,9 @@ ex:Subject2 a ex:Subject ;
 
 # Implementing a TREE profile client # {#implementing} 
 
-When the `content-type` response header indicates the TREE profile as specified above, the client MAY use this extraction as a replacement to the member extraction algorithm in the TREE specification.
-
 The client in this case MUST use a parser that retains triple order as in the original document.
 
-When the profile is set (see [](#profile), the client MAY implement the profile algorithm. In this case, a client MUST assume the document starts with hypermedia. 
+When the profile is set (see [](#profile), the client MAY implement the profile algorithm and not perform the steps indicated by the Member Extraction Algorithm. In this case, a client MUST assume the document starts with a hypermedia block. 
 It then follows three simple rules:
  1. From the moment the `tree:member`property is used, a new bundle of member quads will start.
  2. From the moment the base IRI (`<>`) is used in the subject position, or when a `tree:view` property is used, a new block of hypermedia starts.
