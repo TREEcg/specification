@@ -16,17 +16,16 @@ Abstract:
 
 # Introduction # {#introduction}
 
-This specification introduces [profiles](https://profilenegotiation.github.io/I-D-Accept--Schema/I-D-accept-schema) for serializations such as n-triples, turtle and TRiG to first contain a group for the hypermedia, and then contain groups for the members.
+This specification introduces [profiles](https://profilenegotiation.github.io/I-D-Accept--Schema/I-D-accept-schema) for serializations such as [[!n-triples]], [[!n-quads]], [[!turtle]] and [[!TRiG]] to first contain a group for the hypermedia, and then contain groups for the members.
 The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up extracting members and process them in a streaming fashion.
 The TREE profile does this by promising to a TREE client that the triples about the members are going to be bundled together.
 
 # Discovering the profile through the content-type header # {#profile}
 
-A client 
+There are two ways in which a client MAY discover the fact that the TREE profile has been used.
 
-Servers add `;profile="https://w3id.org/tree/profile"` to the content-type headers on top of their Turtle, N-Triples, TRiG or N-Quads responses, such as `Content-Type: text/turtle;profile="https://w3id.org/tree/profile`.
-
-For the highest performance, pick `Content-Type: application/n-quads;profile="https://w3id.org/tree/profile"`.
+ 1. The server add `;profile="https://w3id.org/tree/profile"` to the content-type headers on top of their [[!turtle]],  [[!n-quads]], [[!turtle]] or [[!TRiG]] responses, such as `Content-Type: text/turtle;profile="https://w3id.org/tree/profile`.
+ 2. The server uses for their node links a `.tree` prefix in the suffix of the file format. E.g., `https://example.org/file.tree.nq`.
 
 # An example # {#example} 
 
