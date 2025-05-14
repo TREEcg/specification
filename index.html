@@ -8,7 +8,7 @@
   <meta content="Bikeshed version b25686b9f, updated Fri Mar 14 14:15:20 2025 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="1d133f54452cfa696c637a22a6507e0b0a205399" name="revision">
+  <meta content="85785a1b8560877ffd141bde0836b79dacef0868" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -534,7 +534,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-04-12">12 April 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-05-14">14 May 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -775,6 +775,7 @@ This report also explains how clients MAY implement support for extracting conte
    <p>Depending on the goals of the client, it MAY implement the member extraction algorithm to fetch all triples about the entity as intended by the server.
 The method used within TREE is combination of Concise Bounded Descriptions <a data-link-type="biblio" href="#biblio-cbd" title="CBD - Concise Bounded Description">[CBD]</a>, named graphs and the topology of a shape (deducted from the <code>tree:shape</code>).
 The full algorithm is specified in the <a href="https://w3id.org/tree/specification/shape-topologies">shape topologies</a> report.</p>
+   <p>On top of the Member Extraction Algorithm, a client MAY implement the <a href="https://w3id.org/tree/specification/profile">Profile Algorithm</a>.</p>
    <h2 class="heading settled" data-level="5" id="traversing"><span class="secno">5. </span><span class="content">Traversing the search tree</span><a class="self-link" href="#traversing"></a></h2>
    <p>After dereferencing a <code>tree:Node</code>, a client MUST extract all (zero or more) <code>tree:Relation</code> descriptions from the page.
 This can be done by searching for <code>&lt;> tree:relation ?R</code> triples.</p>
