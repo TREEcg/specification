@@ -10,14 +10,14 @@ Mailing List: public-treecg@w3.org
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor: Pieter Colpaert, https://pietercolpaert.be
 Abstract:
-    This specification defines a profile to allow clients to parse in a streaming fashion and extract TREE members as a replacement of the more computationally intensive Member Extraction Algorithm.
+    This specification defines a profile to allow clients to parse in a streaming fashion and extract TREE members, complementing the more computationally intensive Member Extraction Algorithm in scenarios where throughput is a concern.
 </pre>
 
 
 # Introduction # {#introduction}
 
 This specification introduces [profiles](https://profilenegotiation.github.io/I-D-Accept--Schema/I-D-accept-schema) for serializations such as n-triples, turtle and TRiG to first contain a group for the hypermedia, and then contain groups for the members.
-The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up parsing of individual members and process them in a streaming fashion.
+The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up extracting members and process them in a streaming fashion.
 
 The TREE profile promises to a TREE client that:
  * All triples related to the hypermedia are going to be grouped together at the beginning of the document.
