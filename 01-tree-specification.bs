@@ -237,7 +237,7 @@ Note: It is highly recommended that server developers and data producers provide
 
 ## Comparing geospatial features ## {#geospatial}
 
-The `tree:GeospatiallyContainsRelation` is a relation following the definition of [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family)
+The `tree:GeospatiallyContainsRelation` is a relation following the definition of [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family).
 The client MUST consider the relation when it overlaps with the region of interest defined by the `tree:value` clause.
 
 When using `tree:GeospatiallyContainsRelation`, the `tree:path` MUST refer to a literal containing a WKT string, such as `geosparql:asWKT`.
