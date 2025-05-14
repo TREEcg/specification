@@ -18,10 +18,7 @@ Abstract:
 
 This specification introduces [profiles](https://profilenegotiation.github.io/I-D-Accept--Schema/I-D-accept-schema) for serializations such as n-triples, turtle and TRiG to first contain a group for the hypermedia, and then contain groups for the members.
 The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up extracting members and process them in a streaming fashion.
-
-The TREE profile promises to a TREE client that:
- * All triples related to the hypermedia are going to be grouped together at the beginning of the document.
- * Every subsequent group is going to contain all quads of a specific member, starting with the `tree:member` triple, and ending with an end of file or another `tree:member` triple, starting a new member.
+The TREE profile does this by promising to a TREE client that the triples about the members are going to be bundled together.
 
 # Discovering the profile through the content-type header # {#profile} 
 
@@ -71,6 +68,10 @@ When the `content-type` response header indicates the TREE profile as specified 
 
 The client in this case MUST use a parser that retains triple order as in the original document.
 
-The quads parsed until the first `tree:member` triple will contain the hypermedia quads.
+When the profile is set (see [](#profile), the client MAY implement the profile algorithm. In this case, a client MUST assume the document starts with hypermedia. 
+It then follows three simple rules:
+ 1. From the moment the `tree:member`property is used, a new bundle of member quads will start.
+ 2. From the moment the base IRI (`<>`) is used in the subject position, or when a `tree:view` property is used, a new block of hypermedia starts.
+ 3. When end of file is encountered, the currently active block is closed.
 
-Every time a `tree:member` triple is encountered, the subsequent quads until the next `tree:member` triple or the end of the file (EOF) are part of that member.
+Each member SHOULD be emitted from the moment it has been extracted. The client MUST wait for the end of the file before emitting the hypermedia.
