@@ -67,7 +67,7 @@ ex:Subject2 a ex:Subject ;
 
 The client in this case MUST use a parser that retains triple order as in the original document.
 
-When the profile is set (see [](#profile), the client MAY implement the profile algorithm and not perform the steps indicated by the Member Extraction Algorithm. In this case, a client MUST assume the document starts with a hypermedia block. 
+When the profile is set (see [](#profile)), the client MAY implement the profile algorithm and not perform the steps indicated by the Member Extraction Algorithm. In this case, a client MUST assume the document starts with a hypermedia block. 
 It then follows three simple rules:
  1. From the moment the `tree:member` property is used, a new bundle of member quads will start.
  2. From the moment the base IRI (`<>`) is used in the subject position, or when a `tree:view` property is used, a new block of hypermedia starts.
