@@ -231,7 +231,7 @@ Following the definitions of the SPARQL functions, **string comparisons** MUST b
 
 This also means **named nodes** MUST be compared as defined in the [ORDER BY section of the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
 
-Additionally to the SPARQL functions, when **comparing `xsd:dateTime` literals without a timezone**, a client MUST interpret the `xsd:dateTime` literal as a period of time, with a min inclusive bound of of `-14:00` and max exclusive bound of `+14:00`.
+Additionally to the SPARQL functions, when **comparing `xsd:dateTime` literals without a timezone**, a client MUST interpret the `xsd:dateTime` literal as a period of time, with a min inclusive bound of `-14:00` and max exclusive bound of `+14:00`.
 
 Note: It is highly recommended that server developers and data producers provide a timezone in their `xsd:dateTime` literals for time comparison. 
 
