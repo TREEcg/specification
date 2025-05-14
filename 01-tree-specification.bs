@@ -148,6 +148,8 @@ Depending on the goals of the client, it MAY implement the member extraction alg
 The method used within TREE is combination of Concise Bounded Descriptions [[!CBD]], named graphs and the topology of a shape (deducted from the `tree:shape`).
 The full algorithm is specified in the [shape topologies](https://w3id.org/tree/specification/shape-topologies) report.
 
+On top of the Member Extraction Algorithm, a client MAY implement the [Profile Algorithm](https://w3id.org/tree/specification/profile).
+
 # Traversing the search tree # {#traversing}
 
 After dereferencing a `tree:Node`, a client MUST extract all (zero or more) `tree:Relation` descriptions from the page.
