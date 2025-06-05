@@ -22,7 +22,7 @@
 
 tree: a foaf:Document ;
       foaf:primaryTopic tree:Ontology;
-      cc:license <http://creativecommons.org/licenses/by/4.0/>;
+      dct:license <http://creativecommons.org/licenses/by/4.0/>;
       dct:creator <https://pietercolpaert.be/#me> .
 
 <https://pietercolpaert.be/#me> foaf:name "Pieter Colpaert"; foaf:mbox "pieter.colpaert@ugent.be".
