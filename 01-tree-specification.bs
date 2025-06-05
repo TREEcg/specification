@@ -183,7 +183,7 @@ Issue: In step 5: should we perform the algorithm again on the quads in the resp
 
 Note: As the Shape Topologies algorithm requires more advanced processing, we discourage publishers from relying on it as it will have a negative effect on client performance. On top of that, while the TREE MEA is straightforward to implement, the generalized MEA is more tedious for developers, which results in a large support for the TREE MEA among client tooling, while the Shape Topologies algorithm may get omitted. It does however has functionalities that are not supported by the more simple TREE MEA.
 
-When on this `tree:Node`, `tree:shapeTopology` has been set to true, the algorithm in the [Shape Topology report](https://w3id.org/tree/specification/shape-topologies) MUST be used to extract the set of quads as intended by the server using the `tree:shape`.
+When on the root `tree:Node`, `tree:shapeTopology` has been set to true, the algorithm in the [Shape Topology report](https://w3id.org/tree/specification/shape-topologies) MUST be used to extract the set of quads as intended by the server using the `tree:shape`.
 This is an extension of the TREE Member Extraction Algorithm in which a SHACL shape can indicate:
  1. Partially out of band members
  2. Based on the shape, include or exclude a more specific set of quads. It does however not perform full validation of the members.
