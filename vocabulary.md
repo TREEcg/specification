@@ -123,6 +123,13 @@ Links to the collection’s items that are the <code>sh:targetNode</code>s of th
 
 **Domain**: <code>tree:Collection</code>
 
+### tree:shapeTopology ### {#shapeTopology}
+
+A boolean: if set to true, the client MUST apply the shape topology algorithm for extracting the members.
+
+**Domain**: the root <code>tree:Node</code>
+**Range**: `xsd:boolean`
+
 ### tree:import ### {#import}
 
 Imports a document containing triples needed for complying to the SHACL shape, or for evaluating the relation.
