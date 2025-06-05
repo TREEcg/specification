@@ -190,6 +190,10 @@ This is an extension of the TREE Member Extraction Algorithm in which a SHACL sh
 
 A client MAY also provide a configuration flag to still extract it using the Shape Topology algorithm in case the `tree:shapeTopology` property has not been set.
 
+## The TREE profile algorithm ## {##profile-based-algorithm}
+
+The profile algorithm, available in [a separate report](https://w3id.org/tree/specification/profile), is a syntactic trick that MAY be implemented by a client to minimize the overhead of the MEA.
+
 # Traversing the search tree # {#traversing}
 
 After dereferencing a `tree:Node`, a client MUST extract all (zero or more) `tree:Relation` descriptions from the page.
