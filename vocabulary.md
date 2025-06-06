@@ -28,7 +28,7 @@ An entity that describes a relation between two <code>tree:Nodes</code>.
 
 The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values.
 These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>).
-<code>tree:Relation</code>  can be express in term of[SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions):
+<code>tree:Relation</code>  can be express in term of [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions):
  - String, Date or Number comparison:
      - <code>tree:PrefixRelation</code> — All elements in the related node have this prefix.
         MUST conform to the [STRSTARTS](https://www.w3.org/TR/sparql11-query/#func-strstarts) SPARQL function.
