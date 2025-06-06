@@ -194,6 +194,8 @@ A client MAY also provide a configuration flag to still extract it using the Sha
 
 The profile algorithm, available in [a separate report](https://w3id.org/tree/specification/profile), is a syntactic trick that MAY be implemented by a client to minimize the overhead of the MEA.
 
+On top of the Member Extraction Algorithm, a client MAY implement the [Profile Algorithm](https://w3id.org/tree/specification/profile).
+
 # Traversing the search tree # {#traversing}
 
 After dereferencing a `tree:Node`, a client MUST extract all (zero or more) `tree:Relation` descriptions from the page.

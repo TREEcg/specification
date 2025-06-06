@@ -1,0 +1,76 @@
+<pre class='metadata'>
+Title: TREE Profile specification
+Shortname: TREEProfile
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+URL: https://w3id.org/tree/specification/profile
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor: Pieter Colpaert, https://pietercolpaert.be
+Abstract:
+    This specification defines a profile to allow clients to parse in a streaming fashion and extract TREE members, complementing the more computationally intensive Member Extraction Algorithm in scenarios where throughput is a concern.
+</pre>
+
+
+# Introduction # {#introduction}
+
+This specification introduces [profiles](https://profilenegotiation.github.io/I-D-Accept--Schema/I-D-accept-schema) for serializations such as [[!n-triples]], [[!n-quads]], [[!turtle]] and [[!TRiG]] to first contain a group for the hypermedia, and then contain groups for the members.
+The profile is optional to implement, yet comes with the benefit that it allows TREE clients to speed up extracting members and process them in a streaming fashion.
+The TREE profile does this by promising to a TREE client that the triples about the members are going to be bundled together.
+
+# Discovering the profile through the content-type header # {#profile}
+
+There are two ways in which a client MAY discover the fact that the TREE profile has been used.
+
+ 1. The server add `;profile="https://w3id.org/tree/profile"` to the content-type headers on top of their [[!turtle]],  [[!n-quads]], [[!turtle]] or [[!TRiG]] responses, such as `Content-Type: text/turtle;profile="https://w3id.org/tree/profile`.
+ 2. The server uses for their node links a `.tree` prefix in the suffix of the file format. E.g., `https://example.org/file.tree.nq`.
+
+# An example # {#example} 
+
+```turtle
+@prefix ex: <https://example.org/> .
+@prefix tree: <https://w3id.org/tree/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+# The document starts with hypermedia controls
+<> tree:relation [
+    a tree:GreaterThanOrEqualToRelation ;
+    tree:node <?greaterThanOrEqualTo=10>;
+    tree:value 10;
+    tree:remainingItems 10 ;
+    tree:path ex:value
+] .
+
+ex:Collection1 a tree:Collection;
+            tree:view <> ;
+            rdfs:label "A Collection of 2 subjects"@en;
+# `tree:member` indicates the hypermedia group is done, and the first member begins
+            tree:member ex:Subject1 .
+
+ex:Subject1 a ex:Subject ;
+            rdfs:label "Subject 1" ;
+			ex:value 2 ;
+            ex:linkedTo [ a ex:Subject ] .
+
+# Start of the second member
+ex:Collection1 tree:member ex:Subject2 .
+ex:Subject2 a ex:Subject ;
+            rdfs:label "Subject 2" ;
+			ex:value 9 ;
+            ex:linkedTo ex:Subject1 .
+# EOF flags the end of the second member
+```
+
+# Implementing a TREE profile client # {#implementing} 
+
+The client in this case MUST use a parser that retains triple order as in the original document.
+
+When the profile is set (see [](#profile)), the client MAY implement the profile algorithm and not perform the steps indicated by the Member Extraction Algorithm. In this case, a client MUST assume the document starts with a hypermedia block. 
+It then follows three simple rules:
+ 1. From the moment the `tree:member` property is used, a new bundle of member quads will start.
+ 2. From the moment the base IRI (`<>`) is used in the subject position, or when a `tree:view` property is used, a new block of hypermedia starts.
+ 3. When end of file is encountered, the currently active block is closed.
+
+Each member SHOULD be emitted from the moment it has been extracted. The client MUST wait for the end of the file before emitting the hypermedia.
