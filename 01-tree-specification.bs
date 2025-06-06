@@ -154,7 +154,7 @@ Additionally, there is also the TREE profile algorithm that provides a syntactic
 
 Note: The MEA is indeed not mandatory for all TREE clients. For example, a client interested in autocompletion might be interested in only extracting the text literals. A client focused on SPARQL querying will know what quads it wants to select. However, a client that is built to domain agnostically do an operation on top of the TREE collection and pass it on to a next step, might want to understand the full package of quads that was intended by the data provider.
 
-## The TREE Member Extraction Algorithm ## {##tree-member-extraction-algorithm}
+## The TREE Member Extraction Algorithm ## {#tree-member-extraction-algorithm}
 
 The TREE MEA is a combination of subject-based star patterns (cfr. [[!CBD]]) and named graphs.
 First we introduce a couple of symbols:
@@ -179,7 +179,7 @@ In the case it is an IRI or a blank node, the client MUST look for further tripl
 
 Issue: In step 5: should we perform the algorithm again on the quads in the response, or should we just add all quads found in the response and thus use the triples in the file as a package?
 
-## The Generalized Member Extraction Algorithm ## {##generalized-member-extraction-algorithm}
+## The Generalized Member Extraction Algorithm ## {#generalized-member-extraction-algorithm}
 
 Note: As the Shape Topologies algorithm requires more advanced processing, we discourage publishers from relying on it as it will have a negative effect on client performance. On top of that, while the TREE MEA is straightforward to implement, the generalized MEA is more tedious for developers, which results in a large support for the TREE MEA among client tooling, while the Shape Topologies algorithm may get omitted. It does however has functionalities that are not supported by the more simple TREE MEA.
 
