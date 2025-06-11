@@ -117,13 +117,15 @@ In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is 
 
 # Initialization # {#init}
 
-The main TREE specification specifies a TREE-based client MUST be initiated either by using the IRI of the `tree:Collection`, either by using the IRI of the root `tree:Node`.
-The client MUST start by derefencing the IRI resulting in a set of [[!rdf-concepts]] triples or quads.:
+The main TREE specification specifies a TREE-based client MUST be initiated either by using the IRI of the `tree:Collection`, or by using the IRI of the root `tree:Node`.
+The client MUST start by dereferencing the IRI resulting in a set of [[!rdf-concepts]] triples or quads:
 
  1. Detecting and handling a `tree:Collection`: If exactly one `<collectionIRI> tree:view ?o` triple pattern can be matched, its object identifies the root `tree:Node`. If the current page IRI is not equal to that node’s IRI, the client MUST dereference the IRI of the root node and restart the initialization process from there. This behavior ensures backward compatibility and aligns with legacy practices. More advanced discovery mechanisms (e.g., supporting multiple views or selection logic) are out of scope for this specification and will be addressed by the report on Discovery and Context Information.
  2. Detecting and handling a root `tree:Node`: In this case, the final IRI after all HTTP redirects MUST correspond to the object of a `tree:view` triple linking it to a `tree:Collection`. This allows the client to verify that it has reached a valid entry point into the TREE structure.
 
-Once the root `tree:Node` is retrieved and the `tree:Collection` is known, the client can begin extracting members, traversing the relations, or using search forms.
+Once the root `tree:Node` is retrieved and the `tree:Collection` is known, the client can proceed to extracting members, traversing the relations, or using search forms.
+
+Note: The report on Discovery and Context Information is currently a work in progress for which [an on-going draft is available](https://w3id.org/tree/specification/discovery).
 
 # The member extraction algorithm # {#member-extraction-algorithm}
 
