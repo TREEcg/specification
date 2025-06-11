@@ -150,7 +150,7 @@ This way, it provides a way for a data provider to be clear about their intentio
 Depending on its goals, a client MAY implement this algorithm to extract a set of quads that were intended as the member quads by the data provider.
 On the one hand, there is the TREE specific MEA that supports subject-based star patterns, named graphs and doing an extra HTTP request for out-of-band members.
 On the other hand, there is the generalized MEA that extends the TREE MEA with support for including more complex patterns, called shape topologies, and for partially out-of-band members.
-Additionally, there is also the TREE profile algorithm that provides a syntactic trick to get to lowest overhead possible for extracting members.
+Additionally, there is also the TREE profile algorithm that provides a syntactic trick to get the lowest overhead possible for extracting members.
 
 Note: The MEA is indeed not mandatory for all TREE clients. For example, a client interested in autocompletion might be interested in only extracting the text literals. A client focused on SPARQL querying will know what quads it wants to select. However, a client that is built to domain agnostically do an operation on top of the TREE collection and pass it on to a next step, might want to understand the full package of quads that was intended by the data provider.
 
