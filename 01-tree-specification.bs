@@ -111,7 +111,7 @@ A `tree:Node` is part of a search tree, and apart from the root node, it has exa
 
 A `tree:search` form is an IRI template, that when filled out with the right parameters becomes a `tree:Node` IRI, or when dereferenced will redirect to a `tree:Node` from which all members in the collection that adhere to the described comparator can be found.
 
-A search tree is the -- in this document -- implicit concept of a set of interlinked `tree:Node`s publishing a `tree:Collection`.
+A search tree is the–in this document–implicit concept of a set of interlinked `tree:Node`s publishing a `tree:Collection`.
 It will adhere to a certain growth or tree balancing strategy. 
 In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is possible in LDES using a retention policy).
 
@@ -213,28 +213,25 @@ The resulting values of the evaluation of the `tree:path`, are the values that m
 When multiple results from the path are found, they need to be interpreted as a logical OR: at least one of these values will fulfill the comparator.
 
 A client, in case it wants to process relations that use the `tree:path` property, MUST implement a matching algorithm to check whether the relation is relevant.
-I.e., a `tree:path` on `(rdfs:label [sh:alternativePath rdfs:comment ] )` will be useful when the client is tasked to filter on `rdfs:comment`.
+E.g., a `tree:path` on `(rdfs:label [sh:alternativePath rdfs:comment ] )` will be useful when the client is tasked to filter on `rdfs:comment`.
 
 Note: A server is allowed to refer the `tree:path` to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.
 
-## Comparing strings, named node and time literals ## {#sparqlComparators}
+## Comparing strings, IRIs and time literals ## {#sparqlComparators}
 
 When using comparator relations such as `tree:GreaterThanRelation` and `tree:PrefixRelation` the values MUST be compared as defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions).
-See the [`tree:Relation`](#Relation) section.
-See the sections below for recommendations and extensions to SPARQL behavior.  
 
-### Recommendation for Time Literal Definition ### {#time}  
+See the [`tree:Relation`](#Relation) definitions in the vocabulary for the specific references to those functions. The TREE specification enforces stricter requirements than SPARQL.
 
-It is highly recommended that server developers provide a timezone in `tree:value`. 
+ - **String comparisons** MUST be performed using Unicode canonical equivalence. Ordering MUST follow case-sensitive Unicode code point order.
+ - **IRI comparisons** MUST be treated as simple literal comparisons, consistent with the rules defined for the [ORDER BY operation in the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
+ - **`xsd:dateTime` literals without a timezone comparisons** MUST be performed by interpreting the `xsd:dateTime` literal as a period of time, with a min inclusive bound of `-14:00` and max exclusive bound of `+14:00`.
 
-### String Comparison Extension ### {#strings}  
-
-String comparisons MUST be performed using Unicode canonical equivalence.  
-
+Note: It is highly recommended that server developers and data producers provide a timezone in their `xsd:dateTime` literals for time comparison.
 
 ## Comparing geospatial features ## {#geospatial}
 
-The `tree:GeospatiallyContainsRelation` is a relation following the defintion of [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family)
+The `tree:GeospatiallyContainsRelation` is a relation following the definition of [geof:sfContains](https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family).
 The client MUST consider the relation when it overlaps with the region of interest defined by the `tree:value` clause.
 
 When using `tree:GeospatiallyContainsRelation`, the `tree:path` MUST refer to a literal containing a WKT string, such as `geosparql:asWKT`.
