@@ -99,8 +99,7 @@ This is illustrated in the next example:
 
 # Definitions # {#formalizations}
 
-A `tree:Collection` is a set of `tree:Member`s.
-The set of members MAY be empty.
+A `tree:Collection` is a set of zero or more `tree:Member`s.
 
 A `tree:Member` is a set of (at least one) quad(s) defined by the member extraction algorithm (see further).
 
@@ -118,21 +117,15 @@ In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is 
 
 # Initialization # {#init}
 
-A client SHOULD be initiated using a URL.
-The client MUST dereference the URL, which will result in a set of [[!rdf-concepts]] triples or quads.
-When the URL after all redirects, is used in a triple `?c tree:view <> .`, a client MUST assume the URL after redirects is an identifier of the intended root node of the collection in `?c`.
+A TREE-based client MUST be initiated either by using the IRI of the `tree:Collection`, or by using a URL that is the IRI of the root `tree:Node` or will redirect to it.
+The client MUST start by dereferencing the IRI resulting in a set of [[!rdf-concepts]] triples or quads:
 
-Note: Dereferencing in this specification also means parsing the RDF triples or quads from the HTTP response. TREE does not limit the content-types that can be used to represent RDF triples. Client developers should do a best-effort for their community.
+ 1. Detecting and handling a `tree:Collection`: If exactly one `<collectionIRI> tree:view ?o` triple pattern can be matched, its object identifies the root `tree:Node`. If the current page IRI is not equal to that node’s IRI, the client MUST dereference the IRI of the root node and restart the initialization process from there. This behavior ensures backward compatibility and aligns with legacy practices. More advanced discovery mechanisms (e.g., supporting multiple views or selection logic) are out of scope for this specification and will be addressed by the report on Discovery and Context Information.
+ 2. Detecting and handling a root `tree:Node`: In this case, the final IRI after all HTTP redirects MUST correspond to the object of a `tree:view` triple linking it to a `tree:Collection`. This allows the client to verify that it has reached a valid entry point into the TREE structure.
 
-If there is no such triple, then the client MUST check whether the URL before redirects (`E`) has been used in a pattern `<E> tree:view ?N.` where there’s exactly one `?N`, then the algorithm MUST return `?N` as the root node and `E` as the collection.
+Once the root `tree:Node` is retrieved and the `tree:Collection` is known, the client can proceed to extracting members, traversing the relations, or using search forms.
 
-The client then MUST dereference the identified root node (if it did not do that already) and merge those quads with the already found quads.
-It now MUST look for a potential search forms that MAY be linked, either i) on top of the root node, or ii) on top of the entity linked through `tree:viewDescription`, using `tree:search`.
-
-In case it is not done using an unambiguous URL, clients MAY implement the report on [Discovery and Context Information (work in progress)](https://w3id.org/tree/specification/discovery).
-This report also explains how clients MAY implement support for extracting context information such as provenance, contact points, etc.
-
-Note: Having an identifier for the collection has become mandatory: without it you can otherwise not define completeness.
+Note: The report on Discovery and Context Information is currently a work in progress for which [an on-going draft is available](https://w3id.org/tree/specification/discovery).
 
 # The member extraction algorithm # {#member-extraction-algorithm}
 
