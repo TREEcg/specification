@@ -1,28 +1,18 @@
 @prefix tree: <https://w3id.org/tree#> .
 @prefix tiles: <https://w3id.org/tree#> .
-@prefix cc: <http://creativecommons.org/ns#> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix gsp: <http://www.opengis.net/ont/geosparql#> .
-@prefix locn: <http://www.w3.org/ns/locn#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix voaf: <http://purl.org/vocommons/voaf#> .
-@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
-@prefix wdrs: <http://www.w3.org/2007/05/powder-s#> .
-@prefix xhtm: <http://www.w3.org/1999/xhtml> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix hydra: <http://www.w3.org/ns/hydra/core#>.
 @prefix dcat: <http://www.w3.org/ns/dcat#>.
 
 tree: a foaf:Document ;
       foaf:primaryTopic tree:Ontology;
-      cc:license <http://creativecommons.org/licenses/by/4.0/>;
+      dct:license <http://creativecommons.org/licenses/by/4.0/>;
       dct:creator <https://pietercolpaert.be/#me> .
 
 <https://pietercolpaert.be/#me> foaf:name "Pieter Colpaert"; foaf:mbox "pieter.colpaert@ugent.be".
@@ -184,6 +174,12 @@ tree:conditionalImport a rdf:Property ;
             rdfs:label "Import conditionally"@en ;
             rdfs:comment "Imports a file in order being able to evaluate a tree:path correctly"@en ;
             rdfs:range tree:ConditionalImport .
+
+tree:shapeTopology a rdf:Property ;
+            rdfs:label "Shape Topology"@en;
+            rdfs:comment "A boolean to trigger a client to use the Shape Toplogy algorithm instead of the TREE Member Extraction Algorithm for extracting the member quads."@en;
+            rdfs:range xsd:boolean ;
+            rdfs:domain tree:Node .
      
 ###### Properties for the Tiles ontology
 ###### Mind that tiles prefix is just a synonym for the tree prefix
