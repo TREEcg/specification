@@ -112,7 +112,7 @@ A `tree:Node` is part of a search tree, and apart from the root node, it has exa
 
 A `tree:search` form is an IRI template, that when filled out with the right parameters becomes a `tree:Node` IRI, or when dereferenced will redirect to a `tree:Node` from which all members in the collection that adhere to the described comparator can be found.
 
-A search tree is the -- in this document -- implicit concept of a set of interlinked `tree:Node`s publishing a `tree:Collection`.
+A search tree is the–in this document–implicit concept of a set of interlinked `tree:Node`s publishing a `tree:Collection`.
 It will adhere to a certain growth or tree balancing strategy. 
 In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is possible in LDES using a retention policy).
 
