@@ -225,15 +225,14 @@ Note: A server is allowed to refer the `tree:path` to a property that is not mat
 ## Comparing strings, named nodes and time literals ## {#sparqlComparators}
 
 When using comparator relations such as `tree:GreaterThanRelation` and `tree:PrefixRelation` the values MUST be compared as defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions).
-See the [`tree:Relation`](#Relation) definitions in the vocabulary for the specific references to those functions.
 
-Following the definitions of the SPARQL functions, **string comparisons** MUST be performed using unicode canonical equivalence, and ordering MUST be done using case sensitive unicode ordering.
+See the [`tree:Relation`](#Relation) definitions in the vocabulary for the specific references to those functions. The TREE specification enforces stricter requirements than SPARQL.
 
-This also means **named nodes** MUST be compared as defined in the [ORDER BY section of the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
+ - **String comparisons** MUST be performed using Unicode canonical equivalence. Ordering MUST follow case-sensitive Unicode code point order.
+ - **IRI comparisons** MUST be treated as simple literal comparisons, consistent with the rules defined for the [ORDER BY operation in the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
+ - **`xsd:dateTime` literals without a timezone comparisons** MUST be performed by interpreting the `xsd:dateTime` literal as a period of time, with a min inclusive bound of `-14:00` and max exclusive bound of `+14:00`.
 
-Additionally to the SPARQL functions, when **comparing `xsd:dateTime` literals without a timezone**, a client MUST interpret the `xsd:dateTime` literal as a period of time, with a min inclusive bound of `-14:00` and max exclusive bound of `+14:00`.
-
-Note: It is highly recommended that server developers and data producers provide a timezone in their `xsd:dateTime` literals for time comparison. 
+Note: It is highly recommended that server developers and data producers provide a timezone in their `xsd:dateTime` literals for time comparison.
 
 ## Comparing geospatial features ## {#geospatial}
 
