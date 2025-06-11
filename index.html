@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 9a7a6709a, updated Tue May 27 16:45:34 2025 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="6f9e494ae930b01eaa92f6f8f7588921d73e004d" name="revision">
+  <meta content="91f40337e716db02829598a2117ec478afcda40f" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -577,12 +577,7 @@ By interpreting such qualified relations and search forms, TREE enables clients 
     <li>
      <a href="#relationsubclasses"><span class="secno">6</span> <span class="content">Pruning branches</span></a>
      <ol class="toc">
-      <li>
-       <a href="#sparqlComparators"><span class="secno">6.1</span> <span class="content">Comparing strings, named node and time literals</span></a>
-       <ol class="toc">
-        <li><a href="#time"><span class="secno">6.1.1</span> <span class="content">Recommendation for Time Literal Definition</span></a>
-        <li><a href="#strings"><span class="secno">6.1.2</span> <span class="content">String Comparison Extension</span></a>
-       </ol>
+      <li><a href="#sparqlComparators"><span class="secno">6.1</span> <span class="content">Comparing strings, IRIs and time literals</span></a>
       <li><a href="#geospatial"><span class="secno">6.2</span> <span class="content">Comparing geospatial features</span></a>
      </ol>
     <li>
@@ -739,7 +734,7 @@ This is illustrated in the next example:</p>
    <p>A <code>tree:Relation</code> is a function denoting a conditional link to another <code>tree:Node</code>.</p>
    <p>A <code>tree:Node</code> is part of a search tree, and apart from the root node, it has exactly one other <code>tree:Node</code> of the search tree linking into it through one or more relations.</p>
    <p>A <code>tree:search</code> form is an IRI template, that when filled out with the right parameters becomes a <code>tree:Node</code> IRI, or when dereferenced will redirect to a <code>tree:Node</code> from which all members in the collection that adhere to the described comparator can be found.</p>
-   <p>A search tree is the -- in this document -- implicit concept of a set of interlinked <code>tree:Node</code>s publishing a <code>tree:Collection</code>.
+   <p>A search tree is the–in this document–implicit concept of a set of interlinked <code>tree:Node</code>s publishing a <code>tree:Collection</code>.
 It will adhere to a certain growth or tree balancing strategy. 
 In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is possible in LDES using a retention policy).</p>
    <h2 class="heading settled" data-level="3" id="init"><span class="secno">3. </span><span class="content">Initialization</span><a class="self-link" href="#init"></a></h2>
@@ -836,18 +831,23 @@ All possible combinations of e.g., <code>sh:alternativePath</code> or <code>sh:i
 The resulting values of the evaluation of the <code>tree:path</code>, are the values that must be compared to the <code>tree:value</code> object.
 When multiple results from the path are found, they need to be interpreted as a logical OR: at least one of these values will fulfill the comparator.</p>
    <p>A client, in case it wants to process relations that use the <code>tree:path</code> property, MUST implement a matching algorithm to check whether the relation is relevant.
-I.e., a <code>tree:path</code> on <code>(rdfs:label [sh:alternativePath rdfs:comment ] )</code> will be useful when the client is tasked to filter on <code>rdfs:comment</code>.</p>
+E.g., a <code>tree:path</code> on <code>(rdfs:label [sh:alternativePath rdfs:comment ] )</code> will be useful when the client is tasked to filter on <code>rdfs:comment</code>.</p>
    <p class="note" role="note"><span class="marker">Note:</span> A server is allowed to refer the <code>tree:path</code> to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.</p>
-   <h3 class="heading settled" data-level="6.1" id="sparqlComparators"><span class="secno">6.1. </span><span class="content">Comparing strings, named node and time literals</span><a class="self-link" href="#sparqlComparators"></a></h3>
-   <p>When using comparator relations such as <code>tree:GreaterThanRelation</code> and <code>tree:PrefixRelation</code> the values MUST be compared as defined in the <a href="https://www.w3.org/TR/sparql11-query/#expressions">SPARQL algebra functions</a>.
-See the <a href="#Relation"><code>tree:Relation</code></a> section.
-See the sections below for recommendations and extensions to SPARQL behavior.</p>
-   <h4 class="heading settled" data-level="6.1.1" id="time"><span class="secno">6.1.1. </span><span class="content">Recommendation for Time Literal Definition</span><a class="self-link" href="#time"></a></h4>
-   <p>It is highly recommended that server developers provide a timezone in <code>tree:value</code>.</p>
-   <h4 class="heading settled" data-level="6.1.2" id="strings"><span class="secno">6.1.2. </span><span class="content">String Comparison Extension</span><a class="self-link" href="#strings"></a></h4>
-   <p>String comparisons MUST be performed using Unicode canonical equivalence.</p>
+   <h3 class="heading settled" data-level="6.1" id="sparqlComparators"><span class="secno">6.1. </span><span class="content">Comparing strings, IRIs and time literals</span><a class="self-link" href="#sparqlComparators"></a></h3>
+   <p>When using comparator relations such as <code>tree:GreaterThanRelation</code> and <code>tree:PrefixRelation</code> the values MUST be compared as defined in the <a href="https://www.w3.org/TR/sparql11-query/#expressions">SPARQL algebra functions</a>.</p>
+   <p>See the <a href="#Relation"><code>tree:Relation</code></a> definitions in the vocabulary for the specific references to those functions. The TREE specification enforces stricter requirements than SPARQL.</p>
+   <ul>
+    <li data-md>
+     <p><strong>String comparisons</strong> MUST be performed using Unicode canonical equivalence. Ordering MUST follow case-sensitive Unicode code point order.</p>
+    <li data-md>
+     <p><strong>IRI comparisons</strong> MUST be treated as simple literal comparisons, consistent with the rules defined for the <a href="https://www.w3.org/TR/sparql11-query/#modOrderBy">ORDER BY operation in the SPARQL specification</a>.</p>
+    <li data-md>
+     <p>**<code>xsd:dateTime</code> literals without a timezone comparisons** MUST be performed by interpreting the <code>xsd:dateTime</code> literal as a period of time, with a min inclusive bound of <code>-14:00</code> and max exclusive bound of <code>+14:00</code>.</p>
+   </ul>
+   <p class="note" role="note"><span class="marker">Note:</span> It is highly recommended that server developers and data producers provide a timezone in their <code>xsd:dateTime</code> literals for time comparison.</p>
    <h3 class="heading settled" data-level="6.2" id="geospatial"><span class="secno">6.2. </span><span class="content">Comparing geospatial features</span><a class="self-link" href="#geospatial"></a></h3>
-   <p>The <code>tree:GeospatiallyContainsRelation</code> is a relation following the defintion of <a href="https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family">geof:sfContains</a> The client MUST consider the relation when it overlaps with the region of interest defined by the <code>tree:value</code> clause.</p>
+   <p>The <code>tree:GeospatiallyContainsRelation</code> is a relation following the definition of <a href="https://docs.ogc.org/is/22-047r1/22-047r1.html#_simple_features_relation_family">geof:sfContains</a>.
+The client MUST consider the relation when it overlaps with the region of interest defined by the <code>tree:value</code> clause.</p>
    <p>When using <code>tree:GeospatiallyContainsRelation</code>, the <code>tree:path</code> MUST refer to a literal containing a WKT string, such as <code>geosparql:asWKT</code>.</p>
    <h2 class="heading settled" data-level="7" id="searching"><span class="secno">7. </span><span class="content">Search forms</span><a class="self-link" href="#searching"></a></h2>
    <p>Searching through a TREE will allow you to immediately jump to the right <code>tree:Node</code> in a subtree.
@@ -937,7 +937,7 @@ A <code>tree:path</code> can indicate the time predicate which is intended.</p>
    <h4 class="heading settled" data-level="8.1.3" id="Relation"><span class="secno">8.1.3. </span><span class="content">tree:Relation</span><a class="self-link" href="#Relation"></a></h4>
    <p>An entity that describes a relation between two <code>tree:Nodes</code>.</p>
    <p>The <code>tree:Relation</code> has specific sub-classes that implement a more specific type between the values.
-These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>). <code>tree:Relation</code> can be express in term of<a href="https://www.w3.org/TR/sparql11-query/#expressions">SPARQL algebra functions</a>:</p>
+These types are described in the ontology (all classes are <code>rdf:subClassOf</code> <code>tree:Relation</code>). <code>tree:Relation</code> can be express in term of <a href="https://www.w3.org/TR/sparql11-query/#expressions">SPARQL algebra functions</a>:</p>
    <ul>
     <li data-md>
      <p>String, Date or Number comparison:</p>
