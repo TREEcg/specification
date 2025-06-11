@@ -5,10 +5,10 @@
   <title>The TREE hypermedia specification</title>
   <meta content="CG-DRAFT" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version b25686b9f, updated Fri Mar 14 14:15:20 2025 -0700" name="generator">
+  <meta content="Bikeshed version 9a7a6709a, updated Tue May 27 16:45:34 2025 -0700" name="generator">
   <link href="https://w3id.org/tree/specification" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="85785a1b8560877ffd141bde0836b79dacef0868" name="revision">
+  <meta content="6f9e494ae930b01eaa92f6f8f7588921d73e004d" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -534,7 +534,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">The TREE hypermedia specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-05-14">14 May 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-06-11">11 June 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -733,8 +733,7 @@ This is illustrated in the next example:</p>
 </pre>
    </div>
    <h2 class="heading settled" data-level="2" id="formalizations"><span class="secno">2. </span><span class="content">Definitions</span><a class="self-link" href="#formalizations"></a></h2>
-   <p>A <code>tree:Collection</code> is a set of <code>tree:Member</code>s.
-The set of members MAY be empty.</p>
+   <p>A <code>tree:Collection</code> is a set of zero or more <code>tree:Member</code>s.</p>
    <p>A <code>tree:Member</code> is a set of (at least one) quad(s) defined by the member extraction algorithm (see further).</p>
    <p>A <code>tree:Node</code> is a dereferenceable resource containing <code>tree:Relation</code>s and a subset of (<code>⊆</code>) members of the collection. In a <code>tree:Node</code>, both the set of <code>tree:Relation</code>s as the subset of members MAY be empty. The same member MAY be contained in multiple nodes.</p>
    <p>A <code>tree:Relation</code> is a function denoting a conditional link to another <code>tree:Node</code>.</p>
@@ -744,16 +743,16 @@ The set of members MAY be empty.</p>
 It will adhere to a certain growth or tree balancing strategy. 
 In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is possible in LDES using a retention policy).</p>
    <h2 class="heading settled" data-level="3" id="init"><span class="secno">3. </span><span class="content">Initialization</span><a class="self-link" href="#init"></a></h2>
-   <p>A client SHOULD be initiated using a URL.
-The client MUST dereference the URL, which will result in a set of <a data-link-type="biblio" href="#biblio-rdf-concepts" title="Resource Description Framework (RDF): Concepts and Abstract Syntax">[rdf-concepts]</a> triples or quads.
-When the URL after all redirects, is used in a triple <code>?c tree:view &lt;> .</code>, a client MUST assume the URL after redirects is an identifier of the intended root node of the collection in <code>?c</code>.</p>
-   <p class="note" role="note"><span class="marker">Note:</span> Dereferencing in this specification also means parsing the RDF triples or quads from the HTTP response. TREE does not limit the content-types that can be used to represent RDF triples. Client developers should do a best-effort for their community.</p>
-   <p>If there is no such triple, then the client MUST check whether the URL before redirects (<code>E</code>) has been used in a pattern <code>&lt;E> tree:view ?N.</code> where there’s exactly one <code>?N</code>, then the algorithm MUST return <code>?N</code> as the root node and <code>E</code> as the collection.</p>
-   <p>The client then MUST dereference the identified root node (if it did not do that already) and merge those quads with the already found quads.
-It now MUST look for a potential search forms that MAY be linked, either i) on top of the root node, or ii) on top of the entity linked through <code>tree:viewDescription</code>, using <code>tree:search</code>.</p>
-   <p>In case it is not done using an unambiguous URL, clients MAY implement the report on <a href="https://w3id.org/tree/specification/discovery">Discovery and Context Information (work in progress)</a>.
-This report also explains how clients MAY implement support for extracting context information such as provenance, contact points, etc.</p>
-   <p class="note" role="note"><span class="marker">Note:</span> Having an identifier for the collection has become mandatory: without it you can otherwise not define completeness.</p>
+   <p>A TREE-based client MUST be initiated either by using the IRI of the <code>tree:Collection</code>, or by using a URL that is the IRI of the root <code>tree:Node</code> or will redirect to it.
+The client MUST start by dereferencing the IRI resulting in a set of <a data-link-type="biblio" href="#biblio-rdf-concepts" title="Resource Description Framework (RDF): Concepts and Abstract Syntax">[rdf-concepts]</a> triples or quads:</p>
+   <ol>
+    <li data-md>
+     <p>Detecting and handling a <code>tree:Collection</code>: If exactly one <code>&lt;collectionIRI> tree:view ?o</code> triple pattern can be matched, its object identifies the root <code>tree:Node</code>. If the current page IRI is not equal to that node’s IRI, the client MUST dereference the IRI of the root node and restart the initialization process from there. This behavior ensures backward compatibility and aligns with legacy practices. More advanced discovery mechanisms (e.g., supporting multiple views or selection logic) are out of scope for this specification and will be addressed by the report on Discovery and Context Information.</p>
+    <li data-md>
+     <p>Detecting and handling a root <code>tree:Node</code>: In this case, the final IRI after all HTTP redirects MUST correspond to the object of a <code>tree:view</code> triple linking it to a <code>tree:Collection</code>. This allows the client to verify that it has reached a valid entry point into the TREE structure.</p>
+   </ol>
+   <p>Once the root <code>tree:Node</code> is retrieved and the <code>tree:Collection</code> is known, the client can proceed to extracting members, traversing the relations, or using search forms.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> The report on Discovery and Context Information is currently a work in progress for which <a href="https://w3id.org/tree/specification/discovery">an on-going draft is available</a>.</p>
    <h2 class="heading settled" data-level="4" id="member-extraction-algorithm"><span class="secno">4. </span><span class="content">The member extraction algorithm</span><a class="self-link" href="#member-extraction-algorithm"></a></h2>
    <p>The member extraction algorithm allows a data publisher to define their members in different ways:</p>
    <ol>
