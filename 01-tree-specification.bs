@@ -117,7 +117,7 @@ In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is 
 
 # Initialization # {#init}
 
-The main TREE specification specifies a TREE-based client MUST be initiated either by using the IRI of the `tree:Collection`, or by using the IRI of the root `tree:Node`.
+The main TREE specification specifies a TREE-based client MUST be initiated either by using the IRI of the `tree:Collection`, or by using a URL that is or will redirect to the IRI of the root `tree:Node`.
 The client MUST start by dereferencing the IRI resulting in a set of [[!rdf-concepts]] triples or quads:
 
  1. Detecting and handling a `tree:Collection`: If exactly one `<collectionIRI> tree:view ?o` triple pattern can be matched, its object identifies the root `tree:Node`. If the current page IRI is not equal to that node’s IRI, the client MUST dereference the IRI of the root node and restart the initialization process from there. This behavior ensures backward compatibility and aligns with legacy practices. More advanced discovery mechanisms (e.g., supporting multiple views or selection logic) are out of scope for this specification and will be addressed by the report on Discovery and Context Information.
