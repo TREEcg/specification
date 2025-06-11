@@ -222,7 +222,7 @@ E.g., a `tree:path` on `(rdfs:label [sh:alternativePath rdfs:comment ] )` will b
 
 Note: A server is allowed to refer the `tree:path` to a property that is not materialized in the current response. For the client, if it also needs those triples, we assume in this spec that the client has another way of retrieving those, or already retrieved them from another source.
 
-## Comparing strings, named nodes and time literals ## {#sparqlComparators}
+## Comparing strings, IRIs and time literals ## {#sparqlComparators}
 
 When using comparator relations such as `tree:GreaterThanRelation` and `tree:PrefixRelation` the values MUST be compared as defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions).
 
