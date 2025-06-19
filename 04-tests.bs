@@ -60,7 +60,33 @@ Each conformance point is described in detail, including the expected behavior o
 - When there is a `tree:member` in the payload of the current HTTP response, the subject of the `tree:member` must be a `tree:Collection` or a `tree:RootNode` 
 - When there is a `tree:Relation` in the payload of the current HTTP response, the subject of the `tree:Relation` must also point to a `tree:path`
 
-### Initialization ###  {#1.2}
+### Search TREE ###  {#1.2}
+- During the construction of the complete RDF graph of the search tree at any point in the traversal, the inbound link to any tree:Node via a tree:Relation can originate from only one other tree:Node.
+
+```turtle
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix tree: <https://w3id.org/tree#> .
+@prefix ex: <http://example.org/> .
+
+ex:NodeInboundUniquenessShape
+    a sh:NodeShape ;
+    sh:targetClass tree:Node ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Each tree:Node must not be the target of more than one tree:Relation.tree:node link from another node." ;
+        sh:select """
+            SELECT ?this (COUNT(?sourceNode) AS ?inboundCount)
+            WHERE {
+                ?sourceNode tree:relation ?relation .
+                ?relation tree:node ?this .
+                FILTER (?sourceNode != ?this)
+            }
+            GROUP BY ?this
+            HAVING (COUNT(?sourceNode) > 1)
+        """ ;
+    ] .
+   
+````
 ### The member extraction algorithm ### {#1.3}
 ### Traversing the search tree ### {#1.4}
 ### Pruning branches ### {#1.5}
