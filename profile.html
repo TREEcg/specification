@@ -5,10 +5,10 @@
   <title>TREE Profile specification</title>
   <meta content="CG-DRAFT" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version 9a7a6709a, updated Tue May 27 16:45:34 2025 -0700" name="generator">
+  <meta content="Bikeshed version 275834c42, updated Wed Jun 11 14:18:15 2025 -0700" name="generator">
   <link href="https://w3id.org/tree/specification/profile" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="91f40337e716db02829598a2117ec478afcda40f" name="revision">
+  <meta content="83b943a53277ecd36c936c293406bc354419062a" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -532,9 +532,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
  <body class="h-entry">
   <div class="head">
-   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/">
+    <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
+</a>
+</p>
    <h1 class="p-name no-ref" id="title">TREE Profile specification</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2025-06-11">11 June 2025</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types/#CG-DRAFT">Draft Community Group Report</a>,
+    <time class="dt-updated" datetime="2025-06-20">20 June 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -551,7 +555,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2025 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2025 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply.
+</p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -591,7 +596,7 @@ The TREE profile does this by promising to a TREE client that the triples about 
    <p>There are two ways in which a client MAY discover the fact that the TREE profile has been used.</p>
    <ol>
     <li data-md>
-     <p>The server add <code>;profile="https://w3id.org/tree/profile"</code> to the content-type headers on top of their <a data-link-type="biblio" href="#biblio-turtle" title="RDF 1.1 Turtle">[turtle]</a>, <a data-link-type="biblio" href="#biblio-n-quads" title="RDF 1.1 N-Quads">[n-quads]</a>, <a data-link-type="biblio" href="#biblio-turtle" title="RDF 1.1 Turtle">[turtle]</a> or <a data-link-type="biblio" href="#biblio-trig" title="RDF 1.1 TriG">[TRiG]</a> responses, such as <code>Content-Type: text/turtle;profile="https://w3id.org/tree/profile</code>.</p>
+     <p>The server add <code>;profile="https://w3id.org/tree/profile"</code> to the content-type headers on top of their <a data-link-type="biblio" href="#biblio-turtle" title="RDF 1.1 Turtle">[turtle]</a>,  <a data-link-type="biblio" href="#biblio-n-quads" title="RDF 1.1 N-Quads">[n-quads]</a>, <a data-link-type="biblio" href="#biblio-turtle" title="RDF 1.1 Turtle">[turtle]</a> or <a data-link-type="biblio" href="#biblio-trig" title="RDF 1.1 TriG">[TRiG]</a> responses, such as <code>Content-Type: text/turtle;profile="https://w3id.org/tree/profile</code>.</p>
     <li data-md>
      <p>The server uses for their node links a <code>.tree</code> prefix in the suffix of the file format. E.g., <code>https://example.org/file.tree.nq</code>.</p>
    </ol>
@@ -617,20 +622,20 @@ The TREE profile does this by promising to a TREE client that the triples about 
 
 <c- nn>ex</c-><c- p>:</c-><c- f>Subject1</c-> <c- b>a</c-> <c- nn>ex</c-><c- p>:</c-><c- f>Subject</c-> <c- p>;</c->
             <c- nn>rdfs</c-><c- p>:</c-><c- f>label</c-> <c- s>"Subject 1"</c-> <c- p>;</c->
-      <c- nn>ex</c-><c- p>:</c-><c- f>value</c-> <c- mi>2</c-> <c- p>;</c->
+            <c- nn>ex</c-><c- p>:</c-><c- f>value</c-> <c- mi>2</c-> <c- p>;</c->
             <c- nn>ex</c-><c- p>:</c-><c- f>linkedTo</c-> <c- p>[</c-> <c- b>a</c-> <c- nn>ex</c-><c- p>:</c-><c- f>Subject</c-> <c- p>]</c-> <c- p>.</c->
 
 <c- c># Start of the second member</c->
 <c- nn>ex</c-><c- p>:</c-><c- f>Collection1</c-> <c- nn>tree</c-><c- p>:</c-><c- f>member</c-> <c- nn>ex</c-><c- p>:</c-><c- f>Subject2</c-> <c- p>.</c->
 <c- nn>ex</c-><c- p>:</c-><c- f>Subject2</c-> <c- b>a</c-> <c- nn>ex</c-><c- p>:</c-><c- f>Subject</c-> <c- p>;</c->
             <c- nn>rdfs</c-><c- p>:</c-><c- f>label</c-> <c- s>"Subject 2"</c-> <c- p>;</c->
-      <c- nn>ex</c-><c- p>:</c-><c- f>value</c-> <c- mi>9</c-> <c- p>;</c->
+            <c- nn>ex</c-><c- p>:</c-><c- f>value</c-> <c- mi>9</c-> <c- p>;</c->
             <c- nn>ex</c-><c- p>:</c-><c- f>linkedTo</c-> <c- nn>ex</c-><c- p>:</c-><c- f>Subject1</c-> <c- p>.</c->
 <c- c># EOF flags the end of the second member</c->
 </pre>
    <h2 class="heading settled" data-level="4" id="implementing"><span class="secno">4. </span><span class="content">Implementing a TREE profile client</span><a class="self-link" href="#implementing"></a></h2>
    <p>The client in this case MUST use a parser that retains triple order as in the original document.</p>
-   <p>When the profile is set (see [](#profile)), the client MAY implement the profile algorithm and not perform the steps indicated by the Member Extraction Algorithm. In this case, a client MUST assume the document starts with a hypermedia block.
+   <p>When the profile is set (see <a href="#profile">profile</a>), the client MAY implement the profile algorithm and not perform the steps indicated by the Member Extraction Algorithm. In this case, a client MUST assume the document starts with a hypermedia block.
 It then follows three simple rules:</p>
    <ol>
     <li data-md>
@@ -652,21 +657,31 @@ It then follows three simple rules:</p>
     in the normative parts of this document
     are to be interpreted as described in RFC 2119.
     However, for readability,
-    these words do not appear in all uppercase letters in this specification. </p>
+    these words do not appear in all uppercase letters in this specification.
+
+    </p>
    <p>All of the text of this specification is normative
-    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a>
+
+    </p>
    <p>Examples in this specification are introduced with the words “for example”
     or are set apart from the normative text
     with <code>class="example"</code>,
-    like this: </p>
+    like this:
+
+    </p>
    <div class="example" id="w3c-example">
-    <a class="self-link" href="#w3c-example"></a> 
-    <p>This is an example of an informative example. </p>
+    <a class="self-link" href="#w3c-example"></a>
+        
+    <p>This is an example of an informative example.
+    </p>
    </div>
    <p>Informative notes begin with the word “Note”
     and are set apart from the normative text
     with <code>class="note"</code>,
-    like this: </p>
+    like this:
+
+    </p>
    <p class="note" role="note">Note, this is an informative note.</p>
   </div>
   <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
