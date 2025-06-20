@@ -225,7 +225,7 @@ See the [`tree:Relation`](#Relation) definitions in the vocabulary for the speci
 
  - **String comparisons** MUST be performed using Unicode canonical equivalence. Ordering MUST follow case-sensitive Unicode code point order.
  - **IRI comparisons** MUST be treated as simple literal comparisons, consistent with the rules defined for the [ORDER BY operation in the SPARQL specification](https://www.w3.org/TR/sparql11-query/#modOrderBy).
- - **`xsd:dateTime` literals without a timezone comparisons** MUST be performed by interpreting the `xsd:dateTime` literal as a period of time, with a min inclusive bound of `-14:00` and max exclusive bound of `+14:00`.
+ - <strong><code>xsd:dateTime</code> literals without a timezone comparisons </strong> MUST be performed by interpreting the `xsd:dateTime` literal as a period of time, with a min inclusive bound of `-14:00` and max exclusive bound of `+14:00`.
 
 Note: It is highly recommended that server developers and data producers provide a timezone in their `xsd:dateTime` literals for time comparison.
 
