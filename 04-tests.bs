@@ -1,0 +1,248 @@
+<pre class='metadata'>
+Title: TREE Test Specification
+Shortname: tests
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+URL: https://w3id.org/tree/specification/tests
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor:
+  - Pieter Colpaert, https://pietercolpaert.be
+  - Xueying Deng, https://xdxxxdx.github.io/
+Abstract: The TREE test specification aims to provide enough resource that for a TREE implementation to be able to test itself against the TREE specification.This test specification will be continuously updated to align with changes and improvements in the TREE specification.
+</pre>
+# Overview # {#overview}
+
+The TREE specification follows the [RFC 2119](https://www.rfc-editor.org/rfc2119.txt) norms for defining conformance requirements. 
+This document lists all conformance points from the TREE specification, and provides corresponding test cases, test environments, and expected results for implementations.
+<!-- (#ToBeDecided) The test specification focuses on TREE client behaviors. -->
+
+## Conformance ## {#conformance}
+
+The conformance points in this document are based on the [TREE specification](https://w3c.github.io/treecg/specification/) and are intended for testing implementations of the TREE specification.  
+
+As TREE is based on hypermedia, the conformance is designed for HTTP-based implementation, the test cases are designed to be executed over HTTP(s), and the expected results are based on the HTTP(s) responses.
+
+Conformance points are divided into two categories: **MUST** and **SHOULD**.
+
+Each conformance point is described in detail, including the expected behavior of the implementation. The test cases used to verify compliance are also provided.
+
+- **MUST** conformance points are mandatory for all implementations. Implementations that do not meet these requirements are not considered compliant with the specification.
+- **SHOULD** conformance points are optional but recommended. Implementations that do not meet these requirements may still be considered compliant, but may not provide the same level of functionality or interoperability.
+
+<!-- (#ToBeDecided) Maybe we should only keep must? to keep minimum implementation requirements -->
+## MUST Conformance Points## {#must}
+
+### TREE basic elements ### {#1.1}
+
+- When there is a `tree:view` in the payload of the current HTTP response, the subject of the `tree:view` must be a `tree:Collection`
+
+```turtle
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix tree: <https://w3id.org/tree#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# SHACL Node Shape to validate that any subject having tree:view must be a tree:Collection
+
+<#TreeViewSubjectMustBeCollectionShape>
+    a sh:NodeShape ;
+    sh:targetSubjectsOf tree:view ;
+    sh:property [
+        sh:path rdf:type ;
+        sh:hasValue tree:Collection ;
+        sh:message "Subjects that have a tree:view must be a tree:Collection." ;
+    ] .
+
+```
+<!-- (#ToBeDecided) host this under tree domain?-->
+- When there is a `tree:member` in the payload of the current HTTP response, the subject of the `tree:member` must be a `tree:Collection` or a `tree:RootNode` 
+- When there is a `tree:Relation` in the payload of the current HTTP response, the subject of the `tree:Relation` must also point to a `tree:path`
+
+### Search TREE ###  {#1.2}
+- At any point in the TREE, each `tree:Node` may have at most one inbound link via a `tree:Relation` from another `tree:Node`.
+
+```turtle
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix tree: <https://w3id.org/tree#> .
+@prefix ex: <http://example.org/> .
+
+ex:NodeInboundUniquenessShape
+    a sh:NodeShape ;
+    sh:targetClass tree:Node ;
+    sh:sparql [
+        a sh:SPARQLConstraint ;
+        sh:message "Each tree:Node must not be the target of more than one tree:Relation, tree:node link from another node." ;
+        sh:select """
+            SELECT ?this (COUNT(?sourceNode) AS ?inboundCount)
+            WHERE {
+                ?sourceNode tree:relation ?relation .
+                ?relation tree:node ?this .
+                FILTER (?sourceNode != ?this)
+            }
+            GROUP BY ?this
+            HAVING (COUNT(?sourceNode) > 1)
+        """ ;
+    ] .
+   
+````
+- Whenever `tree:GreaterThanRelation` is used as a comparator within the TREE, the values pointed by `tree:path` in the members MUST be compared using the rules defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions).
+<!-- 
+// ### The member extraction algorithm ### {#1.3}
+// ### Traversing the search tree ### {#1.4}
+// ### Pruning branches ### {#1.5}
+
+
+// ## SHOULD Conformance Points## {#must}
+
+// ### Initialization ###  {#2.1}
+// ### The member extraction algorithm ### {#2.2}
+// ### Traversing the search tree ### {#2.3}
+// ### Pruning branches ### {#2.4}
+-->
+<!-- 
+// TODO
+// * SHOULD: The implementation should support this feature.
+
+
+// # Tests # {#tests}
+
+// In the test snippets below, the URL will always be relative. You can decide your own base IRI for all of the HTTP requests and relative IRIs in your test framework.
+
+
+// ### Initialization ###  {#1}
+
+// Purpose: Ensuring that there is an unambiguous yet user friendly way of knowing the identifier of the collection, as well as the current page of the collection’s view.
+
+// This test is about a function `initialization(url)`. The function will return the URL of the collection and the URL of the root node.
+
+// We will test this with various URLs containing different contents.
+
+// #### The URL to a root node without redirects #### {#1.1}
+
+// **Test:** Initializing with the URL to a root node without redirects returns the Collection URL and Root node URL.
+
+// File URL `test1.1.ttl`.
+
+// ```turtle
+// @prefix tree: <https://w3id.org/tree#> .
+// <Collection> tree:view <test1.1.ttl> .
+// ```
+
+// The test executes an HTTP request to `test1.1.ttl`. The algorithm returns:
+//  * Collection: `<Collection>`
+//  * Root node: `<test1.1.ttl>`
+
+// #### The URL to a collection without redirects #### {#1.2}
+
+// **Test:** Initializing with the URL to a collection IRI without redirects returns the Collection IRI and root node URL.
+
+// Contents of the file `test1.2.ttl`:
+
+// ```turtle
+// @prefix tree: <https://w3id.org/tree#> .
+// <test1.2.ttl#Collection> tree:view <test1.2.ttl> .
+// ```
+
+// The test executes an HTTP request to `test1.2.ttl#Collection`. The algorithm returns:
+//  * Collection: `<test1.2.ttl#Collection>`
+//  * Root node: `<test1.2.ttl>`
+
+// #### The URL to a root node before redirects #### {#1.3}
+
+// **Test:** Initializing with the URL to a collection IRI that results in a redirect, still returns the Collection IRI and root node URL.
+
+// File url `test1.3` that provides a `303 See Other` redirect to `test1.3.ttl`.
+
+// ```turtle
+// @prefix tree: <https://w3id.org/tree#> .
+// <Collection> tree:view <test1.3.ttl> .
+// ```
+
+// The test executes an HTTP request to `test1.3`. The algorithm returns:
+//  * Collection: `<Collection>`
+//  * Root node: `<test1.3.ttl>`
+
+// The same test MUST be repeated with a `301` response code.
+
+// #### The URL that does not match #### {#1.4}
+
+// **Test:** Initializing with a URL that does not match a collection or a root node must result into an exception.
+
+// File url `test1.4.ttl`:
+
+// ```turtle
+// @prefix tree: <https://w3id.org/tree#> .
+// <Collection> tree:view <test1.4.ttl> .
+// ```
+
+// The test executes an HTTP request to `test1.4.ttl#NonExistingNodeOrCollection`. The algorithm returns an exception that indicates the requested root node or collection is not described in the response.
+
+// #### Search Forms #### {#1.x}
+
+// This is yet to be defined: the search forms should also be extracted.
+
+// ### Members ## {#2}
+
+// Goal: Once we have the container URL, we must ensure we know what the members of the collection mentioned in this page are.
+
+// #### Finding member IRIs #### {#2.1}
+
+// **Test:** Finding both named node and blank node member terms in a page.
+
+// File url `<test2.1.ttl>` contains:
+
+// ```turtle
+// @prefix tree: <https://w3id.org/tree#> .
+// <Collection> tree:view <test2.1.ttl> ;
+// 	tree:member <A>, <B>, _:b0 .
+// ```
+
+// The test suite executes the function to find all member identifiers in the page `<test2.1.ttl>` of the collection `<Collection>` and returns 2 member identifiers `<A>`, `<B>` and a blank node member.
+
+// #### Empty page #### {#2.2}
+
+// **Test:** Finding no member terms in a page when there are none.
+
+// File url `<test2.2.ttl>`
+
+// ```turtle
+// @prefix tree: <https://w3id.org/tree#> .
+// <Collection> tree:view <test2.2.ttl> .
+// ```
+// The test to find the set of members in the page `<test2.2.ttl>` of the collection `<Collection>` returns an empty set.
+
+// ### Extracting members ### {#3}
+
+// Goal: Checking whether your implementation will extract the right set of quads
+
+
+// #### Star pattern #### {#3.1}
+
+// **Test:** Finding all quads that belong to a member based on a simple star pattern.
+
+// File url `<test3.1.ttl>`
+
+// Operation: Finding all quads that belong to `<A>`.
+
+// ```turtle
+// @prefix tree: <https://w3id.org/tree#> .
+// @prefix ex: <https://example.org/>.
+// <Collection> tree:view <test3.1.ttl> ;
+// 	tree:member <A> .
+// <A> ex:p ex:o .
+// ```
+
+// Returns: an array with 1 quad `<A> ex:p ex:o`.
+
+// TODO: take more tests from the [extract cbd shape repository](https://github.com/TREEcg/extract-cbd-shape)
+
+// ### Pruning relations ### {#4}
+
+// TODO: These test cases will get more complex
+
+// ### Using search forms ### {#5}
+
+// TODO: Search forms
+-->
