@@ -113,7 +113,9 @@ A `tree:search` form is an IRI template, that when filled out with the right par
 
 A search tree is the–in this document–implicit concept of a set of interlinked `tree:Node`s publishing a `tree:Collection`.
 It will adhere to a certain growth or tree balancing strategy. 
-In one tree, completeness MUST be guaranteed, unless indicated otherwise (as is possible in LDES using a retention policy).
+In one tree, completeness MUST be guaranteed, unless explicitly indicated otherwise.
+
+Note: [Linked Data Event Streams](https://w3id.org/ldes/specification) is a specialization of TREE that can indicate incompleteness of a search tree using a retention policy.
 
 # Initialization # {#init}
 
@@ -127,19 +129,63 @@ Once the root `tree:Node` is retrieved and the `tree:Collection` is known, the c
 
 Note: The report on Discovery and Context Information is currently a work in progress for which [an on-going draft is available](https://w3id.org/tree/specification/discovery).
 
-# The member extraction algorithm # {#member-extraction-algorithm}
+# The Member Extraction Algorithm # {#member-extraction-algorithm}
 
-The member extraction algorithm allows a data publisher to define their members in different ways:
-    1. As in the examples above: all quads with the object of the `tree:member` quads as a subject (and recursively the quads of their blank nodes) are by default included (see also [[!CBD]]), except when they would explicitly not be included in case 3, when the shape would be closed.
-    2. Out of band / in band:
-        - when no quads of a member have been found, the member will be dereferenced. This allows to publish the member on a separate page.
-        - part of the member can be maintained elsewhere when a shape is defined (see 3)
-    3. By defining a more complex shape with `tree:shape`, also nested entities can be included in the member
-    4. By putting the triples in a named graph of the object of `tree:member`, all these triples will be matched. 
+<div class="non-normative">
+RDF does not natively provide a way to reference a set of triples or quads, and can thus not unambiguously point to a member `M` without additional explanation.
+While [named graphs may be interpreted in a technology-specific stack as a reference to a set of triples](https://www.w3.org/TR/2014/NOTE-rdf11-datasets-20140225/), also other implementations exist that use it for different purposes.
+This makes it more complex: we both want to introduce a TREE-specific interpretation for named graph, as well as support existing datasets that already use named graphs for a different purpose.
+Therefore, this specification introduces a pragmatic set of decisions bundled in the Member Extraction Algorithm.
+Implementing this algorithm provides interoperability across clients that want to extract members in a common way.
+This way, it provides a way for a data provider to be clear about their intention towards a domain-agnostic processor.
+</div>
 
-Depending on the goals of the client, it MAY implement the member extraction algorithm to fetch all triples about the entity as intended by the server.
-The method used within TREE is combination of Concise Bounded Descriptions [[!CBD]], named graphs and the topology of a shape (deducted from the `tree:shape`).
-The full algorithm is specified in the [shape topologies](https://w3id.org/tree/specification/shape-topologies) report.
+Depending on its goals, a client MAY implement this algorithm to extract a set of quads that were intended as the member quads by the data provider.
+On the one hand, there is the TREE specific MEA that supports subject-based star patterns, named graphs and doing an extra HTTP request for out-of-band members.
+On the other hand, there is the generalized MEA that extends the TREE MEA with support for including more complex patterns, called shape topologies, and for partially out-of-band members.
+Additionally, there is also the TREE profile algorithm that provides a syntactic trick to get the lowest overhead possible for extracting members.
+
+Note: The MEA is indeed not mandatory for all TREE clients. For example, a client interested in autocompletion might be interested in only extracting the text literals. A client focused on SPARQL querying will know what quads it wants to select. However, a client that is built to domain agnostically do an operation on top of the TREE collection and pass it on to a next step, might want to understand the full package of quads that was intended by the data provider.
+
+## The TREE Member Extraction Algorithm ## {#tree-member-extraction-algorithm}
+
+The TREE MEA is a combination of subject-based star patterns (cfr. [[!CBD]]) and named graphs.
+First we introduce a couple of symbols:
+ * `N` is the set of all named graphs used in the current page, including the default graph.
+ * `Nb` is the set of blank nodes in `N`, excluding the default graph.
+ * `f` is the focus node of a member we are extracting, as found in a `<yourcollection> tree:member ?f` triple.
+ * `F` is the set of all member focus nodes matching the `<yourcollection> tree:member ?f` pattern.
+
+A client extracting members MUST iterate over all terms `f` in `F`.
+`f` can be either a blank node, a named node, or a triple term.
+If `f` is a triple term, the triple itself is the member.
+If `f` is a literal an error MUST be returned.
+
+In the case it is an IRI or a blank node, the client MUST look for further triples as follows:
+ 1. A set of named graphs that need to be ignored `I` MUST be created. These are named graphs that will be explicitely used to package triples to be entirely part of `M`. `I` is the union of `Nb` and `F`.
+ 2. For each `g` in `N \ ( Nb ∪ F)`, resolve the quad pattern `GRAPH g { f ?p ?o }` and add those quads to `M`.
+ 3. For every object `o` that is a result of `?o` in step 2 that is a blank node,
+     - repeat step 2 with that blank node as `f`.
+     - solve the quad pattern `GRAPH o { ?s ?p ?o }` and add all quads to `M`.
+ 4. Resolve the quad pattern `GRAPH f { ?s ?p ?o }` and add all quads to `M`.
+ 5. If `M` is still an empty set of quads, dereference `f` and perform the algorithm on that response again.
+
+Issue: In step 5: should we perform the algorithm again on the quads in the response, or should we just add all quads found in the response and thus use the triples in the file as a package?
+
+## The Generalized Member Extraction Algorithm ## {#generalized-member-extraction-algorithm}
+
+Note: As the Shape Topologies algorithm requires more advanced processing, we discourage publishers from relying on it as it will have a negative effect on client performance. On top of that, while the TREE MEA is straightforward to implement, the generalized MEA is more tedious for developers, which results in a large support for the TREE MEA among client tooling, while the Shape Topologies algorithm may get omitted. It does however support more complex scenarios that are not supported by the TREE MEA.
+
+When `tree:shapeTopology` has been set to true on the root `tree:Node`, the algorithm in the [Shape Topology report](https://w3id.org/tree/specification/shape-topologies) MUST be used to extract the set of quads as intended by the server using the `tree:shape`.
+This is an extension of the TREE Member Extraction Algorithm in which a SHACL shape can indicate:
+ 1. Partially out of band members
+ 2. Based on the shape, include or exclude a more specific set of quads. It does however not perform full validation of the members.
+
+A client MAY provide the end-user with a way to override the default behavior and still perform the Shape Topology algorithm in case the `tree:shapeTopology` property has not been set.
+
+## The TREE profile algorithm ## {#profile-based-algorithm}
+
+The profile algorithm, available in [a separate report](https://w3id.org/tree/specification/profile), is a syntactic trick that MAY be implemented by a client to minimize the overhead of the MEA.
 
 On top of the Member Extraction Algorithm, a client MAY implement the [Profile Algorithm](https://w3id.org/tree/specification/profile).
 
