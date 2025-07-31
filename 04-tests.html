@@ -8,7 +8,7 @@
   <meta content="Bikeshed version 275834c42, updated Wed Jun 11 14:18:15 2025 -0700" name="generator">
   <link href="https://w3id.org/tree/specification/tests" rel="canonical">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="b3b47fb0c4913eeaedd5d9a79d0b14100539b745" name="revision">
+  <meta content="2f23d7d62e1200c9fdd647267096c749d3b59821" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
 <style>/* Boilerplate: style-autolinks */
@@ -673,7 +673,7 @@ This document outlines the minimum conformance requirements from the TREE specif
 </pre>
    <h4 class="heading settled" data-level="2.1.4" id="1.1.4"><span class="secno">2.1.4. </span><span class="content">Initialization of TREE structure via <code>tree:view</code> after dereferencing</span><a class="self-link" href="#1.1.4"></a></h4>
    
-<strong>Description:</strong> When a <code>tree:view</code> triple exists in the payload of the final HTTP(s) response (after following all redirects), the final IRI MUST be the object of a <code>tree:view</code> triple whose subject is a <code>tree:Collection</code>. This ensures that dereferencing a resource leads to a valid TREE view associated with a collection.
+<strong>Description:</strong> When a <code>tree:view</code> triple exists in the payload of the final HTTP(s) response (after following all redirects), the final IRI MUST be the object of a <code>tree:view</code> triple whose subject is a <code>tree:Collection</code>. 
 
 
    <p><strong>SHACL shape against the HTTP(s) response:</strong></p>
@@ -733,6 +733,7 @@ This document outlines the minimum conformance requirements from the TREE specif
    <h4 class="heading settled" data-level="2.2.3" id="1.2.3"><span class="secno">2.2.3. </span><span class="content"><code>xsd:dateTime</code> literals without a timezone comparisons</span><a class="self-link" href="#1.2.3"></a></h4>
    
 <strong>Description:</strong> When traversing a TREE structure, if an implementation employs <code>xsd:dateTime</code> literals without an explicit timezone, it MUST treat these values as representing the entire range from that date and time at UTC-14:00 (inclusive) to UTC+14:00 (exclusive). Comparisons involving such <code>xsd:dateTime</code> values MUST be performed as interval comparisons: a value without a timezone matches if and only if the comparison holds for at least one instant within this interval. Implementations MUST NOT assume any default timezone or offset for such values.
+
 
 
 

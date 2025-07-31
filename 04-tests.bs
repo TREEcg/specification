@@ -93,7 +93,7 @@ tree:RelationConstraintShape
 ```
 
 ### Initialization of TREE structure via `tree:view` after dereferencing ### {#1.1.4}
-**Description:** When a `tree:view` triple exists in the payload of the final HTTP(s) response (after following all redirects), the final IRI MUST be the object of a `tree:view` triple whose subject is a `tree:Collection`. This ensures that dereferencing a resource leads to a valid TREE view associated with a collection.
+**Description:** When a `tree:view` triple exists in the payload of the final HTTP(s) response (after following all redirects), the final IRI MUST be the object of a `tree:view` triple whose subject is a `tree:Collection`. 
 
 **SHACL shape against the HTTP(s) response:**
 
