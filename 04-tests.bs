@@ -15,13 +15,14 @@ Abstract: The TREE test specification aims to provide resource that for a TREE i
 </pre>
 # Overview # {#overview}
 
-The TREE specification follows the [RFC 2119](https://www.rfc-editor.org/rfc2119.txt) norms for defining conformance requirements. 
 This document outlines the minimum conformance requirements from the TREE specification and provides corresponding test cases to verify the compliance.
+This document is intended for TREE client service implementations. When processing a TREE structure, a TREE client service should be able to validate or fulfill the conformance points described in this document.
+
 <!-- (#ToBeDecided) The test specification focuses on TREE client behaviors. -->
 
 # Conformance Points # {#conformance-points}
 
-The conformance points in this document are based on the [TREE specification](https://w3c.github.io/treecg/specification/) and are intended for testing implementations of the TREE specification.  
+The conformance points in this document are based on the [TREE specification](https://w3c.github.io/treecg/specification/).
 
 TREE conformance is designed for HTTP-based implementations; all test cases are expected to be executed over HTTP(s), and results are determined from the HTTP(s) responses. Since TREE is an RDF (Resource Description Framework) specification, all response payloads must use standard RDF serialization formats, such as Turtle, RDF/XML, or JSON-LD.
 
