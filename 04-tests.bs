@@ -11,292 +11,349 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor:
   - Pieter Colpaert, https://pietercolpaert.be
   - Xueying Deng, https://xdxxxdx.github.io/
-Abstract: The TREE test specification aims to provide resource that for a TREE implementation to be able to test itself against the TREE specification.This test specification will be continuously updated to align with changes and improvements in the TREE specification.
+Abstract: The TREE Test Specification offers a test plan for Tree Client implementations, enabling implementers to validate their conformance with the TREE Specification. This test specification will be regularly updated to reflect changes and enhancements in the TREE specification.
 </pre>
 # Overview # {#overview}
+This specification targets implementations of TREE client services and outlines a comprehensive suite of test cases to assess their compliance with the TREE specification.
+It covers functional, boundary, error handling, and nonfunctional performance testing.
+Each test case specifies its purpose, input data, expected output, and clear pass/fail criteria.
 
-This document outlines the minimum conformance requirements from the TREE specification and provides corresponding test cases to verify the compliance.
-This document is intended for TREE client service implementations. When processing a TREE structure, a TREE client service should be able to validate or fulfill the conformance points described in this document.
-
-<!-- (#ToBeDecided) The test specification focuses on TREE client behaviors. -->
-
-# Conformance Points # {#conformance-points}
-
-The conformance points in this document are based on the [TREE specification](https://w3c.github.io/treecg/specification/).
-
-TREE conformance is designed for HTTP-based implementations; all test cases are expected to be executed over HTTP(s), and results are determined from the HTTP(s) responses. Since TREE is an RDF (Resource Description Framework) specification, all response payloads must use standard RDF serialization formats, such as Turtle, RDF/XML, or JSON-LD.
-
-
-<!-- (#ToBeDecided) Maybe we should only keep must? to keep minimum implementation requirements -->
-
-<!-- (#ToBeDecided) The conformance of the TREE contains only two parts, the basic elements of a single nodes, and how these nodes are linked (search tree) -->
-
-## TREE basic elements ## {#1.1}
-
-### Subject of `tree:view` must be a `tree:Collection` ### {#1.1.1}
-**Description:** When there is a `tree:view` in the payload of the current HTTP(s) response, the subject of the `tree:view` must be a `tree:Collection`
-
-**SHACL shape against the HTTP(s) response:** 
-```turtle
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix tree: <https://w3id.org/tree#> .
-
-tree:ViewSubjectConstraintShape
-    a sh:NodeShape ;
-    sh:targetSubjectsOf tree:view ;
-    sh:class tree:Collection ;
-    sh:message "Subject of tree:view must be a tree:Collection" .
-
-```
-### Subject of `tree:member` must be either a `tree:Collection` or a `tree:RootNode` ### {#1.1.2}
-**Description:** If a `tree:member` property appears in the payload of the current HTTP(s) response, its subject MUST be either a `tree:Collection` or a `tree:RootNode`.
-
-**SHACL shape against the HTTP(s) response:** 
-```turtle
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix tree: <https://w3id.org/tree#> .
-
-tree:MemberSubjectConstraintShape
-    a sh:NodeShape ;
-    sh:targetSubjectsOf tree:member ;
-    sh:or (
-        [ sh:class tree:Collection ]
-        [ sh:class tree:RootNode ]
-    ) ;
-    sh:message "Subject of tree:member must be either a tree:Collection or a tree:RootNode" .
-
-```
-### `tree:Relation` properties ### {#1.1.3}
-
-**Description:** If a `tree:Relation` appears in the payload of the current HTTP(s) response, it MUST have a `tree:path` property and a `tree:node` property which pointing to another `tree:Node`.  
-    `tree:Relation` is a superclass for all TREE-supported relation types (such as `tree:GreaterThanRelation`, `tree:LessThanRelation`, `tree:GreaterThanOrEqualToRelation`, etc.).  
-    For the complete list of subclasses of `tree:Relation`, see [tree.ttl](https://github.com/TREEcg/specification/blob/master/tree.ttl).
-
-**SHACL shape against the HTTP(s) response:** 
-```turtle
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix tree: <https://w3id.org/tree#> .
+# Functional Tests # {#functional-tests}
 
-tree:RelationConstraintShape
-    a sh:NodeShape ;
-    sh:targetClass tree:Relation ;
-    sh:property [
-        sh:path tree:path ;
-        sh:minCount 1 ;
-        sh:message "tree:Relation must have a tree:path property"
-    ] ;
-    sh:property [
-        sh:path tree:node ;
-        sh:minCount 1 ;
-        sh:class tree:Node ;
-        sh:message "tree:Relation must have a tree:node property pointing to a tree:Node"
-    ] .
-```
+## Client Initialization ## {#client-initialization}
 
-### Initialization of TREE structure via `tree:view` after dereferencing ### {#1.1.4}
-**Description:** When a `tree:view` triple exists in the payload of the final HTTP(s) response (after following all redirects), the final IRI MUST be the object of a `tree:view` triple whose subject is a `tree:Collection`. 
+### Test Case 1.1.1 : tree client initialization without redirection ### {#test-case-1-1-1-tree-client-initialization}
 
-**SHACL shape against the HTTP(s) response:**
+* **Test Description**: Verify that the client initializes correctly with a Tree Stream endpoint.
+* **Test Prerequisites**:
 
-```turtle
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix tree: <https://w3id.org/tree#> .
+      * A valid Tree Stream endpoint URL, the URL that is the IRI of the root `tree:Node`, and there is no redirection.
+      * The TREE client service is up and running.
+* **Test Steps**:
 
-tree:ViewObjectConstraintShape
-    a sh:NodeShape ;
-    sh:targetObjectsOf tree:view ;
-    sh:sparql [
-        sh:select """
-            SELECT $this
-            WHERE {
-                ?collection a tree:Collection .
-                ?collection tree:view $this .
-            }
-        """ ;
-        sh:message "The final IRI must be the object of a tree:view triple whose subject is a tree:Collection"
-    ] .
-```
-## Search TREE ##  {#1.2}
+  1. Initialize the TREE client with the provided Tree Stream endpoint URL.
 
-### `tree:Node` inbound link uniqueness ### {#1.2.1}
-**Description:** During traversal of the TREE structure, each `tree:Node` MUST NOT be the target of more than one inbound `tree:Relation` (i.e., via the `tree:node` property) from a different `tree:Node`. In other words, no `tree:Node` should have more than one parent node. This requirement ensures that the TREE remains a valid tree structure, where each node has at most one parent.
+* **Expected Output**: Client initializes without errors and is ready to make requests.
+* **Pass/Fail Criteria**: Pass if the client initializes successfully; fail if any errors occur during initialization.
 
-**SHACL shape against the RDF graph:**
+---
 
-```turtle
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix tree: <https://w3id.org/tree#> .
-@prefix ex: <http://example.org/> .
+### Test Case 1.1.2 : tree client initialization with redirection ### {#test-case-1-1-2-tree-client-initialization-redirection}
 
-ex:NodeInboundUniquenessShape
-    a sh:NodeShape ;
-    sh:targetClass tree:Node ;
-    sh:sparql [
-        a sh:SPARQLConstraint ;
-        sh:message "Each tree:Node must not be the target of more than one tree:Relation, tree:node link from another node." ;
-        sh:select """
-            SELECT ?this (COUNT(?sourceNode) AS ?inboundCount)
-            WHERE {
-                ?sourceNode tree:relation ?relation .
-                ?relation tree:node ?this .
-                FILTER (?sourceNode != ?this)
-            }
-            GROUP BY ?this
-            HAVING (COUNT(?sourceNode) > 1)
-        """ ;
-    ] .
-   
-````
-### `tree:GreaterThanRelation` ### {#1.2.2}
-**Description:** When traversing a TREE structure by following `tree:Relation` links (after making one or more HTTP(s) requests and aggregating the resulting RDF graphs), if a `tree:GreaterThanRelation` is present, then for each member referenced by the relation, the value of the property specified by `tree:path` MUST be greater than the value specified in the relation, according to the comparison rules defined in the [SPARQL algebra functions](https://www.w3.org/TR/sparql11-query/#expressions). This ensures that the `tree:GreaterThanRelation` accurately represents a "greater than" relationship as defined by SPARQL semantics.
+* **Test Description**: Verify that the client initializes correctly with a Tree Stream endpoint that involves redirection.
+* **Test Prerequisites**:
 
+  * A valid Tree Stream endpoint URL, the URL leads to the IRI of the root `tree:Node` with one or more HTTP redirections.
+  * The TREE client service is up and running.
+* **Test Steps**:
 
-### `xsd:dateTime` literals without a timezone comparisons  ### {#1.2.3}
-**Description:** When traversing a TREE structure, if an implementation employs `xsd:dateTime` literals without an explicit timezone, it MUST treat these values as representing the entire range from that date and time at UTC-14:00 (inclusive) to UTC+14:00 (exclusive). Comparisons involving such `xsd:dateTime` values MUST be performed as interval comparisons: a value without a timezone matches if and only if the comparison holds for at least one instant within this interval. Implementations MUST NOT assume any default timezone or offset for such values.
+  1. Initialize the TREE client with the provided Tree Stream endpoint URL.
 
+* **Expected Output**: Client initializes without errors and is ready to make requests following any redirections as necessary. The final IRI after all HTTP redirects corresponds to the object of a `tree:view` triple linking it to a `tree:Collection`.
+* **Pass/Fail Criteria**: Pass if the client initializes successfully; fail if any errors occur during initialization.
 
+---
 
-<!-- 
-// Initial version
-// TODO
+### Test Case 1.1.3 : Invalid client initialization ### {#test-case-1-1-3-invalid-client-initialization}
 
-// # Tests # {#tests}
+* **Test Description**: Verify that the client handles invalid initialization parameters gracefully.
+* **Test Prerequisites**:
 
-// In the test snippets below, the URL will always be relative. You can decide your own base IRI for all of the HTTP requests and relative IRIs in your test framework.
+  * An invalid Tree Stream endpoint URL (e.g., malformed URL).
+  * The TREE client service is up and running.
+* **Test Steps**:
 
+  1. Attempt to initialize the TREE client with the invalid Tree Stream endpoint URL.
 
-// ### Initialization ###  {#1}
+* **Expected Output**: Client returns an appropriate error message indicating the invalid parameter.
+* **Pass/Fail Criteria**: Pass if the client returns an error message; fail if it initializes without errors.
 
-// Purpose: Ensuring that there is an unambiguous yet user friendly way of knowing the identifier of the collection, as well as the current page of the collection’s view.
+---
 
-// This test is about a function `initialization(url)`. The function will return the URL of the collection and the URL of the root node.
+## Traverse Search Tree ## {#traverse-search-tree}
 
-// We will test this with various URLs containing different contents.
+### Test Case 1.2.1 : Retrieve members from a Tree Stream ### {#test-case-1-2-1-retrieve-data-from-a-tree-stream}
 
-// #### The URL to a root node without redirects #### {#1.1}
+* **Test Description**: Verify that the client can successfully retrieve members from a Tree Stream.
+* **Test Prerequisites**:
 
-// **Test:** Initializing with the URL to a root node without redirects returns the Collection URL and Root node URL.
+  * A valid Tree Stream endpoint URL with known amount of members.
+  * The TREE client service is up and running.
+* **Test Steps**:
 
-// File URL `test1.1.ttl`.
+  1. Initialize the TREE client with the Tree Stream endpoint URL.
+  2. Wait for the client synchronization to complete.
 
-// ```turtle
-// @prefix tree: <https://w3id.org/tree#> .
-// <Collection> tree:view <test1.1.ttl> .
-// ```
+* **Expected Output**: Client retrieves all members from the Tree Stream, and the amount of retrieved members matches the expected count.
+* **Pass/Fail Criteria**: Pass if the client retrieves the expected number of members; fail if the count does not match or if any errors occur during retrieval.
 
-// The test executes an HTTP request to `test1.1.ttl`. The algorithm returns:
-//  * Collection: `<Collection>`
-//  * Root node: `<test1.1.ttl>`
+---
 
-// #### The URL to a collection without redirects #### {#1.2}
+### Test Case 1.2.2 : Retrieve members from a Tree Stream with time-based fragmentation ### {#test-case-1-2-2-retrieve-data-from-a-tree-stream-pagination-timebased}
 
-// **Test:** Initializing with the URL to a collection IRI without redirects returns the Collection IRI and root node URL.
+* **Test Description**: Verify that the client can successfully retrieve members from a Tree Stream that uses timebased pagination.
+* **Test Prerequisites**:
 
-// Contents of the file `test1.2.ttl`:
+  * A valid Tree Stream endpoint URL with known amount of members and pagination enabled.
+  * The TREE client service is up and running.
+* **Test Steps**:
 
-// ```turtle
-// @prefix tree: <https://w3id.org/tree#> .
-// <test1.2.ttl#Collection> tree:view <test1.2.ttl> .
-// ```
+  1. Initialize the TREE client with the Tree Stream endpoint URL.
+  2. Wait for the client synchronization to complete, ensuring it handles pagination correctly.
 
-// The test executes an HTTP request to `test1.2.ttl#Collection`. The algorithm returns:
-//  * Collection: `<test1.2.ttl#Collection>`
-//  * Root node: `<test1.2.ttl>`
+* **Expected Output**: Client retrieves all members from the Tree Stream across all pages, and the amount of retrieved members matches the expected count.
+* **Pass/Fail Criteria**: Pass if the client retrieves the expected number of members; fail if the count does not match or if any errors occur during retrieval.
 
-// #### The URL to a root node before redirects #### {#1.3}
+---
+##Traverse Search Tree: Relation Handling ## {#relation-handling}
 
-// **Test:** Initializing with the URL to a collection IRI that results in a redirect, still returns the Collection IRI and root node URL.
+### Test Case 1.3.1 : tree:PrefixRelation ### {#test-case-1-3-1-prefix-relation}
 
-// File url `test1.3` that provides a `303 See Other` redirect to `test1.3.ttl`.
+* **Test Description**: Verify that the client handles traversal using a `tree:PrefixRelation`.
+* **Test Prerequisites**:
 
-// ```turtle
-// @prefix tree: <https://w3id.org/tree#> .
-// <Collection> tree:view <test1.3.ttl> .
-// ```
+  * A Tree Stream endpoint with a `tree:PrefixRelation` defined (e.g., `"abc"`).
+* **Test Steps**:
 
-// The test executes an HTTP request to `test1.3`. The algorithm returns:
-//  * Collection: `<Collection>`
-//  * Root node: `<test1.3.ttl>`
+  1. Initialize the TREE client.
+  2. Traverse the node via the `tree:PrefixRelation`.
+  3. Collect retrieved members.
 
-// The same test MUST be repeated with a `301` response code.
+* **Expected Output**: All retrieved members have values starting with `"abc"`, consistent with the `STRSTARTS` SPARQL function.
+* **Pass/Fail Criteria**: Pass if all members match the prefix condition; fail otherwise.
 
-// #### The URL that does not match #### {#1.4}
+---
 
-// **Test:** Initializing with a URL that does not match a collection or a root node must result into an exception.
+### Test Case 1.3.2 : tree:SubstringRelation ### {#test-case-1-3-2-substring-relation}
 
-// File url `test1.4.ttl`:
+* **Test Description**: Verify that the client handles traversal using a `tree:SubstringRelation`.
+* **Test Prerequisites**:
 
-// ```turtle
-// @prefix tree: <https://w3id.org/tree#> .
-// <Collection> tree:view <test1.4.ttl> .
-// ```
+  * A Tree Stream endpoint with a `tree:SubstringRelation` defined (e.g., substring `"mid"`).
+* **Test Steps**:
 
-// The test executes an HTTP request to `test1.4.ttl#NonExistingNodeOrCollection`. The algorithm returns an exception that indicates the requested root node or collection is not described in the response.
+  1. Initialize the TREE client.
+  2. Traverse the node via the `tree:SubstringRelation`.
+  3. Collect retrieved members.
 
-// #### Search Forms #### {#1.x}
+* **Expected Output**: All retrieved members contain `"mid"`, consistent with the `SUBSTR` SPARQL function.
+* **Pass/Fail Criteria**: Pass if all members contain the substring; fail otherwise.
 
-// This is yet to be defined: the search forms should also be extracted.
+---
 
-// ### Members ## {#2}
+### Test Case 1.3.3 : tree:SuffixRelation ### {#test-case-1-3-3-suffix-relation}
 
-// Goal: Once we have the container URL, we must ensure we know what the members of the collection mentioned in this page are.
+* **Test Description**: Verify that the client handles traversal using a `tree:SuffixRelation`.
+* **Test Prerequisites**:
 
-// #### Finding member IRIs #### {#2.1}
+  * A Tree Stream endpoint with a `tree:SuffixRelation` defined (e.g., `"xyz"`).
+* **Test Steps**:
 
-// **Test:** Finding both named node and blank node member terms in a page.
+  1. Initialize the TREE client.
+  2. Traverse the node via the `tree:SuffixRelation`.
+  3. Collect retrieved members.
 
-// File url `<test2.1.ttl>` contains:
+* **Expected Output**: All retrieved members end with `"xyz"`, consistent with the `STRENDS` SPARQL function.
+* **Pass/Fail Criteria**: Pass if all members match the suffix condition; fail otherwise.
 
-// ```turtle
-// @prefix tree: <https://w3id.org/tree#> .
-// <Collection> tree:view <test2.1.ttl> ;
-// 	tree:member <A>, <B>, _:b0 .
-// ```
+---
 
-// The test suite executes the function to find all member identifiers in the page `<test2.1.ttl>` of the collection `<Collection>` and returns 2 member identifiers `<A>`, `<B>` and a blank node member.
+### Test Case 1.3.4 : tree:GreaterThanRelation ### {#test-case-1-3-4-greater-than-relation}
 
-// #### Empty page #### {#2.2}
+* **Test Description**: Verify that the client handles traversal using a `tree:GreaterThanRelation`.
+* **Test Prerequisites**:
 
-// **Test:** Finding no member terms in a page when there are none.
+  * A Tree Stream endpoint with members that can be filtered using `> threshold`.
+* **Test Steps**:
 
-// File url `<test2.2.ttl>`
+  1. Initialize the TREE client.
+  2. Traverse the node via the `tree:GreaterThanRelation`.
+  3. Collect retrieved members.
 
-// ```turtle
-// @prefix tree: <https://w3id.org/tree#> .
-// <Collection> tree:view <test2.2.ttl> .
-// ```
-// The test to find the set of members in the page `<test2.2.ttl>` of the collection `<Collection>` returns an empty set.
+* **Expected Output**: All retrieved members are greater than the threshold value, consistent with SPARQL operator mapping.
+* **Pass/Fail Criteria**: Pass if all members satisfy the condition; fail otherwise.
 
-// ### Extracting members ### {#3}
+---
 
-// Goal: Checking whether your implementation will extract the right set of quads
+### Test Case 1.3.5 : tree:GreaterThanOrEqualToRelation ### {#test-case-1-3-5-greater-than-equal-relation}
 
+* **Test Description**: Verify that the client handles traversal using a `tree:GreaterThanOrEqualToRelation`.
+* **Test Prerequisites**:
 
-// #### Star pattern #### {#3.1}
+  * A Tree Stream endpoint with members ≥ threshold.
+* **Test Steps**:
 
-// **Test:** Finding all quads that belong to a member based on a simple star pattern.
+  1. Initialize the TREE client.
+  2. Traverse the node via the relation.
+  3. Collect retrieved members.
 
-// File url `<test3.1.ttl>`
+* **Expected Output**: All members are greater than or equal to the threshold.
+* **Pass/Fail Criteria**: Pass if all members satisfy the condition; fail otherwise.
 
-// Operation: Finding all quads that belong to `<A>`.
+---
 
-// ```turtle
-// @prefix tree: <https://w3id.org/tree#> .
-// @prefix ex: <https://example.org/>.
-// <Collection> tree:view <test3.1.ttl> ;
-// 	tree:member <A> .
-// <A> ex:p ex:o .
-// ```
+### Test Case 1.3.6 : tree:LessThanRelation ### {#test-case-1-3-6-less-than-relation}
 
-// Returns: an array with 1 quad `<A> ex:p ex:o`.
+* **Test Description**: Verify that the client handles traversal using a `tree:LessThanRelation`.
+* **Test Prerequisites**:
 
-// TODO: take more tests from the [extract cbd shape repository](https://github.com/TREEcg/extract-cbd-shape)
+  * A Tree Stream endpoint with members < threshold.
+* **Test Steps**:
 
-// ### Pruning relations ### {#4}
+  1. Initialize the TREE client.
+  2. Traverse the node via the relation.
+  3. Collect retrieved members.
 
-// TODO: These test cases will get more complex
+* **Expected Output**: All members are less than the threshold.
+* **Pass/Fail Criteria**: Pass if all members satisfy the condition; fail otherwise.
 
-// ### Using search forms ### {#5}
+---
 
-// TODO: Search forms
--->
+### Test Case 1.3.7 : tree:LessThanOrEqualToRelation ### {#test-case-1-3-7-less-than-equal-relation}
+
+* **Test Description**: Verify that the client handles traversal using a `tree:LessThanOrEqualToRelation`.
+* **Test Prerequisites**:
+
+  * A Tree Stream endpoint with members ≤ threshold.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Traverse the node via the relation.
+  3. Collect retrieved members.
+
+* **Expected Output**: All members are less than or equal to the threshold.
+* **Pass/Fail Criteria**: Pass if all members satisfy the condition; fail otherwise.
+
+---
+
+### Test Case 1.3.8 : tree:EqualToRelation ### {#test-case-1-3-8-equal-relation}
+
+* **Test Description**: Verify that the client handles traversal using a `tree:EqualToRelation`.
+* **Test Prerequisites**:
+
+  * A Tree Stream endpoint with members matching an exact value.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Traverse the node via the relation.
+  3. Collect retrieved members.
+
+* **Expected Output**: All members equal the specified value.
+* **Pass/Fail Criteria**: Pass if all members satisfy the condition; fail otherwise.
+
+---
+
+### Test Case 1.3.9 : tree:NotEqualToRelation ### {#test-case-1-3-9-not-equal-relation}
+
+* **Test Description**: Verify that the client handles traversal using a `tree:NotEqualToRelation`.
+* **Test Prerequisites**:
+
+  * A Tree Stream endpoint with members not equal to a specific value.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Traverse the node via the relation.
+  3. Collect retrieved members.
+
+* **Expected Output**: All members are not equal to the specified value.
+* **Pass/Fail Criteria**: Pass if all members satisfy the condition; fail otherwise.
+
+---
+
+## Edge Cases ## {#edge-cases}
+
+### Test Case 1.4.1 : Empty Node ### {#test-case-1-4-1-empty-node}
+
+* **Test Description**: Verify client behavior when a node has no members.
+* **Test Prerequisites**:
+
+  * A Tree Stream endpoint containing an empty node.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Traverse to the empty node.
+
+* **Expected Output**: Client returns an empty result set gracefully.
+* **Pass/Fail Criteria**: Pass if empty set returned without error; fail otherwise.
+
+---
+
+### Test Case 1.4.2 : Circular Relation ### {#test-case-1-4-2-circular-relation}
+
+* **Test Description**: Verify client behavior when relations form a circular loop.
+* **Test Prerequisites**:
+
+  * A Tree Stream endpoint with circular relation between nodes.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Traverse the graph.
+
+* **Expected Output**: Client detects and prevents infinite recursion or traversal.
+* **Pass/Fail Criteria**: Pass if client terminates safely; fail if stuck in infinite loop.
+
+---
+
+### Test Case 1.4.3 : Malformed Relation ### {#test-case-1-4-3-malformed-relation}
+
+* **Test Description**: Verify client behavior when relation value is malformed (e.g., string instead of number).
+* **Test Prerequisites**:
+
+  * A Tree Stream endpoint with invalid relation definition.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Traverse the malformed relation.
+
+* **Expected Output**: Client raises error or skips invalid relation safely.
+* **Pass/Fail Criteria**: Pass if client does not crash and handles gracefully; fail otherwise.
+
+---
+
+## Non-Functional Testing ## {#non-functional}
+
+### Test Case 1.5.1 : Performance under load ### {#test-case-1-5-1-performance}
+
+* **Test Description**: Verify client performance when traversing a large Tree Stream.
+* **Test Prerequisites**:
+
+  * Endpoint with ≥ 10,000 members.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Retrieve all members.
+
+* **Expected Output**: Traversal completes within acceptable performance thresholds (e.g., <5s).
+* **Pass/Fail Criteria**: Pass if traversal completes on time; fail otherwise.
+
+---
+
+### Test Case 1.5.2 : Scalability ### {#test-case-1-5-2-scalability}
+
+* **Test Description**: Verify client scalability with increasing members and relations.
+* **Test Prerequisites**:
+
+  * Endpoint with multiple large fragments and complex relations.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Traverse the entire collection.
+
+* **Expected Output**: Client retrieves all members without memory leaks or degradation.
+* **Pass/Fail Criteria**: Pass if successful; fail otherwise.
+
+---
+
+### Test Case 1.5.3 : Robustness to network failures ### {#test-case-1-5-3-network-failure}
+
+* **Test Description**: Verify client behavior during network interruptions.
+* **Test Prerequisites**:
+
+  * Endpoint accessible over unstable connection.
+* **Test Steps**:
+
+  1. Initialize the TREE client.
+  2. Simulate network drop during traversal.
+
+* **Expected Output**: Client retries automatically or fails gracefully with an error message.
+* **Pass/Fail Criteria**: Pass if handled gracefully; fail otherwise.
