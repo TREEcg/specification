@@ -52,12 +52,12 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles invalid initialization parameters gracefully.
 * **Test Prerequisites**:
-      * An invalid Tree Stream endpoint URL (e.g., malformed URL).
+      * An invalid Tree Stream endpoint URL (e.g., the content is an invalid `tree:Node`).
       * The TREE client service is up and running.
 * **Test Steps**:
       1. Attempt to initialize the TREE client with the invalid Tree Stream endpoint URL.
 * **Expected Output**: Client returns an appropriate error message indicating why the initialization failed, such as "Invalid `tree:Node`".
-* **Pass/Fail Criteria**: Pass if the client returns an error message; fail if it initializes without error messages.
+* **Pass/Fail Criteria**: Pass if the client returns an error message; fail if it initializes without an error message.
 
 ---
 
@@ -83,13 +83,14 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles `tree:PrefixRelation`.
 * **Test Prerequisites**:
-      * A Tree Stream containing a single `tree:PrefixRelation` with a `tree:value` (e.g., `"abc"`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:PrefixRelation` points to a `tree:Node` whose members' `tree:path`'s value all have values that start with `"abc"`， consistent with the `STRSTARTS` SPARQL function.
+      * A Tree Stream containing a single `tree:PrefixRelation` with a `tree:value` (e.g., `"abc"`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:PrefixRelation` points to a `tree:Node` whose members' `tree:path`'s value all start with `"abc"` consistent with the `STRSTARTS` SPARQL function.
+      * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Wait for the client synchronization to complete.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:PrefixRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members match the prefix condition; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -98,12 +99,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:SubstringRelation`.
 * **Test Prerequisites**:
       * A Tree Stream containing a single `tree:SubstringRelation` with a `tree:value` (e.g., `"mid"`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:SubstringRelation` points to a `tree:Node` whose members' `tree:path`'s values all contain `"mid"`, consistent with the `SUBSTR` SPARQL function.
+      * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Wait for the client synchronization to complete.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:SubstringRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members contain the substring; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -112,12 +114,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:SuffixRelation`.
 * **Test Prerequisites**:
      * A Tree Stream containing a single `tree:SuffixRelation` with a `tree:value` (e.g., `"xyz"`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:SuffixRelation` points to a `tree:Node` whose members' `tree:path`'s values all end with `"xyz"`, consistent with the `STRENDS` SPARQL function.
+     * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Wait for the client synchronization to complete.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:SuffixRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members match the suffix condition; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -127,12 +130,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Prerequisites**:
     * A Tree Stream containing a single `tree:GreaterThanRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:GreaterThanRelation` points to a `tree:Node` whose members' `tree:path`'s values all are greater than `10`.
+    * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Wait for the client synchronization to complete.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:GreaterThanRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members that satisfy the condition are retrieved; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -141,12 +145,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:GreaterThanOrEqualToRelation`.
 * **Test Prerequisites**:
     * A Tree Stream containing a single `tree:GreaterThanOrEqualToRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:GreaterThanOrEqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values all are greater than or equal to `10`.
+    * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the node via the relation.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:GreaterThanOrEqualToRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members that satisfy the condition are retrieved; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -155,12 +160,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:LessThanRelation`.
 * **Test Prerequisites**:
       * A Tree Stream containing a single `tree:LessThanRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:LessThanRelation` points to a `tree:Node` whose members' `tree:path`'s values all are less than `20`.
+      * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the node via the relation.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:LessThanRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members that satisfy the condition are retrieved; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -169,12 +175,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:LessThanOrEqualToRelation`.
 * **Test Prerequisites**:
       * A Tree Stream containing a single `tree:LessThanOrEqualToRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:LessThanOrEqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values all are less than or equal to `20`.
+      * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the node via the relation.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:LessThanOrEqualToRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members that satisfy the condition are retrieved; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -183,12 +190,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:EqualToRelation`.
 * **Test Prerequisites**:
       * A Tree Stream containing a single `tree:EqualToRelation` with a `tree:value` (e.g., `15`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:EqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values are all equal to `15`.
+      * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the node via the relation.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:EqualToRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members that satisfy the condition are retrieved; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -197,12 +205,13 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:NotEqualToRelation`.
 * **Test Prerequisites**:
       * A Tree Stream containing a single `tree:NotEqualToRelation` with a `tree:value` (e.g., `14`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:NotEqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values are all not equal to `14`.
+      * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the node via the relation.
       3. Collect retrieved members.
 * **Expected Output**: The client successfully traverses the TREE via `tree:NotEqualToRelation`. All members are retrieved by the client.
-* **Pass/Fail Criteria**: Pass if all members that satisfy the condition are retrieved; fail otherwise.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
 
 ---
 
@@ -212,12 +221,12 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify client behavior when a node has no members.
 * **Test Prerequisites**:
-      * A Tree Stream endpoint containing an empty node.
+      * A Tree Stream endpoint only linking to an empty `tree:Node`.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse to the empty node.
-* **Expected Output**: Client returns an empty result set gracefully.
-* **Pass/Fail Criteria**: Pass if empty set returned without error; fail otherwise.
+* **Expected Output**: Client returns an empty member set gracefully.
+* **Pass/Fail Criteria**: Pass if empty set is returned without error; fail otherwise.
 
 ---
 
@@ -230,7 +239,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
       1. Initialize the TREE client.
       2. Traverse the graph.
 * **Expected Output**: Client detects and prevents infinite recursion or traversal.
-* **Pass/Fail Criteria**: Pass if client terminates safely; fail if stuck in infinite loop.
+* **Pass/Fail Criteria**: Pass if client terminates safely; fail if stuck in an infinite loop.
 
 ---
 
@@ -243,7 +252,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
       1. Initialize the TREE client.
       2. Traverse the malformed relation.
 
-* **Expected Output**: Client raises error or skips invalid relation safely.
+* **Expected Output**: Client raises an error or skips the invalid relation safely.
 * **Pass/Fail Criteria**: Pass if client does not crash and handles gracefully; fail otherwise.
 
 ---
@@ -267,7 +276,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify client scalability with increasing members and relations.
 * **Test Prerequisites**:
-      * Endpoint with multiple large fragments and complex relations.
+      * Endpoint with multiple large fragments and complex relations, please refer to [ldes-registry](https://imec-int.github.io/ldes-registry/dashboard.html) for example endpoints.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the entire collection.
@@ -280,7 +289,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify client behavior during network interruptions.
 * **Test Prerequisites**:
-      * Endpoint accessible over unstable connection.
+      * Endpoint accessible over an unstable connection.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Simulate network drop during traversal.
