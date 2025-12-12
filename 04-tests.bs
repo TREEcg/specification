@@ -27,7 +27,7 @@ Each test case specifies its purpose, input data, expected output, and pass/fail
 * **Test Description**: Verify that the client initializes correctly with a TREE view endpoint.
 * **Test Prerequisites**:
       * A valid TREE view endpoint URL, the URL that is the IRI of the root `tree:Node`, and there is no redirection.
-      * The TREE client service is up and running.
+      * The TREE client is up and running.
 * **Test Steps**:
       1. Initialize the TREE client with the provided TREE view endpoint URL.
 * **Expected Output**: Client initializes without errors and is ready to make requests.
@@ -40,7 +40,7 @@ Each test case specifies its purpose, input data, expected output, and pass/fail
 * **Test Description**: Verify that the client initializes correctly with a TREE view endpoint that involves redirection.
 * **Test Prerequisites**:
       * A valid TREE view endpoint URL, the URL leads to the IRI of the root `tree:Node` with one or more HTTP redirects.
-      * The TREE client service is up and running.
+      * The TREE client is up and running.
 * **Test Steps**:
       1. Initialize the TREE client with the provided TREE view endpoint URL.
 * **Expected Output**: Client initializes without errors and is ready to make requests following any redirects as necessary. The final IRI after all HTTP redirects corresponds to the object of a `tree:view` triple that links it to a `tree:Collection`.
@@ -53,7 +53,7 @@ Each test case specifies its purpose, input data, expected output, and pass/fail
 * **Test Description**: Verify that the client handles invalid initialization parameters gracefully.
 * **Test Prerequisites**:
       * An invalid TREE view endpoint URL (e.g., the content is an invalid `tree:Node`).
-      * The TREE client service is up and running.
+      * The TREE client is up and running.
 * **Test Steps**:
       1. Attempt to initialize the TREE client with the invalid TREE view endpoint URL.
 * **Expected Output**: Client returns an appropriate error message indicating why the initialization failed, such as "Invalid `tree:Node`".
@@ -68,7 +68,7 @@ Each test case specifies its purpose, input data, expected output, and pass/fail
 * **Test Description**: Verify that the client can successfully retrieve members from a TREE view.
 * **Test Prerequisites**:
       * A valid TREE view endpoint URL with a known number of members.
-      * The TREE client service is up and running.
+      * The TREE client is up and running.
 * **Test Steps**:
       1. Initialize the TREE client with the TREE view endpoint URL.
       2. Wait for the client synchronization to complete.
