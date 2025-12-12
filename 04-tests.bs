@@ -11,39 +11,39 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
 Editor:
   - Pieter Colpaert, https://pietercolpaert.be
   - Xueying Deng, https://xdxxxdx.github.io/
-Abstract: The TREE Test Specification offers a test plan for Tree Client implementations, enabling implementers to validate their conformance with the TREE Specification. This test specification will be regularly updated to reflect changes and enhancements in the TREE specification.
+Abstract: The TREE Test Specification offers a test plan for TREE Client implementations, enabling implementers to validate their conformance with the TREE Specification. This test specification will be regularly updated to reflect changes and enhancements in the TREE specification.
 </pre>
 # Overview # {#overview}
-This specification targets implementations of TREE client services and outlines a comprehensive suite of test cases to assess their compliance with the TREE specification.
-It covers functional, boundary, error handling, and nonfunctional performance testing.
-Each test case specifies its purpose, input data, expected output, and clear pass/fail criteria.
+This specification targets implementations of TREE clients and outlines a comprehensive suite of test cases to assess their compliance with the TREE specification.
+It covers functional, boundary, error handling, and optional non-functional performance testing.
+Each test case specifies its purpose, input data, expected output, and pass/fail criteria.
 
 # Functional Tests # {#functional-tests}
 
 ## Client Initialization ## {#client-initialization}
 
-### Test Case 1.1.1 : tree client initialization without redirection ### {#test-case-1-1-1-tree-client-initialization}
+### Test Case 1.1.1 : TREE client initialization without redirection ### {#test-case-1-1-1-tree-client-initialization}
 
-* **Test Description**: Verify that the client initializes correctly with a Tree Stream endpoint.
+* **Test Description**: Verify that the client initializes correctly with a TREE view endpoint.
 * **Test Prerequisites**:
-      * A valid Tree Stream endpoint URL, the URL that is the IRI of the root `tree:Node`, and there is no redirection.
+      * A valid TREE view endpoint URL, the URL that is the IRI of the root `tree:Node`, and there is no redirection.
       * The TREE client service is up and running.
 * **Test Steps**:
-      1. Initialize the TREE client with the provided Tree Stream endpoint URL.
+      1. Initialize the TREE client with the provided TREE view endpoint URL.
 * **Expected Output**: Client initializes without errors and is ready to make requests.
 * **Pass/Fail Criteria**: Pass if the client initializes successfully; fail if any errors occur during initialization.
 
 ---
 
-### Test Case 1.1.2 : tree client initialization with redirection ### {#test-case-1-1-2-tree-client-initialization-redirection}
+### Test Case 1.1.2 : TREE client initialization with redirection ### {#test-case-1-1-2-tree-client-initialization-redirection}
 
-* **Test Description**: Verify that the client initializes correctly with a Tree Stream endpoint that involves redirection.
+* **Test Description**: Verify that the client initializes correctly with a TREE view endpoint that involves redirection.
 * **Test Prerequisites**:
-      * A valid Tree Stream endpoint URL, the URL leads to the IRI of the root `tree:Node` with one or more HTTP redirections.
+      * A valid TREE view endpoint URL, the URL leads to the IRI of the root `tree:Node` with one or more HTTP redirects.
       * The TREE client service is up and running.
 * **Test Steps**:
-      1. Initialize the TREE client with the provided Tree Stream endpoint URL.
-* **Expected Output**: Client initializes without errors and is ready to make requests following any redirections as necessary. The final IRI after all HTTP redirects corresponds to the object of a `tree:view` triple linking it to a `tree:Collection`.
+      1. Initialize the TREE client with the provided TREE view endpoint URL.
+* **Expected Output**: Client initializes without errors and is ready to make requests following any redirects as necessary. The final IRI after all HTTP redirects corresponds to the object of a `tree:view` triple that links it to a `tree:Collection`.
 * **Pass/Fail Criteria**: Pass if the client initializes successfully; fail if any errors occur during initialization.
 
 ---
@@ -52,38 +52,40 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles invalid initialization parameters gracefully.
 * **Test Prerequisites**:
-      * An invalid Tree Stream endpoint URL (e.g., the content is an invalid `tree:Node`).
+      * An invalid TREE view endpoint URL (e.g., the content is an invalid `tree:Node`).
       * The TREE client service is up and running.
 * **Test Steps**:
-      1. Attempt to initialize the TREE client with the invalid Tree Stream endpoint URL.
+      1. Attempt to initialize the TREE client with the invalid TREE view endpoint URL.
 * **Expected Output**: Client returns an appropriate error message indicating why the initialization failed, such as "Invalid `tree:Node`".
 * **Pass/Fail Criteria**: Pass if the client returns an error message; fail if it initializes without an error message.
 
 ---
 
-## Traverse Search Tree ## {#traverse-search-tree}
+## Traversing the TREE ## {#traverse-search-tree}
 
-### Test Case 1.2.1 : Retrieve members from a Tree Stream ### {#test-case-1-2-1-retrieve-data-from-a-tree-stream}
+### Test Case 1.2.1 : Retrieve members from a TREE view ### {#test-case-1-2-1-retrieve-data-from-a-tree-stream}
 
-* **Test Description**: Verify that the client can successfully retrieve members from a Tree Stream.
+* **Test Description**: Verify that the client can successfully retrieve members from a TREE view.
 * **Test Prerequisites**:
-      * A valid Tree Stream endpoint URL with a known number of members.
+      * A valid TREE view endpoint URL with a known number of members.
       * The TREE client service is up and running.
 * **Test Steps**:
-      1. Initialize the TREE client with the Tree Stream endpoint URL.
+      1. Initialize the TREE client with the TREE view endpoint URL.
       2. Wait for the client synchronization to complete.
       3. Collect retrieved members.
-* **Expected Output**: Client retrieves all members from the Tree Stream, and the number of retrieved members matches the expected count.
+* **Expected Output**: Client retrieves all members from the TREE view, and the number of retrieved members matches the expected count.
 * **Pass/Fail Criteria**: Pass if the client retrieves the expected number of members; fail if the count does not match or if any errors occur during retrieval.
 
 ---
-## Traverse Search Tree: Relation Handling ## {#relation-handling}
+## Traverse Search TREE: Relation Handling ## {#relation-handling}
+
+The following test cases are optional to implement and depend on the type of relation used in your TREE.
 
 ### Test Case 1.3.1 : tree:PrefixRelation ### {#test-case-1-3-1-prefix-relation}
 
 * **Test Description**: Verify that the client handles `tree:PrefixRelation`.
 * **Test Prerequisites**:
-      * A Tree Stream containing a single `tree:PrefixRelation` with a `tree:value` (e.g., `"abc"`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:PrefixRelation` points to a `tree:Node` whose members' `tree:path`'s value all start with `"abc"` consistent with the `STRSTARTS` SPARQL function.
+      * A TREE view containing a single `tree:PrefixRelation` with a `tree:value` (e.g., "abc") for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:PrefixRelation` points to a `tree:Node` whose members have `tree:path` values that all start with "abc", consistent with the `STRSTARTS` SPARQL function.
       * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -98,7 +100,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles `tree:SubstringRelation`.
 * **Test Prerequisites**:
-      * A Tree Stream containing a single `tree:SubstringRelation` with a `tree:value` (e.g., `"mid"`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:SubstringRelation` points to a `tree:Node` whose members' `tree:path`'s values all contain `"mid"`, consistent with the `SUBSTR` SPARQL function.
+      * A TREE view containing a single `tree:SubstringRelation` with a `tree:value` (e.g., `"mid"`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:SubstringRelation` points to a `tree:Node` whose members have `tree:path` values that all contain `"mid"`, consistent with the `CONTAINS` SPARQL function.
       * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -113,7 +115,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles `tree:SuffixRelation`.
 * **Test Prerequisites**:
-     * A Tree Stream containing a single `tree:SuffixRelation` with a `tree:value` (e.g., `"xyz"`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:SuffixRelation` points to a `tree:Node` whose members' `tree:path`'s values all end with `"xyz"`, consistent with the `STRENDS` SPARQL function.
+      * A TREE view containing a single `tree:SuffixRelation` with a `tree:value` (e.g., "xyz") for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:SuffixRelation` points to a `tree:Node` whose members have `tree:path` values that all end with "xyz", consistent with the `STRENDS` SPARQL function.
      * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -129,7 +131,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 * **Test Description**: Verify that the client handles `tree:GreaterThanRelation`.
 
 * **Test Prerequisites**:
-    * A Tree Stream containing a single `tree:GreaterThanRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:GreaterThanRelation` points to a `tree:Node` whose members' `tree:path`'s values all are greater than `10`.
+      * A TREE view containing a single `tree:GreaterThanRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:GreaterThanRelation` points to a `tree:Node` whose members have `tree:path` values that are all greater than `10`.
     * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -144,7 +146,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles `tree:GreaterThanOrEqualToRelation`.
 * **Test Prerequisites**:
-    * A Tree Stream containing a single `tree:GreaterThanOrEqualToRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:GreaterThanOrEqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values all are greater than or equal to `10`.
+      * A TREE view containing a single `tree:GreaterThanOrEqualToRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:GreaterThanOrEqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all greater than or equal to `10`.
     * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -159,7 +161,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles `tree:LessThanRelation`.
 * **Test Prerequisites**:
-      * A Tree Stream containing a single `tree:LessThanRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:LessThanRelation` points to a `tree:Node` whose members' `tree:path`'s values all are less than `20`.
+      * A TREE view containing a single `tree:LessThanRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:LessThanRelation` points to a `tree:Node` whose members have `tree:path` values that are all less than `20`.
       * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -170,11 +172,11 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 ---
 
-### Test Case 1.3.7 : tree:LessThanOrEqualToRelation  ### {#test-case-1-3-7-less-than-equal-relation}
+### Test Case 1.3.7 : tree:LessThanOrEqualToRelation ### {#test-case-1-3-7-less-than-equal-relation}
 
 * **Test Description**: Verify that the client handles `tree:LessThanOrEqualToRelation`.
 * **Test Prerequisites**:
-      * A Tree Stream containing a single `tree:LessThanOrEqualToRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:LessThanOrEqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values all are less than or equal to `20`.
+      * A TREE view containing a single `tree:LessThanOrEqualToRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:LessThanOrEqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all less than or equal to `20`.
       * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -189,7 +191,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles `tree:EqualToRelation`.
 * **Test Prerequisites**:
-      * A Tree Stream containing a single `tree:EqualToRelation` with a `tree:value` (e.g., `15`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:EqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values are all equal to `15`.
+      * A TREE view containing a single `tree:EqualToRelation` with a `tree:value` (e.g., `15`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:EqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all equal to `15`.
       * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -204,7 +206,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify that the client handles `tree:NotEqualToRelation`.
 * **Test Prerequisites**:
-      * A Tree Stream containing a single `tree:NotEqualToRelation` with a `tree:value` (e.g., `14`) for a specific `tree:path`. This short Tree Stream has only one `tree:Relation`: the `tree:NotEqualToRelation` points to a `tree:Node` whose members' `tree:path`'s values are all not equal to `14`.
+      * A TREE view containing a single `tree:NotEqualToRelation` with a `tree:value` (e.g., `14`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:NotEqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all not equal to `14`.
       * The number of members of the TREE is known.
 * **Test Steps**:
       1. Initialize the TREE client.
@@ -221,7 +223,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify client behavior when a node has no members.
 * **Test Prerequisites**:
-      * A Tree Stream endpoint only linking to an empty `tree:Node`.
+      * A TREE view endpoint only linking to an empty `tree:Node`.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse to the empty node.
@@ -234,7 +236,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify client behavior when relations form a circular loop.
 * **Test Prerequisites**:
-      * A Tree Stream endpoint with circular relation between nodes.
+      * A TREE view endpoint with a circular relation between nodes.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the graph.
@@ -247,7 +249,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify client behavior when relation value is malformed (e.g., string instead of number).
 * **Test Prerequisites**:
-      * A Tree Stream endpoint with invalid relation definition.
+      * A TREE view endpoint with invalid relation definition.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the malformed relation.
@@ -259,9 +261,11 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 ## Non-Functional Testing ## {#non-functional}
 
+The following tests are optional to implement and should align with the non-functional requirements of your implementation. This section is provided for suggestion purposes only.
+
 ### Test Case 1.5.1 : Performance under load ### {#test-case-1-5-1-performance}
 
-* **Test Description**: Verify client performance when traversing a large Tree Stream.
+* **Test Description**: Verify client performance when traversing a large TREE view.
 * **Test Prerequisites**:
       * Endpoint with ≥ 10,000 members.
 * **Test Steps**:
@@ -276,7 +280,7 @@ Each test case specifies its purpose, input data, expected output, and clear pas
 
 * **Test Description**: Verify client scalability with increasing members and relations.
 * **Test Prerequisites**:
-      * Endpoint with multiple large fragments and complex relations, please refer to [ldes-registry](https://imec-int.github.io/ldes-registry/dashboard.html) for example endpoints.
+      * Endpoint with multiple large fragments and complex relations; refer to [ldes-registry](https://imec-int.github.io/ldes-registry/dashboard.html) for example endpoints.
 * **Test Steps**:
       1. Initialize the TREE client.
       2. Traverse the entire collection.
