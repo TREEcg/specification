@@ -61,7 +61,7 @@ Each test case specifies its purpose, input data, expected output, and pass/fail
 
 ---
 
-## Traversing the TREE ## {#traverse-search-tree}
+## Traverse TREE ## {#traverse-search-tree}
 
 ### Test Case 1.2.1 : Retrieve members from a TREE view ### {#test-case-1-2-1-retrieve-data-from-a-tree-view}
 
@@ -79,7 +79,7 @@ Each test case specifies its purpose, input data, expected output, and pass/fail
 ---
 ## Traverse Search TREE: Relation Handling ## {#relation-handling}
 
-The following test cases are optional to implement and depend on the type of relation used in your TREE.
+The following test cases are optional to implement and depend on the type of `tree:Relation` used in your TREE.
 
 ### Test Case 1.3.1 : tree:PrefixRelation ### {#test-case-1-3-1-prefix-relation}
 
