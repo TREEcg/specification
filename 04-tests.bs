@@ -259,7 +259,7 @@ The following test cases are optional to implement and depend on the type of rel
 
 ---
 
-## Non-Functional Testing ## {#non-functional}
+## Non-Functional Tests ## {#non-functional}
 
 The following tests are optional to implement and should align with the non-functional requirements of your implementation. This section is provided for suggestion purposes only.
 
