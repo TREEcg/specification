@@ -63,7 +63,7 @@ Each test case specifies its purpose, input data, expected output, and pass/fail
 
 ## Traversing the TREE ## {#traverse-search-tree}
 
-### Test Case 1.2.1 : Retrieve members from a TREE view ### {#test-case-1-2-1-retrieve-data-from-a-tree-stream}
+### Test Case 1.2.1 : Retrieve members from a TREE view ### {#test-case-1-2-1-retrieve-data-from-a-tree-view}
 
 * **Test Description**: Verify that the client can successfully retrieve members from a TREE view.
 * **Test Prerequisites**:
