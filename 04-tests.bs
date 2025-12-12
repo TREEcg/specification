@@ -15,7 +15,7 @@ Abstract: The TREE Test Specification offers a test plan for TREE Client impleme
 </pre>
 # Overview # {#overview}
 This specification targets implementations of TREE clients and outlines a comprehensive suite of test cases to assess their compliance with the TREE specification.
-It covers functional, boundary, error handling, and optional non-functional performance testing.
+It covers functional, boundary, error handling, and optional non-functional performance tests.
 Each test case specifies its purpose, input data, expected output, and pass/fail criteria.
 
 # Functional Tests # {#functional-tests}
