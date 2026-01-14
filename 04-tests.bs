@@ -1,0 +1,301 @@
+<pre class='metadata'>
+Title: TREE Test Specification
+Shortname: tests
+Level: 1
+Status: w3c/CG-DRAFT
+Markup Shorthands: markdown yes
+URL: https://w3id.org/tree/specification/tests
+Repository: https://github.com/treecg/specification
+Mailing List: public-treecg@w3.org
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-treecg/
+Editor:
+  - Pieter Colpaert, https://pietercolpaert.be
+  - Xueying Deng, https://xdxxxdx.github.io/
+Abstract: The TREE Test Specification offers a test plan for TREE Client implementations, enabling implementers to validate their conformance with the TREE Specification. This test specification will be regularly updated to reflect changes and enhancements in the TREE specification.
+</pre>
+# Overview # {#overview}
+This specification targets implementations of TREE clients and outlines a comprehensive suite of test cases to assess their compliance with the TREE specification.
+It covers functional, boundary, error handling, and optional non-functional performance tests.
+Each test case specifies its purpose, input data, expected output, and pass/fail criteria.
+
+# Functional Tests # {#functional-tests}
+
+## Client Initialization ## {#client-initialization}
+
+### Test Case 1.1.1 : TREE client initialization without redirection ### {#test-case-1-1-1-tree-client-initialization}
+
+* **Test Description**: Verify that the client initializes correctly with a TREE view endpoint.
+* **Test Prerequisites**:
+      * A valid TREE view endpoint URL, the URL that is the IRI of the root `tree:Node`, and there is no redirection.
+      * The TREE client is up and running.
+* **Test Steps**:
+      1. Initialize the TREE client with the provided TREE view endpoint URL.
+* **Expected Output**: Client initializes without errors and is ready to make requests.
+* **Pass/Fail Criteria**: Pass if the client initializes successfully; fail if any errors occur during initialization.
+
+---
+
+### Test Case 1.1.2 : TREE client initialization with redirection ### {#test-case-1-1-2-tree-client-initialization-redirection}
+
+* **Test Description**: Verify that the client initializes correctly with a TREE view endpoint that involves redirection.
+* **Test Prerequisites**:
+      * A valid TREE view endpoint URL, the URL leads to the IRI of the root `tree:Node` with one or more HTTP redirects.
+      * The TREE client is up and running.
+* **Test Steps**:
+      1. Initialize the TREE client with the provided TREE view endpoint URL.
+* **Expected Output**: Client initializes without errors and is ready to make requests following any redirects as necessary. The final IRI after all HTTP redirects corresponds to the object of a `tree:view` triple that links it to a `tree:Collection`.
+* **Pass/Fail Criteria**: Pass if the client initializes successfully; fail if any errors occur during initialization.
+
+---
+
+### Test Case 1.1.3 : Invalid client initialization ### {#test-case-1-1-3-invalid-client-initialization}
+
+* **Test Description**: Verify that the client handles invalid initialization parameters gracefully.
+* **Test Prerequisites**:
+      * An invalid TREE view endpoint URL (e.g., the content is an invalid `tree:Node`).
+      * The TREE client is up and running.
+* **Test Steps**:
+      1. Attempt to initialize the TREE client with the invalid TREE view endpoint URL.
+* **Expected Output**: Client returns an appropriate error message indicating why the initialization failed, such as "Invalid `tree:Node`".
+* **Pass/Fail Criteria**: Pass if the client returns an error message; fail if it initializes without an error message.
+
+---
+
+## Traverse TREE ## {#traverse-search-tree}
+
+### Test Case 1.2.1 : Retrieve members from a TREE view ### {#test-case-1-2-1-retrieve-data-from-a-tree-view}
+
+* **Test Description**: Verify that the client can successfully retrieve members from a TREE view.
+* **Test Prerequisites**:
+      * A valid TREE view endpoint URL with a known number of members.
+      * The TREE client is up and running.
+* **Test Steps**:
+      1. Initialize the TREE client with the TREE view endpoint URL.
+      2. Wait for the client synchronization to complete.
+      3. Collect retrieved members.
+* **Expected Output**: Client retrieves all members from the TREE view, and the number of retrieved members matches the expected count.
+* **Pass/Fail Criteria**: Pass if the client retrieves the expected number of members; fail if the count does not match or if any errors occur during retrieval.
+
+---
+## Traverse Search TREE: Relation Handling ## {#relation-handling}
+
+The following test cases are optional to implement and depend on the type of `tree:Relation` used in your TREE.
+
+### Test Case 1.3.1 : tree:PrefixRelation ### {#test-case-1-3-1-prefix-relation}
+
+* **Test Description**: Verify that the client handles `tree:PrefixRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:PrefixRelation` with a `tree:value` (e.g., "abc") for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:PrefixRelation` points to a `tree:Node` whose members have `tree:path` values that all start with "abc", consistent with the `STRSTARTS` SPARQL function.
+      * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Wait for the client synchronization to complete.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:PrefixRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.2 : tree:SubstringRelation ### {#test-case-1-3-2-substring-relation}
+
+* **Test Description**: Verify that the client handles `tree:SubstringRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:SubstringRelation` with a `tree:value` (e.g., `"mid"`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:SubstringRelation` points to a `tree:Node` whose members have `tree:path` values that all contain `"mid"`, consistent with the `CONTAINS` SPARQL function.
+      * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Wait for the client synchronization to complete.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:SubstringRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.3 : tree:SuffixRelation ### {#test-case-1-3-3-suffix-relation}
+
+* **Test Description**: Verify that the client handles `tree:SuffixRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:SuffixRelation` with a `tree:value` (e.g., "xyz") for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:SuffixRelation` points to a `tree:Node` whose members have `tree:path` values that all end with "xyz", consistent with the `STRENDS` SPARQL function.
+     * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Wait for the client synchronization to complete.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:SuffixRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.4 : tree:GreaterThanRelation ### {#test-case-1-3-4-greater-than-relation}
+
+* **Test Description**: Verify that the client handles `tree:GreaterThanRelation`.
+
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:GreaterThanRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:GreaterThanRelation` points to a `tree:Node` whose members have `tree:path` values that are all greater than `10`.
+    * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Wait for the client synchronization to complete.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:GreaterThanRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.5 : tree:GreaterThanOrEqualToRelation ### {#test-case-1-3-5-greater-than-equal-relation}
+
+* **Test Description**: Verify that the client handles `tree:GreaterThanOrEqualToRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:GreaterThanOrEqualToRelation` with a `tree:value` (e.g., `10`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:GreaterThanOrEqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all greater than or equal to `10`.
+    * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the node via the relation.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:GreaterThanOrEqualToRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.6 : tree:LessThanRelation ### {#test-case-1-3-6-less-than-relation}
+
+* **Test Description**: Verify that the client handles `tree:LessThanRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:LessThanRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:LessThanRelation` points to a `tree:Node` whose members have `tree:path` values that are all less than `20`.
+      * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the node via the relation.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:LessThanRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.7 : tree:LessThanOrEqualToRelation ### {#test-case-1-3-7-less-than-equal-relation}
+
+* **Test Description**: Verify that the client handles `tree:LessThanOrEqualToRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:LessThanOrEqualToRelation` with a `tree:value` (e.g., `20`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:LessThanOrEqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all less than or equal to `20`.
+      * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the node via the relation.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:LessThanOrEqualToRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.8 : tree:EqualToRelation ### {#test-case-1-3-8-equal-relation}
+
+* **Test Description**: Verify that the client handles `tree:EqualToRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:EqualToRelation` with a `tree:value` (e.g., `15`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:EqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all equal to `15`.
+      * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the node via the relation.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:EqualToRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+### Test Case 1.3.9 : tree:NotEqualToRelation ### {#test-case-1-3-9-not-equal-relation}
+
+* **Test Description**: Verify that the client handles `tree:NotEqualToRelation`.
+* **Test Prerequisites**:
+      * A TREE view containing a single `tree:NotEqualToRelation` with a `tree:value` (e.g., `14`) for a specific `tree:path`. This TREE view has only one `tree:Relation`: the `tree:NotEqualToRelation` points to a `tree:Node` whose members have `tree:path` values that are all not equal to `14`.
+      * The number of members of the TREE is known.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the node via the relation.
+      3. Collect retrieved members.
+* **Expected Output**: The client successfully traverses the TREE via `tree:NotEqualToRelation`. All members are retrieved by the client.
+* **Pass/Fail Criteria**: Pass if all members are retrieved; fail otherwise.
+
+---
+
+## Edge Cases ## {#edge-cases}
+
+### Test Case 1.4.1 : Empty Node ### {#test-case-1-4-1-empty-node}
+
+* **Test Description**: Verify client behavior when a node has no members.
+* **Test Prerequisites**:
+      * A TREE view endpoint only linking to an empty `tree:Node`.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse to the empty node.
+* **Expected Output**: Client returns an empty member set gracefully.
+* **Pass/Fail Criteria**: Pass if empty set is returned without error; fail otherwise.
+
+---
+
+### Test Case 1.4.2 : Circular Relation ### {#test-case-1-4-2-circular-relation}
+
+* **Test Description**: Verify client behavior when relations form a circular loop.
+* **Test Prerequisites**:
+      * A TREE view endpoint with a circular relation between nodes.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the graph.
+* **Expected Output**: Client detects and prevents infinite recursion or traversal.
+* **Pass/Fail Criteria**: Pass if client terminates safely; fail if stuck in an infinite loop.
+
+---
+
+### Test Case 1.4.3 : Malformed Relation ### {#test-case-1-4-3-malformed-relation}
+
+* **Test Description**: Verify client behavior when relation value is malformed (e.g., string instead of number).
+* **Test Prerequisites**:
+      * A TREE view endpoint with invalid relation definition.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the malformed relation.
+
+* **Expected Output**: Client raises an error or skips the invalid relation safely.
+* **Pass/Fail Criteria**: Pass if client does not crash and handles gracefully; fail otherwise.
+
+---
+
+## Non-Functional Tests ## {#non-functional}
+
+The following tests are optional to implement and should align with the non-functional requirements of your implementation. This section is provided for suggestion purposes only.
+
+### Test Case 1.5.1 : Performance under load ### {#test-case-1-5-1-performance}
+
+* **Test Description**: Verify client performance when traversing a large TREE view.
+* **Test Prerequisites**:
+      * Endpoint with ≥ 10,000 members.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Retrieve all members.
+* **Expected Output**: Traversal completes within acceptable performance thresholds (e.g., <5s).
+* **Pass/Fail Criteria**: Pass if traversal completes on time; fail otherwise.
+
+---
+
+### Test Case 1.5.2 : Scalability ### {#test-case-1-5-2-scalability}
+
+* **Test Description**: Verify client scalability with increasing members and relations.
+* **Test Prerequisites**:
+      * Endpoint with multiple large fragments and complex relations; refer to [ldes-registry](https://imec-int.github.io/ldes-registry/dashboard.html) for example endpoints.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Traverse the entire collection.
+* **Expected Output**: Client retrieves all members without memory leaks or degradation.
+* **Pass/Fail Criteria**: Pass if successful; fail otherwise.
+
+---
+
+### Test Case 1.5.3 : Robustness to network failures ### {#test-case-1-5-3-network-failure}
+
+* **Test Description**: Verify client behavior during network interruptions.
+* **Test Prerequisites**:
+      * Endpoint accessible over an unstable connection.
+* **Test Steps**:
+      1. Initialize the TREE client.
+      2. Simulate network drop during traversal.
+* **Expected Output**: Client retries automatically or fails gracefully with an error message.
+* **Pass/Fail Criteria**: Pass if handled gracefully; fail otherwise.
